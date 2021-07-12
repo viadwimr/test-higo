@@ -1,0 +1,21 @@
+{
+  "name": "evomo_e2e",
+  "version": "1.0.0",
+  "description": "e2e testing all product evomo",
+  "main": "index.js",
+  "scripts": {
+    "test:spec": "cypress run --browser firefox --no-exit --spec cypress/integration/test.js",
+    "test:e2e": "cypress run --headless --browser firefox"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.playcourt.id/amoeba-jeager/evomo_e2e.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^7.7.0",
+    "eslint-plugin-cypress": "^2.11.3",
+    "mochawesome": "^6.2.2"
+  }
+}
