@@ -1,9 +1,7 @@
 {
-  "baseUrl": "test",
-  "video": false,
+  "baseUrl": "http://34.87.144.83:8080",
+  "video": true,
   "viewportWidth": 1500,
   "viewportHeight": 1000,
-  "chromeWebSecurity": false,
-  "reporter": "mochawesome",
   "waitForAnimations": true
 }
