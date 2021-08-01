@@ -1,7 +1,7 @@
 {
   "baseUrl": "http://34.87.144.83:8080",
   "video": true,
-  "viewportWidth": 1500,
+  "viewportWidth": 1200,
   "viewportHeight": 1000,
   "waitForAnimations": true,
   "projectId": "1jvegk"

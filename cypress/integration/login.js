@@ -5,8 +5,8 @@ var force = { force: true }
 
 describe('Login', () => {
   before(() => {
-    cy.get('.ant-dropdown-trigger', timeout).click();
-    cy.get('[style="font-size: 12px; font-weight: 500; color: rgb(240, 66, 73);"] > .ant-dropdown-menu-title-content', timeout).click();
+    cy.clearCookies();
+    cy.clearLocalStorage();
   });
 
   beforeEach(() => {
@@ -15,15 +15,18 @@ describe('Login', () => {
 
   it('Wrong Password', () => {
     cy.get('#username', timeout).type('admingf');
-    cy.get('#password', timeout).type('12334');
+    cy.get('#password', timeout).type('12334345');
     cy.get('.ant-btn', timeout).click();
     cy.contains('User not found, username or password is incorrect', timeout).should('be.visible');
     cy.get('.swal2-confirm', timeout).click();
   });
 
-  it('Null Data', () => {
+  it('Password length', () => {
+    cy.get('#username', timeout).type('admingf');
+    cy.get('#password', timeout).type('1233');
     cy.get('.ant-btn', timeout).click();
-    cy.contains('DASHBOARD', timeout).should('not.be.visible');
+    cy.contains('"password" length must be at least 6 characters long', timeout).should('be.visible');
+    cy.get('.swal2-confirm', timeout).click();
   });
 
   it('Success Login', () => {

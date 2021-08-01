@@ -2,13 +2,16 @@ import './commands'
 
 Cypress.on('uncaught:exception', (err, runnable) => false);
 
-before(function () {
-  cy.clearCookies();
-  cy.clearLocalStorage();
+before(() => {
   cy.login();
   Cypress.Cookies.preserveOnce('secret');
 });
 
-beforeEach(function () {
+beforeEach(() => {
   Cypress.Cookies.preserveOnce('secret');
 });
+
+after(() => {
+  cy.clearCookies();
+  cy.clearLocalStorage();
+})
