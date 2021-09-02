@@ -7,7 +7,7 @@ describe('Heatmap', () => {
   before(() => {
     cy.mockUserAdmin();
     cy.mockResponse();
-    cy.login('admin');
+    cy.login('engineering');
     cy.get('[title="Heat Map"] > a', timeout).click();
     cy.contains('HEAT MAP', timeout).should('be.visible');
   });

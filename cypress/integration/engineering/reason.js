@@ -9,7 +9,7 @@ describe('Reason', () => {
     cy.clearCookies();
     cy.clearLocalStorage();
     cy.mockUserAdmin();
-    cy.login('admin');
+    cy.login('engineering');
     cy.get('[title="Reason"] > a', timeout).click();
   });
 

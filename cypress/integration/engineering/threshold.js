@@ -9,7 +9,7 @@ describe('Threshold', () => {
     cy.clearCookies();
     cy.clearLocalStorage();
     cy.mockUserAdmin();
-    cy.login('admin');
+    cy.login('engineering');
     cy.get('[title="Threshold"] > a', timeout).click();
   });
 

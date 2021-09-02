@@ -9,7 +9,7 @@ describe('Product', () => {
     cy.clearCookies();
     cy.clearLocalStorage();
     cy.mockUserAdmin();
-    cy.login('admin');
+    cy.login('engineering');
     cy.get('[title="Product"] > a', timeout).click();
   });
 

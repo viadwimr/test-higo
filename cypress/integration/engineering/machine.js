@@ -8,7 +8,7 @@ describe('Machine', () => {
   beforeEach(() => {
     cy.mockUserAdmin();
     cy.mockResponse();
-    cy.login('admin');
+    cy.login('engineering');
     cy.wait(2000);
     cy.get('[title="Machine"] > a', timeout).click();
     cy.wait(5000);

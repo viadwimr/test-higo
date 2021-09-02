@@ -7,7 +7,7 @@ describe('Report', () => {
   before(() => {
     cy.mockUserAdmin();
     cy.mockResponse();
-    cy.login('admin');
+    cy.login('engineering');
     cy.get('[title="Report"] > a', timeout).click();
   });
 

@@ -9,7 +9,7 @@ describe('Runtime', () => {
     cy.clearCookies();
     cy.clearLocalStorage();
     cy.mockUserAdmin();
-    cy.login('admin');
+    cy.login('engineering');
     cy.get('[title="Runtime"] > a', timeout).click();
   });
 

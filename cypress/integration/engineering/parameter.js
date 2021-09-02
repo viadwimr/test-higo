@@ -7,7 +7,7 @@ describe('Parameter', () => {
   before(() => {
     cy.mockUserAdmin();
     cy.mockResponse();
-    cy.login('admin');
+    cy.login('engineering');
   });
 
   it('Check semua lini', () => {

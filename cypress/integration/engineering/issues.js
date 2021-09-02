@@ -8,7 +8,7 @@ describe('Issues', () => {
   before(() => {
     cy.mockUserAdmin();
     cy.mockResponse();
-    cy.login('admin');
+    cy.login('engineering');
     cy.intercept(`${url}/issues?start_date=*&end_date=*`, { fixture: '/issues/issues.json' }).as('issues');
     cy.get('[title="Issues"] > a', timeout).click();
     cy.intercept(`${url}/issues?start_date=*&end_date=*`, { fixture: '/issues/issues.json' }).as('issues');
@@ -37,7 +37,7 @@ describe('Issues', () => {
   it('Data null', () => {
     cy.mockUserAdmin();
     cy.mockResponse();
-    cy.login('admin');
+    cy.login('engineering');
     cy.get('[title="Issues"] > a', timeout).click();
     cy.intercept(`${url}/issues?start_date=*&end_date=*`, { fixture: '/issues/issues-null.json' }).as('issues');
     cy.contains('No Data', timeout).should('be.visible');
@@ -47,7 +47,7 @@ describe('Issues', () => {
     before(() => {
       cy.mockUserAdmin();
       cy.mockResponse();
-      cy.login('admin');
+      cy.login('engineering');
       cy.get('[title="Issues"] > a', timeout).click();
       cy.intercept(`${url}/issues?start_date=*&end_date=*`, { fixture: '/issues/issues.json' }).as('issues');
     });

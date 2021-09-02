@@ -8,7 +8,7 @@ describe('Trend', () => {
   before(() => {
     cy.mockUserAdmin();
     cy.mockResponse();
-    cy.login('admin');
+    cy.login('engineering');
     cy.get('[title="Trend"] > a', timeout).click();
   });
 

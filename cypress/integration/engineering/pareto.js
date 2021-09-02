@@ -10,7 +10,7 @@ describe('Pareto', () => {
     cy.intercept(`${ipData}/production_lines/pareto/downtime`, {
       fixture: '/production_lines/downtime>1.json',
     }).as('downtime');
-    cy.login('admin');
+    cy.login('engineering');
     cy.get('[title="Pareto"] > a', timeout).click();
   });
 

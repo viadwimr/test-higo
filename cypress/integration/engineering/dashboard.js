@@ -4,7 +4,7 @@ const timeout = { timeout: 60000 };
 
 describe('Dashboard', () => {
   before(() => {
-    cy.login('admin');
+    cy.login('engineering');
   });
 
   it('Line View', () => {
