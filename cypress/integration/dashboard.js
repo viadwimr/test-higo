@@ -5,18 +5,56 @@ var timeout = { timeout: 60000 }
 describe('Dashboard', () => {
   beforeEach(() => {
     cy.visit('/');
+    cy.get('.Devices__Wrapper-amwub4-0', { timeout: 150000 }).should('be.visible');
   });
 
   describe('Realtime', () => {
     it('Check List Device', () => {
+      cy.wait(10000);
       cy.get('[href="/device/1_wiener_line_1_Arus_Agitator_Ball_1"] > .ant-card > .ant-card-body', { timeout: 200000 }).should('exist');
       cy.contains('Arus Agitator Ball 1', timeout).should('be.visible');
       cy.contains('Temperatur', timeout).should('be.visible');
     });
 
-    it('Check Kondisi Saat ini', () => {
-      cy.get('#rc-tabs-0-tab-latest_condition', timeout).click();
-      cy.get('.apexcharts-legend', { timeout: 200000 }).should('exist');
+    it('Sorting list filter sector', () => {
+      cy.wait(10000);
+      cy.get(':nth-child(1) > .ant-select > .ant-select-selector', timeout).click();
+      cy.contains('Ball Mill', timeout).should('be.visible');
+      cy.contains('Enrober', timeout).should('be.visible');
+      cy.contains('Forming Baking', timeout).should('be.visible');
+      cy.contains('Mixer', timeout).should('be.visible');
+      cy.contains('Oven Baking', timeout).should('be.visible');
+      cy.contains('Packaging', timeout).should('be.visible');
+    });
+
+    it('Sorting list filter device', () => {
+      cy.wait(10000);
+      cy.get(':nth-child(2) > .ant-select > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.contains('ac Produksi', timeout).should('be.visible');
+      cy.contains('ac Produksi Aktual Per Detik', timeout).should('be.visible');
+      cy.contains('air blower c', timeout).should('be.visible');
+      cy.contains('air blower p', timeout).should('be.visible');
+    });
+
+    it('Sorting list filter indikator', () => {
+      cy.wait(10000);
+      cy.get(':nth-child(3) > .ant-select > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.contains('Arus Listrik', timeout).should('be.visible');
+      cy.contains('Daya', timeout).should('be.visible');
+      cy.contains('Frequency', timeout).should('be.visible');
+      cy.contains('Intensitas Angin', timeout).should('be.visible');
+      cy.contains('Kecepatan Angin', timeout).should('be.visible');
+      cy.contains('Kekebalan', timeout).should('be.visible');
+      cy.contains('Kelembaban', timeout).should('be.visible');
+    });
+
+    it('Sorting list device di halaman dashboard', () => {
+      cy.wait(120000);
+      cy.get(':nth-child(2) > .ant-select > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.contains('ac Produksi', timeout).should('be.visible');
+      cy.contains('ac Produksi Aktual Per Detik', timeout).should('be.visible');
+      cy.contains('ac Produksi Recipe Per Detik', timeout).should('be.visible');
+      cy.contains('air blower c', timeout).should('be.visible');
     });
   });
 
