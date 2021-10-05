@@ -2,16 +2,15 @@
 /// <reference types="cypress" />
 
 const timeout = { timeout: 60000 };
-const ipData = '34.87.144.83:3009';
+const force = { force: true };
 
 describe('Pareto', () => {
   before(() => {
-    cy.mockUserAdmin();
-    cy.intercept(`${ipData}/production_lines/pareto/downtime`, {
-      fixture: '/production_lines/downtime>1.json',
-    }).as('downtime');
     cy.login('engineering');
-    cy.get('[title="Pareto"] > a', timeout).click();
+  });
+
+  beforeEach(() => {
+    cy.visit('/pareto');
   });
 
   it('View by durasi', () => {
@@ -515,6 +514,18 @@ describe('Pareto', () => {
       cy.contains('Total Durasi Downtime', timeout).should('be.visible');
       cy.contains('frekuensi', timeout).should('be.visible');
       cy.contains('persentase', timeout).should('be.visible');
+    });
+  });
+
+  describe('Download Data', () => {
+    it('Download as JPG', () => {
+      cy.get(':nth-child(3) > .ant-dropdown-trigger > svg', timeout).click();
+      cy.contains('Unduh sebagai JPG', timeout).click(force);
+    });
+
+    it('Download as PDF', () => {
+      cy.get(':nth-child(3) > .ant-dropdown-trigger > svg', timeout).click();
+      cy.contains('Unduh sebagai PDF', timeout).click(force);
     });
   });
 });

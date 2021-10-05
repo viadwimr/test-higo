@@ -12,4 +12,5 @@ Cypress.Commands.add('login', (numb) => {
     cy.get('#login_password', timeout).type('password');
     cy.get('#btn-login', timeout).click();
   }
+  cy.wait(5000);
 });

@@ -2,14 +2,15 @@
 /// <reference types="cypress" />
 
 const timeout = { timeout: 60000 };
-const ipData = '34.87.144.83:3009';
+const force = { force: true };
 
 describe('Trend', () => {
   before(() => {
-    cy.mockUserAdmin();
-    cy.mockResponse();
     cy.login('engineering');
-    cy.get('[title="Trend"] > a', timeout).click();
+  });
+
+  beforeEach(() => {
+    cy.visit('/analysis');
   });
 
   it('Tambah Grafik', () => {
@@ -53,5 +54,55 @@ describe('Trend', () => {
     cy.get(':nth-child(2) > .ant-row-middle > .ant-col-4 > .ant-row > :nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.get('li[class="ant-dropdown-menu-item"]', timeout).contains('Delete').click();
     cy.contains('Ya', timeout).click();
+  });
+
+  describe('Download Data', () => {
+    describe('Quality', () => {
+      it('Download as JPG', () => {
+        cy.get(':nth-child(2) > .AnalysisLineChart__Container-sc-1ue03a2-0 > .ant-row-middle > .ant-col-4 > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.contains('Unduh sebagai JPG', timeout).click(force);
+      });
+
+      it('Download as PDF', () => {
+        cy.get(':nth-child(2) > .AnalysisLineChart__Container-sc-1ue03a2-0 > .ant-row-middle > .ant-col-4 > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.contains('Unduh sebagai PDF', timeout).click(force);
+      });
+    });
+
+    describe('Availability', () => {
+      it('Download as JPG', () => {
+        cy.get(':nth-child(3) > .AnalysisLineChart__Container-sc-1ue03a2-0 > .ant-row-middle > .ant-col-4 > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.contains('Unduh sebagai JPG', timeout).click(force);
+      });
+
+      it('Download as PDF', () => {
+        cy.get(':nth-child(3) > .AnalysisLineChart__Container-sc-1ue03a2-0 > .ant-row-middle > .ant-col-4 > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.contains('Unduh sebagai PDF', timeout).click(force);
+      });
+    });
+
+    describe('Performance', () => {
+      it('Download as JPG', () => {
+        cy.get(':nth-child(4) > .AnalysisLineChart__Container-sc-1ue03a2-0 > .ant-row-middle > .ant-col-4 > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.contains('Unduh sebagai JPG', timeout).click(force);
+      });
+
+      it('Download as PDF', () => {
+        cy.get(':nth-child(4) > .AnalysisLineChart__Container-sc-1ue03a2-0 > .ant-row-middle > .ant-col-4 > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.contains('Unduh sebagai PDF', timeout).click(force);
+      });
+    });
+
+    describe('OEE', () => {
+      it('Download as JPG', () => {
+        cy.get(':nth-child(5) > .AnalysisLineChart__Container-sc-1ue03a2-0 > .ant-row-middle > .ant-col-4 > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.contains('Unduh sebagai JPG', timeout).click(force);
+      });
+
+      it('Download as PDF', () => {
+        cy.get(':nth-child(5) > .AnalysisLineChart__Container-sc-1ue03a2-0 > .ant-row-middle > .ant-col-4 > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.contains('Unduh sebagai PDF', timeout).click(force);
+      });
+    });
   });
 });

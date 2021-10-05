@@ -14,7 +14,7 @@ describe('Threshold', () => {
   });
 
   describe('Check List Threshold', () => {
-    it.only('Data Threshold Name is null', () => {
+    it('Data Threshold Name is null', () => {
       cy.get('[title="Heat Map"] > a', timeout).click();
       cy.intercept(`${url}/ems-test/devices`, { fixture: '/ems-test/devices-null.json' }).as('devices-null');
       cy.get('[title="Threshold"] > a', timeout).click();

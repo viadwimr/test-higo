@@ -2,17 +2,23 @@
 /// <reference types="cypress" />
 
 const timeout = { timeout: 60000 };
+const force = { force: true };
 
 describe('Heatmap', () => {
   before(() => {
-    cy.mockUserAdmin();
-    cy.mockResponse();
     cy.login('engineering');
-    cy.get('[title="Heat Map"] > a', timeout).click();
+  });
+
+  beforeEach(() => {
+    cy.visit('/heatmap');
     cy.contains('HEAT MAP', timeout).should('be.visible');
   });
 
   it('OEE', () => {
+    cy.get(':nth-child(2) > .ant-select > .ant-select-selector', timeout).click();
+    cy.contains('Packaging', timeout).click();
+
+
     // Check date
     cy.get('div[style="display: flex;"]', timeout)
       .should('contain', 'Jan')
@@ -119,5 +125,17 @@ describe('Heatmap', () => {
     cy.contains('50', timeout).should('be.visible');
     cy.contains('30', timeout).should('be.visible');
     cy.contains('73', timeout).should('be.visible');
+  });
+
+  describe('Download Data', () => {
+    it('Download as JPG', () => {
+      cy.get('.Filter__Wrapper-sc-1aif0us-0 > .ant-row-space-between > :nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg > path', timeout).click();
+      cy.contains('Unduh sebagai JPG', timeout).click(force);
+    });
+
+    it('Download as PDF', () => {
+      cy.get('.Filter__Wrapper-sc-1aif0us-0 > .ant-row-space-between > :nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg > path', timeout).click();
+      cy.contains('Unduh sebagai PDF', timeout).click(force);
+    });
   });
 });
