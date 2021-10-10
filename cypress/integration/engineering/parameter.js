@@ -5,13 +5,53 @@ const timeout = { timeout: 60000 };
 
 describe('Parameter', () => {
   before(() => {
-    cy.mockUserAdmin();
-    cy.mockResponse();
     cy.login('engineering');
   });
 
+  beforeEach(() => {
+    cy.visit('/parameter');
+  });
+
+  describe('Filter', () => {
+    it('Default', () => {
+      cy.get('div[id="rc-tabs-0-panel-realtime"]', timeout).should('exist');
+      cy.contains('Realtime', timeout).should('be.visible');
+      cy.get('[data-testid=sector] > .ant-select-selector > .ant-select-selection-item', timeout).should('exist');
+      cy.get('[data-testid=device] > .ant-select-selector > .ant-select-selection-item', timeout).should('exist');
+      cy.get('[data-testid=indikator] > .ant-select-selector > .ant-select-selection-item', timeout).should('exist');
+      cy.get('[data-testid=status] > .ant-select-selector > .ant-select-selection-item', timeout).should('exist');
+    });
+
+    it('Filter Sektor', () => {
+      cy.get('div[class="Devices__Wrapper-sc-17hn8ez-0 eDrstm"]', timeout).should('be.visible');
+      cy.get('[data-testid=sector] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Forming Baking').click();
+    });
+
+    it('Filter Device', () => {
+      cy.get('div[class="Devices__Wrapper-sc-17hn8ez-0 eDrstm"]', timeout).should('be.visible');
+      cy.get('[data-testid=device] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Belt rotary_sped').click();
+      cy.get('div[class="Devices__Wrapper-sc-17hn8ez-0 eDrstm"]', timeout).should('be.visible');
+    });
+
+    it('Filter Indikator', () => {
+      cy.get('div[class="Devices__Wrapper-sc-17hn8ez-0 eDrstm"]', timeout).should('be.visible');
+      cy.get('[data-testid=indikator] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Arus Listrik (A)').click();
+      cy.get('div[class="Devices__Wrapper-sc-17hn8ez-0 eDrstm"]', timeout).should('be.visible');
+    });
+
+    it('Filter Status', () => {
+      cy.get('div[class="Devices__Wrapper-sc-17hn8ez-0 eDrstm"]', timeout).should('be.visible');
+      cy.get('[data-testid=status] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Waspada').click();
+      cy.get('div[class="Devices__Wrapper-sc-17hn8ez-0 eDrstm"]', timeout).should('be.visible');
+    });
+
+  });
+
   it('Check semua lini', () => {
-    cy.get('[title="Parameter"] > a', timeout).click();
     cy.get('div[class="ParameterPage__Wrapper-sc-12o5t4h-0 ccmLAg"]', timeout).should('be.visible');
 
     // Param 1
