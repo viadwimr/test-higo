@@ -30,8 +30,11 @@ describe('Parameter', () => {
 
     it('Filter Device', () => {
       cy.get('div[class="Devices__Wrapper-sc-17hn8ez-0 eDrstm"]', timeout).should('be.visible');
+      cy.get('[data-testid=sector] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Forming Baking').click();
+      cy.get('div[class="Devices__Wrapper-sc-17hn8ez-0 eDrstm"]', timeout).should('be.visible');
       cy.get('[data-testid=device] > .ant-select-selector > .ant-select-selection-item', timeout).click();
-      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Belt rotary_sped').click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Belt rotary_ speed').click();
       cy.get('div[class="Devices__Wrapper-sc-17hn8ez-0 eDrstm"]', timeout).should('be.visible');
     });
 
