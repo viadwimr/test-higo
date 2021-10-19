@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-var timeout = { timeout: 60000 }
+var timeout = { timeout: 10000 }
 var force = { force: true }
 
 describe('Alert', () => {
@@ -8,7 +8,7 @@ describe('Alert', () => {
     cy.visit('/alert');
   });
 
-  describe.only('Rules', () => {
+  describe('Rules', () => {
     beforeEach(() => {
       cy.contains('RULES', timeout).click();
     });
@@ -34,20 +34,25 @@ describe('Alert', () => {
       cy.get('#channel', timeout).click();
       cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Channel SMS', timeout).click();
       cy.get('#action', timeout).click();
-      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Count').click();
-      cy.get('#count', timeout).type('5');
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Indikator').click();
+      cy.get('#status', timeout).click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Danger').click();
       cy.get('#running', timeout).click();
       cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Notifikasi').click();
       cy.get('#message', timeout).type('Lorem ipsum');
       cy.get('#interval', timeout).type('5');
       cy.get('[style="display: flex; width: 100%; justify-content: flex-end;"] > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
       cy.contains('Rule berhasil ditambahkan.', timeout).should('be.visible');
-      cy.get('[data-row-key="6145abe58e61590001ed7d64"] > :nth-child(1)', timeout).should('contain.text', 'Test Alert');
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).should('contain.text', 'Test Alert')
+        .and('contain.text', 'Suhu Aktual Zona 1')
+        .and('contain.text', 'danger')
+        .and('contain.text', 'Channel SMS - sms')
+        .and('contain.text', '5 Menit')
     });
 
     it('Edit Rules (Negative)', () => {
       cy.wait(3000);
-      cy.get('[data-row-key="6145abe58e61590001ed7d64"] > :nth-child(8) > .ant-dropdown-trigger > svg', timeout).click();
+      cy.get('div[class="ant-dropdown-trigger"]', timeout).eq(0).click();
       cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
       cy.get('#name', timeout).clear();
       cy.get('[style="display: flex; width: 100%; justify-content: flex-end;"] > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
@@ -56,17 +61,17 @@ describe('Alert', () => {
 
     it('Edit Rules (Positive)', () => {
       cy.wait(3000);
-      cy.get('[data-row-key="6145abe58e61590001ed7d64"] > :nth-child(8) > .ant-dropdown-trigger', timeout).click();
+      cy.get('div[class="ant-dropdown-trigger"]', timeout).eq(0).click();
       cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
       cy.get('#name', timeout).clear().type('Test Alert Edit');
       cy.get('[style="display: flex; width: 100%; justify-content: flex-end;"] > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
       cy.contains('Rule berhasil diubah.', timeout).should('be.visible');
-      cy.get('[data-row-key="6145abe58e61590001ed7d64"] > :nth-child(1)', timeout).should('contain.text', 'Test Alert Edit');
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).should('contain.text', 'Test Alert Edit')
     });
 
     it('Duplicate', () => {
       cy.wait(3000);
-      cy.get('[data-row-key="6145abe58e61590001ed7d64"] > :nth-child(8) > .ant-dropdown-trigger', timeout).click();
+      cy.get('div[class="ant-dropdown-trigger"]', timeout).eq(0).click();
       cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Duplikat').click();
       cy.contains('Rule berhasil ditambahkan.', timeout).should('be.visible');
       cy.contains('Test Alert Edit duplikat', timeout).should('be.visible');
@@ -102,7 +107,7 @@ describe('Alert', () => {
 
       it('Edit Channel (Email)', () => {
         cy.wait(3000);
-        cy.get('[data-row-key="6145bd4c8e61590001ed7d6b"] > :nth-child(4) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.get('[data-row-key="616d5e42bdf3b00001655412"] > :nth-child(4) > .ant-dropdown-trigger > svg', timeout).click();
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
         cy.get('#name', timeout).clear().type('Channel Email Edit');
         cy.get('.ant-btn > span', timeout).click();
@@ -124,7 +129,7 @@ describe('Alert', () => {
 
       it('Edit Channel (Telegram)', () => {
         cy.wait(3000);
-        cy.get('[data-row-key="6145bd4c8e61590001ed7d6b"] > :nth-child(4) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.get('[data-row-key="616d5e42bdf3b00001655412"] > :nth-child(4) > .ant-dropdown-trigger > svg', timeout).click();
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
         cy.get('#name', timeout).clear().type('Channel Telegram Edit');
         cy.get('.ant-btn > span', timeout).click();
@@ -132,29 +137,29 @@ describe('Alert', () => {
         cy.contains('Channel Telegram Edit', timeout).should('be.visible');
       });
 
-      it('Tambah Channel (Push Notification)', () => {
-        cy.wait(3000);
-        cy.contains('Tambah Channel', timeout).click();
-        cy.get('#name', timeout).type('Channel Push Notification');
-        cy.get('.ant-select-selection-item', timeout).click();
-        cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Push Notification').click();
-        cy.get('.ant-select-selection-overflow', timeout).click();
-        cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Budi').click();
-        cy.get('.ant-select-selection-overflow', timeout).click();
-        cy.get('.ant-btn > span', timeout).click();
-        cy.contains('Channel berhasil ditambah.', timeout).should('be.visible');
-        cy.contains('Channel Push Notification', timeout).should('be.visible');
-      });
+      // it('Tambah Channel (Push Notification)', () => {
+      //   cy.wait(3000);
+      //   cy.contains('Tambah Channel', timeout).click();
+      //   cy.get('#name', timeout).type('Channel Push Notification');
+      //   cy.get('.ant-select-selection-item', timeout).click();
+      //   cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Push Notification').click();
+      //   cy.get('.ant-select-selection-overflow', timeout).click();
+      //   cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Budi').click();
+      //   cy.get('.ant-select-selection-overflow', timeout).click();
+      //   cy.get('.ant-btn > span', timeout).click();
+      //   cy.contains('Channel berhasil ditambah.', timeout).should('be.visible');
+      //   cy.contains('Channel Push Notification', timeout).should('be.visible');
+      // });
 
-      it('Edit Channel (Push Notification)', () => {
-        cy.wait(3000);
-        cy.get('[data-row-key="6145bd4c8e61590001ed7d6b"] > :nth-child(4) > .ant-dropdown-trigger > svg > path', timeout).click();
-        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
-        cy.get('#name', timeout).clear().type('Channel Push Notification Edit');
-        cy.get('.ant-btn > span', timeout).click();
-        cy.contains('Channel berhasil diubah.', timeout).should('be.visible');
-        cy.contains('Channel Push Notification Edit', timeout).should('be.visible');
-      });
+      // it('Edit Channel (Push Notification)', () => {
+      //   cy.wait(3000);
+      //   cy.get('[data-row-key="616d5e42bdf3b00001655412"] > :nth-child(4) > .ant-dropdown-trigger > svg', timeout).click();
+      //   cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
+      //   cy.get('#name', timeout).clear().type('Channel Push Notification Edit');
+      //   cy.get('.ant-btn > span', timeout).click();
+      //   cy.contains('Channel berhasil diubah.', timeout).should('be.visible');
+      //   cy.contains('Channel Push Notification Edit', timeout).should('be.visible');
+      // });
 
       it('Tambah Channel (SMS)', () => {
         cy.wait(3000);
@@ -165,12 +170,11 @@ describe('Alert', () => {
         cy.get('#list_phone', timeout).type('081222333444');
         cy.get('.ant-btn > span', timeout).click();
         cy.contains('Channel berhasil ditambah.', timeout).should('be.visible');
-        cy.contains('Channel SMS', timeout).should('be.visible');
       });
 
       it('Edit Channel (SMS)', () => {
         cy.wait(3000);
-        cy.get('[data-row-key="6145bd4c8e61590001ed7d6b"] > :nth-child(4) > .ant-dropdown-trigger > svg > path', timeout).click();
+        cy.get('[data-row-key="615e769938bbe4000177faa8"] > :nth-child(4) > .ant-dropdown-trigger > svg', timeout).click();
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
         cy.get('#name', timeout).clear().type('Channel SMS Edit');
         cy.get('.ant-btn > span', timeout).click();
