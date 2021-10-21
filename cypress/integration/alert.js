@@ -36,13 +36,14 @@ describe('Alert', () => {
       cy.get('#action', timeout).click();
       cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Indikator').click();
       cy.get('#status', timeout).click();
-      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Danger').click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('danger').click();
       cy.get('#running', timeout).click();
       cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Notifikasi').click();
       cy.get('#message', timeout).type('Lorem ipsum');
       cy.get('#interval', timeout).type('5');
       cy.get('[style="display: flex; width: 100%; justify-content: flex-end;"] > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
       cy.contains('Rule berhasil ditambahkan.', timeout).should('be.visible');
+      cy.wait(3000);
       cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).should('contain.text', 'Test Alert')
         .and('contain.text', 'Suhu Aktual Zona 1')
         .and('contain.text', 'danger')
@@ -107,7 +108,7 @@ describe('Alert', () => {
 
       it('Edit Channel (Email)', () => {
         cy.wait(3000);
-        cy.get('[data-row-key="616d5e42bdf3b00001655412"] > :nth-child(4) > .ant-dropdown-trigger > svg', timeout).click();
+        cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
         cy.get('#name', timeout).clear().type('Channel Email Edit');
         cy.get('.ant-btn > span', timeout).click();
@@ -129,7 +130,7 @@ describe('Alert', () => {
 
       it('Edit Channel (Telegram)', () => {
         cy.wait(3000);
-        cy.get('[data-row-key="616d5e42bdf3b00001655412"] > :nth-child(4) > .ant-dropdown-trigger > svg', timeout).click();
+        cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
         cy.get('#name', timeout).clear().type('Channel Telegram Edit');
         cy.get('.ant-btn > span', timeout).click();
@@ -174,7 +175,8 @@ describe('Alert', () => {
 
       it('Edit Channel (SMS)', () => {
         cy.wait(3000);
-        cy.get('[data-row-key="615e769938bbe4000177faa8"] > :nth-child(4) > .ant-dropdown-trigger > svg', timeout).click();
+        
+        cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
         cy.get('#name', timeout).clear().type('Channel SMS Edit');
         cy.get('.ant-btn > span', timeout).click();
