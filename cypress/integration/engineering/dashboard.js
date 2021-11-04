@@ -160,4 +160,20 @@ describe('Dashboard', () => {
       });
     });
   });
+
+  describe('Sorting', () => {
+    it('Descending', () => {
+      cy.get('.ant-select-selection-item', timeout).click();
+      cy.contains('Descending', timeout).click();
+      cy.get(':nth-child(1) > .ant-col-24 > a > .MachineCard__Container-sc-1euorj5-2', timeout).contains('Packaging 1');
+      cy.get(':nth-child(2) > .ant-col-24 > a > .MachineCard__Container-sc-1euorj5-2', timeout).contains('Baking');
+    });
+
+    it('Ascending', () => {
+      cy.get('.ant-select-selection-item', timeout).click();
+      cy.contains('Ascending', timeout).click();
+      cy.get(':nth-child(1) > .ant-col-24 > a > .MachineCard__Container-sc-1euorj5-2', timeout).contains('Baking');
+      cy.get(':nth-child(2) > .ant-col-24 > a > .MachineCard__Container-sc-1euorj5-2', timeout).contains('Packaging 1');
+    });
+  });
 });

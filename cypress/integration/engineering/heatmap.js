@@ -138,4 +138,16 @@ describe('Heatmap', () => {
       cy.contains('Unduh sebagai PDF', timeout).click(force);
     });
   });
+
+  describe('Sorting', () => {
+    it('Descending', () => {
+      cy.get(':nth-child(4) > .Button__BaseButton-lb9z7q-0', timeout).click()
+      cy.get('[title="68.68 "] > [style="padding-top: 12.1622px;"]', timeout).contains('68.68');
+    });
+
+    it('Ascending', () => {
+      cy.get(':nth-child(4) > .Button__BaseButton-lb9z7q-0', timeout).click()
+      cy.get('[title="92.67 "] > [style="padding-top: 12.1622px;"]', timeout).contains('92.67');
+    });
+  });
 });
