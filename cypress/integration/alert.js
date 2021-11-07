@@ -8,6 +8,74 @@ describe('Alert', () => {
     cy.visit('/alert');
   });
 
+  describe('Sorting Data', () => {
+    describe('Sorting List Tabel Rules', () => {
+      it('ASC', () => {
+        cy.wait(3000);
+        cy.contains('Nama Alert', timeout).click();
+        cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'Alert_4');
+        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'Danger to Telegram Fahmi');
+        cy.get('.ant-table-column-sort', timeout).eq(3).should('have.contain', 'trial');
+        cy.get('.ant-table-column-sort', timeout).eq(4).should('have.contain', 'Warning to Telegram Fahmi');
+      });
+
+      it('DESC', () => {
+        cy.wait(3000);
+        cy.contains('Nama Alert', timeout).click();
+        cy.wait(3000);
+        cy.contains('Nama Alert', timeout).click();
+        cy.get('.ant-table-column-sort', timeout).eq(4).should('have.contain', 'Alert_4');
+        cy.get('.ant-table-column-sort', timeout).eq(3).should('have.contain', 'Danger to Telegram Fahmi');
+        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'trial');
+        cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'Warning to Telegram Fahmi');
+      });
+    });
+
+    describe('Sorting List Form Rules', () => {
+      it('Filter', () => {
+        cy.wait(3000);
+        cy.contains('Tambah Rules', timeout).click();
+        cy.get('[data-testid=select-name-device] > .ant-select-selector', timeout).click();
+        cy.contains('Aauto test', timeout).should('be.visible');
+        cy.contains('ac Produksi Aktual Per Detik', timeout).should('be.visible');
+        cy.contains('ac Produksi Recipe Per Detik', timeout).should('be.visible');
+        cy.contains('ac Produksi Recipe Per Menit', timeout).should('be.visible');
+        cy.contains('Agromon', timeout).should('be.visible');
+        cy.contains('Agromon', timeout).should('be.visible');
+        cy.contains('air blower c', timeout).should('be.visible');
+        cy.contains('air blower p', timeout).should('be.visible');
+      });
+    });
+
+    describe('Sorting List Tabel Channels', () => {
+      beforeEach(() => {
+        cy.contains('CHANNEL', timeout).click();
+      });
+
+      it('ASC', () => {
+        cy.wait(3000);
+        cy.contains('Nama Channel', timeout).click();
+        cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'Channel Email');
+        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'Channel SMS');
+        cy.get('.ant-table-column-sort', timeout).eq(3).should('have.contain', 'Channel Telegram');
+        cy.get('.ant-table-column-sort', timeout).eq(4).should('have.contain', 'test channel');
+        cy.get('.ant-table-column-sort', timeout).eq(5).should('have.contain', 'trial test');
+      });
+
+      it('DESC', () => {
+        cy.wait(3000);
+        cy.contains('Nama Channel', timeout).click();
+        cy.wait(3000);
+        cy.contains('Nama Channel', timeout).click();
+        cy.get('.ant-table-column-sort', timeout).eq(5).should('have.contain', 'Channel Email');
+        cy.get('.ant-table-column-sort', timeout).eq(4).should('have.contain', 'Channel SMS');
+        cy.get('.ant-table-column-sort', timeout).eq(3).should('have.contain', 'Channel Telegram');
+        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'test channel');
+        cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'trial test');
+      });
+    });
+  });
+  
   describe('Rules', () => {
     beforeEach(() => {
       cy.contains('RULES', timeout).click();
@@ -30,7 +98,7 @@ describe('Alert', () => {
       cy.contains('Tambah Rules', timeout).click();
       cy.get('#name', timeout).type('Test Alert');
       cy.get('#device', timeout).click();
-      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Suhu Aktual Zona 1', timeout).click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('air blower p', timeout).click();
       cy.get('#channel', timeout).click();
       cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Channel SMS', timeout).click();
       cy.get('#action', timeout).click();
@@ -45,7 +113,7 @@ describe('Alert', () => {
       cy.contains('Rule berhasil ditambahkan.', timeout).should('be.visible');
       cy.wait(3000);
       cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).should('contain.text', 'Test Alert')
-        .and('contain.text', 'Suhu Aktual Zona 1')
+        .and('contain.text', 'air blower p')
         .and('contain.text', 'danger')
         .and('contain.text', 'Channel SMS - sms')
         .and('contain.text', '5 Menit')
@@ -175,7 +243,6 @@ describe('Alert', () => {
 
       it('Edit Channel (SMS)', () => {
         cy.wait(3000);
-        
         cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
         cy.get('#name', timeout).clear().type('Channel SMS Edit');
