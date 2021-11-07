@@ -528,4 +528,59 @@ describe('Pareto', () => {
       cy.contains('Unduh sebagai PDF', timeout).click(force);
     });
   });
+
+  describe('Sorting', () => {
+    describe('Kolom Reason', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(1) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('unfilled');
+      });
+  
+      it('Descending', () => {
+        cy.get(':nth-child(1) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(1) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('unfilled');
+      });
+    });
+
+    describe('Kolom Durasi', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(5) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('10s');
+      });
+  
+      it('Descending', () => {
+        cy.get(':nth-child(5) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(5) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('4h 55m 32s');
+      });
+    });
+
+    describe('Kolom Waktu Mulai', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(6) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('31/10/21 - 07:00:14');
+      });
+  
+      it('Descending', () => {
+        cy.get(':nth-child(6) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(6) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('07/11/21 - 19:19:54');
+      });
+    });
+
+    describe('Kolom Waktu Selesai', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(7) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('31/10/21 - 07:10:35');
+      });
+  
+      it('Descending', () => {
+        cy.get(':nth-child(7) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(7) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('07/11/21 - 19:20:24');
+      });
+    });
+   
+  });
 });

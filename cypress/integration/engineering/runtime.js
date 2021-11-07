@@ -6,15 +6,11 @@ const ipData = '34.87.144.83:3009';
 
 describe('Runtime', () => {
   before(() => {
-    cy.clearCookies();
-    cy.clearLocalStorage();
-    cy.mockUserAdmin();
     cy.login('engineering');
-    cy.get('[title="Runtime"] > a', timeout).click();
   });
 
   beforeEach(() => {
-    Cypress.Cookies.preserveOnce('secret');
+    cy.visit('/runtime');
   });
 
   describe('Check List Runtime', () => {
@@ -82,6 +78,98 @@ describe('Runtime', () => {
       cy.contains('Hapus', timeout).click();
       cy.contains('Ya', timeout).click();
       cy.contains('Deleted!', timeout).should('be.visible');
+    });
+  });
+
+  describe('Sorting', () => {
+    describe('Kolom Status', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(2) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('WAITING');
+      });
+
+      it('Descending', () => {
+        cy.get(':nth-child(2) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(2) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('RUNNING');
+      });
+    });
+
+    describe('Kolom Nama PO', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(3) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Coky Coky');
+      });
+
+      it('Descending', () => {
+        cy.get(':nth-child(3) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(3) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Test Planned Runtime test');
+      });
+    });
+
+    describe('Kolom Mesin', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(4) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Baking');
+      });
+
+      it('Descending', () => {
+        cy.get(':nth-child(4) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(4) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Packaging 9');
+      });
+    });
+
+    describe('Kolom SKU', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(5) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('kacang 30 gr');
+      });
+
+      it('Descending', () => {
+        cy.get(':nth-child(5) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(5) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('MALS8A');
+      });
+    });
+
+    describe('Kolom Operator', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(6) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+      });
+
+      it('Descending', () => {
+        cy.get(':nth-child(6) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(6) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Operator Baking');
+      });
+    });
+
+    describe('Kolom Waktu Mulai', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(7) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('07/11/2021 - 15:00');
+      });
+
+      it('Descending', () => {
+        cy.get(':nth-child(7) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(7) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('30/10/2022 - 08:00');
+      });
+    });
+
+    describe('Kolom Waktu Selesai', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(8) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('07/11/2021 - 22:59');
+      });
+
+      it('Descending', () => {
+        cy.get(':nth-child(8) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get(':nth-child(8) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('30/10/2022 - 08:15');
+      });
     });
   });
 });
