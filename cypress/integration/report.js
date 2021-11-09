@@ -3,7 +3,6 @@
 var timeout = { timeout: 60000 }
 
 describe('Report', () => {
-  
   describe('Generate Daily', () => {
     before(() => {
       cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
@@ -286,5 +285,34 @@ describe('Report', () => {
       cy.contains('Report berhasil dihapus.', timeout).should('be.visible');
     });
   });
-  
+
+  describe('Sorting Data', () => {
+    before(() => {
+      cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
+    });
+
+    it('Filter Device', () => {
+      cy.wait(3000);
+      cy.get('#report_form_device', timeout).click({force:true});
+      cy.contains('Agromon', timeout).should('be.visible');
+      cy.contains('auto trial', timeout).should('be.visible');
+      cy.contains('Ball Mill', timeout).should('be.visible');
+      cy.contains('Aauto test', timeout).should('be.visible');
+      cy.contains('Arus Agitator Ball 1', timeout).should('be.visible');
+      cy.contains('Arus Agitator Ball 1', timeout).should('be.visible');
+      cy.contains('Arus Agitator Ball 2', timeout).should('be.visible');
+      cy.contains('Cold Water Ball 1', timeout).should('be.visible');
+    });
+
+    it('Filter Indicator', () => {
+      cy.wait(3000);
+      cy.get('#report_form_device', timeout).type('kibimaru');
+      cy.contains('kibimaru', timeout).click();
+      cy.get('.css-yk16xz-control', timeout).click();
+      cy.contains('Arus Listrik', timeout).should('be.visible');
+      cy.contains('Daya', timeout).should('be.visible');
+      cy.contains('Frequency', timeout).should('be.visible');
+      cy.contains('Intensitas Cahaya', timeout).should('be.visible');
+    });
+  });
 });
