@@ -7,16 +7,14 @@ describe('Alert', () => {
   beforeEach(() => {
     cy.visit('/alert');
   });
-
+  
   describe('Sorting Data', () => {
     describe('Sorting List Tabel Rules', () => {
       it('ASC', () => {
         cy.wait(3000);
         cy.contains('Nama Alert', timeout).click();
-        cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'Alert_4');
-        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'Danger to Telegram Fahmi');
-        cy.get('.ant-table-column-sort', timeout).eq(3).should('have.contain', 'trial');
-        cy.get('.ant-table-column-sort', timeout).eq(4).should('have.contain', 'Warning to Telegram Fahmi');
+        cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'Danger to Telegram Fahmi');
+        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'Warning to Telegram Fahmi');
       });
 
       it('DESC', () => {
@@ -24,9 +22,7 @@ describe('Alert', () => {
         cy.contains('Nama Alert', timeout).click();
         cy.wait(3000);
         cy.contains('Nama Alert', timeout).click();
-        cy.get('.ant-table-column-sort', timeout).eq(4).should('have.contain', 'Alert_4');
-        cy.get('.ant-table-column-sort', timeout).eq(3).should('have.contain', 'Danger to Telegram Fahmi');
-        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'trial');
+        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'Danger to Telegram Fahmi');
         cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'Warning to Telegram Fahmi');
       });
     });
@@ -36,7 +32,6 @@ describe('Alert', () => {
         cy.wait(3000);
         cy.contains('Tambah Rules', timeout).click();
         cy.get('[data-testid=select-name-device] > .ant-select-selector', timeout).click();
-        cy.contains('Aauto test', timeout).should('be.visible');
         cy.contains('ac Produksi Aktual Per Detik', timeout).should('be.visible');
         cy.contains('ac Produksi Recipe Per Detik', timeout).should('be.visible');
         cy.contains('ac Produksi Recipe Per Menit', timeout).should('be.visible');
@@ -80,7 +75,7 @@ describe('Alert', () => {
     beforeEach(() => {
       cy.contains('RULES', timeout).click();
     });
-
+    
     it('Tambah Rules (Negative)', () => {
       cy.wait(3000);
       cy.contains('Tambah Rules', timeout).click();
@@ -145,13 +140,39 @@ describe('Alert', () => {
       cy.contains('Rule berhasil ditambahkan.', timeout).should('be.visible');
       cy.contains('Test Alert Edit duplikat', timeout).should('be.visible');
     });
+    
+    describe('Hapus Rule', () => {
+      it('Hapus Rule Edit', () => {
+        cy.wait(3000);
+        cy.get('div[class="ant-dropdown-trigger"]', timeout).eq(0).click();
+        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
+        cy.contains('Tidak', timeout).click();
+        cy.get('div[class="ant-dropdown-trigger"]', timeout).eq(0).click();
+        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
+        cy.get('.swal2-confirm', timeout).click();
+        cy.contains('Rule berhasil dihapus.', timeout).should('be.visible');
+        cy.contains('Test Alert Edit duplikat', timeout).should('not.be.visible');
+      });
+
+      it('Hapus Rule Duplikat', () => {
+        cy.wait(3000);
+        cy.get('div[class="ant-dropdown-trigger"]', timeout).eq(0).click();
+        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
+        cy.contains('Tidak', timeout).click();
+        cy.get('div[class="ant-dropdown-trigger"]', timeout).eq(0).click();
+        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
+        cy.get('.swal2-confirm', timeout).click();
+        cy.contains('Rule berhasil dihapus.', timeout).should('be.visible');
+        cy.contains('Test Alert Edit', timeout).should('not.be.visible');
+      });
+    });
   });
 
   describe('Channel', () => {
     beforeEach(() => {
       cy.contains('CHANNEL', timeout).click();
     });
-
+    
     it('Tambah Channel (Negative)', () => {
       cy.wait(3000);
       cy.contains('Tambah Channel', timeout).click();
@@ -251,5 +272,44 @@ describe('Alert', () => {
         cy.contains('Channel SMS Edit', timeout).should('be.visible');
       });
     });
+    
+    describe('Hapus Channel', () => {
+      it('Hapus Channel (SMS)', () => {
+        cy.wait(3000);
+        cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
+        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
+        cy.contains('Tidak', timeout).click();
+        cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
+        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
+        cy.get('.swal2-confirm', timeout).click();
+        cy.contains('Channel berhasil dihapus.', timeout).should('be.visible');
+        cy.contains('Channel SMS Edit', timeout).should('not.be.visible');
+      });
+
+      it('Hapus Channel (Telegram)', () => {
+        cy.wait(3000);
+        cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
+        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
+        cy.contains('Tidak', timeout).click();
+        cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
+        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
+        cy.get('.swal2-confirm', timeout).click();
+        cy.contains('Channel berhasil dihapus.', timeout).should('be.visible');
+        cy.contains('Channel Telegram Edit', timeout).should('not.be.visible');
+      });
+
+      it('Hapus Channel (Email)', () => {
+        cy.wait(3000)
+        cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
+        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
+        cy.contains('Tidak', timeout).click();
+        cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
+        cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
+        cy.get('.swal2-confirm', timeout).click();
+        cy.contains('Channel berhasil dihapus.', timeout).should('be.visible');
+        cy.contains('Channel Email Edit', timeout).should('not.be.visible');
+      });
+    });
+    
   });
 });
