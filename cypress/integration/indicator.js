@@ -54,7 +54,7 @@ describe('Indicator', () => {
     it('Arus Listrik', () => {
       cy.get(':nth-child(1) > label', timeout).click({ force: true });
       cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Arus Listrik');
-      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', 'A');
+      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', 'AM test');
       cy.get('#indikator_form_min_valid', timeout).should('have.value', '37');
       cy.get('#indikator_form_max_valid', timeout).should('have.value', '94');
     });
@@ -68,7 +68,7 @@ describe('Indicator', () => {
     });
   });
   
-  describe('Sorting Data Indicator', () => {
+  describe('Sorting & Search Data Indicator', () => {
     before(() => {
       cy.get('[title="Threshold"] > .ant-menu-title-content > a', timeout).click({ force: true });
       cy.wait(3000);
@@ -82,6 +82,22 @@ describe('Indicator', () => {
       cy.contains('Intensitas Cahaya', timeout).should('be.visible');
       cy.contains('Kalium', timeout).should('be.visible');
       cy.contains('Kecepatan Angin', timeout).should('be.visible');
+    });
+
+    it('Search Indicator', () => {
+      cy.get('#sector_search', timeout).type('da');
+      cy.contains('Daya', timeout).should('be.visible');
+      cy.contains('Tekanan Udara', timeout).should('be.visible');
+      cy.contains('time update', timeout).should('be.visible');
+      cy.get('.ant-input-suffix', timeout).click();
+      cy.contains('Arus Listrik', timeout).should('be.visible');
+      cy.contains('Daya', timeout).should('be.visible');
+      cy.contains('Frequency', timeout).should('be.visible');
+      cy.get('#sector_search', timeout).type('ke');
+      cy.contains('Kecepatan Angin', timeout).should('be.visible');
+      cy.contains('Kelembaban', timeout).should('be.visible');
+      cy.contains('Kelembaban Tanah', timeout).should('be.visible');
+      cy.get('.ant-input-suffix', timeout).click();
     });
   });
 });
