@@ -6,7 +6,7 @@ const force = { force: true };
 
 describe('Pareto', () => {
   before(() => {
-    cy.login('engineering');
+    // cy.login('engineering');
   });
 
   beforeEach(() => {
@@ -582,5 +582,38 @@ describe('Pareto', () => {
       });
     });
    
+  });
+
+  describe('Perhitungan Presentase', () => {
+    it('Frekuensi', () => {
+      cy.wait(3000);
+      cy.get('[style="margin-right: 10px;"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.contains('Performance', timeout).click();
+      cy.get('[data-testid=date-root]', timeout).click();
+      cy.get('#input_date_date', timeout).click(force);
+      cy.get('td[title="2021-11-16"]', timeout).click();
+      cy.get('td[title="2021-11-17"]', timeout).click();
+      cy.contains('OK', timeout).click();
+      cy.contains('Packaging 1', timeout).should('be.visible');
+      cy.contains('3.213', timeout).should('be.visible');
+      cy.contains('2.089.227', timeout).should('be.visible');
+      cy.get('div[class="ant-table-container"]', timeout).should('exist');
+    });
+
+    it('Kuantitas', () => {
+      cy.wait(3000);
+      cy.get('[style="margin-right: 10px;"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.contains('Performance', timeout).click();
+      cy.get('[data-testid=date-root]', timeout).click();
+      cy.get('#input_date_date', timeout).click(force);
+      cy.get('td[title="2021-11-16"]', timeout).click();
+      cy.get('td[title="2021-11-17"]', timeout).click();
+      cy.contains('OK', timeout).click();
+      cy.contains('kuantitas', timeout).click();
+      cy.contains('Packaging 1', timeout).should('be.visible');
+      cy.contains('3.213', timeout).should('be.visible');
+      cy.contains('2.089.227', timeout).should('be.visible');
+      cy.get('div[class="ant-table-container"]', timeout).should('exist');
+    });
   });
 });
