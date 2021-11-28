@@ -28,14 +28,14 @@ describe('Indicator', () => {
     before(() => {
       cy.get('[title="Indicator"] > .ant-menu-title-content > a', timeout).click();
     });
-  
+
     it('Arus Listrik', () => {
       cy.get(':nth-child(1) > label', timeout).click();
       cy.get('#indikator_form_min_valid', timeout).clear().type('37');
       cy.get('#indikator_form_max_valid', timeout).clear({ force: true }).type('94');
       cy.get('.IndicatorPage__BtnSubmit-sc-1da0oss-7', timeout).click({ force: true });
     });
-  
+
     it('Kelembaban', () => {
       cy.get(':nth-child(7) > label', timeout).click({ force: true });
       cy.get('#indikator_form_min_valid', timeout).clear({ force: true }).type('79', { force: true });
@@ -43,22 +43,22 @@ describe('Indicator', () => {
       cy.get('.IndicatorPage__BtnSubmit-sc-1da0oss-7', timeout).click({ force: true });
     })
   });
-  
+
   describe('Cek Data Indicator', () => {
     before(() => {
       cy.get('[title="Threshold"] > .ant-menu-title-content > a', timeout).click({ force: true });
       cy.wait(3000);
       cy.get('[title="Indicator"] > .ant-menu-title-content > a', timeout).click({ force: true });
     });
-  
+
     it('Arus Listrik', () => {
       cy.get(':nth-child(1) > label', timeout).click({ force: true });
       cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Arus Listrik');
-      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', 'A');
+      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', 'AM test');
       cy.get('#indikator_form_min_valid', timeout).should('have.value', '37');
       cy.get('#indikator_form_max_valid', timeout).should('have.value', '94');
     });
-  
+
     it('Kelembaban', () => {
       cy.get(':nth-child(7) > label', timeout).click({ force: true });
       cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Kelembaban');
@@ -66,15 +66,23 @@ describe('Indicator', () => {
       cy.get('#indikator_form_min_valid', timeout).should('have.value', '79');
       cy.get('#indikator_form_max_valid', timeout).should('have.value', '800');
     });
+
+    it('Frequency', () => {
+      cy.get(':nth-child(3) > label', timeout).click({ force: true });
+      cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Frequency');
+      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', 'Hz');
+      cy.get('#indikator_form_min_valid', timeout).should('have.value', '2');
+      cy.get('#indikator_form_max_valid', timeout).should('have.value', '3');
+    }); 
   });
-  
+
   describe('Sorting Data Indicator', () => {
     before(() => {
       cy.get('[title="Threshold"] > .ant-menu-title-content > a', timeout).click({ force: true });
       cy.wait(3000);
       cy.get('[title="Indicator"] > .ant-menu-title-content > a', timeout).click({ force: true });
     });
-  
+
     it('Sorting List Indicator', () => {
       cy.contains('Arus Listrik', timeout).should('be.visible');
       cy.contains('Daya', timeout).should('be.visible');
@@ -84,6 +92,28 @@ describe('Indicator', () => {
       cy.contains('Kecepatan Angin', timeout).should('be.visible');
     });
   });
+
+  describe('Search Indicator', () => {
+    before(() => {
+      cy.get('[title="Threshold"] > .ant-menu-title-content > a', timeout).click({ force: true });
+      cy.wait(3000);
+      cy.get('[title="Indicator"] > .ant-menu-title-content > a', timeout).click({ force: true });
+    });
+
+    it('Data found', () => {
+      cy.get('#sector_search', timeout).type('Kelembaban Tanah{enter}');
+      cy.get('label', timeout).should('contain.text', '1. Kelembaban Tanah (%)').click();
+      cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Kelembaban Tanah');
+      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', '%');
+      cy.get('#indikator_form_min_valid', timeout).should('have.value', '9');
+      cy.get('#indikator_form_max_valid', timeout).should('have.value', '10');
+    });
+
+    it('Data not found', () => {
+      cy.get('#sector_search', timeout).clear().type('Random{enter}');
+      cy.get('label', timeout).should('not.exist');
+    });
+  }); 
 });
 
 
