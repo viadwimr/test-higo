@@ -2,13 +2,15 @@
 /// <reference types="cypress" />
 
 const timeout = { timeout: 60000 };
+const force = { force : true };
 
 describe('Report', () => {
   before(() => {
-    cy.mockUserAdmin();
-    cy.mockResponse();
     cy.login('engineering');
-    cy.get('[title="Report"] > a', timeout).click();
+  });
+
+  beforeEach(() => {
+    cy.visit('/report');
   });
 
   it('CHECK TAB REPORT', () => {
@@ -131,34 +133,61 @@ describe('Report', () => {
     });
   });
 
-  it('PARAMETER', () => {
-    cy.contains('PARAMETER', timeout).click();
-
-    // Daily
-    cy.get('input[id="parameter_device_id"]', timeout).click();
-    cy.contains('Availability losses', timeout).click();
-    cy.get('input[id="runtime_form_start_date"]', timeout).click();
-    cy.get('td[title="2021-03-01"]', timeout).eq(0).click();
-    cy.get('input[id="runtime_form_end_date"]', timeout).click();
-    cy.get('td[title="2021-03-29"]', timeout).eq(1).click();
-    cy.contains('Daily', timeout).click();
-    cy.contains('Download', timeout).should('be.visible');
-    cy.server().should((server) => {
-      expect(server.status).to.eq(200);
+  describe('PARAMETER', () => {
+    beforeEach(() => {
+      cy.contains('PARAMETER', timeout).click();
     });
 
-    // Shiftly
-    cy.get('span[class="ant-select-selection-item"]', timeout).click();
-    cy.contains('Packaging 1', timeout).click();
-    cy.get('input[id="runtime_form_start_date"]', timeout).click();
-    cy.get('td[title="2021-03-01"]', timeout).eq(0).click();
-    cy.get('input[id="runtime_form_end_date"]', timeout).click();
-    cy.get('td[title="2021-03-29"]', timeout).eq(1).click();
-    cy.contains('Daily', timeout).click();
-    cy.contains('Download', timeout).should('be.visible');
-    cy.server().should((server) => {
-      expect(server.status).to.eq(200);
+    it('Daily', () => {
+      // Daily
+      cy.get('input[id="parameter_device_id"]', timeout).click();
+      cy.contains('Arus Agitator Ball 1', timeout).click();
+      cy.get('#parameter > :nth-child(2) > .CustomPopup__Container-tuxi8-0 > [data-testid=date-root]', timeout).click();
+      cy.get('[data-testid=Kemarin] > div', timeout).click(force);
+      cy.get('[data-testid=submit-btn]', timeout).click();
+      cy.contains('Download', timeout).should('be.visible');
+      cy.server().should((server) => {
+        expect(server.status).to.eq(200);
+      });
+      cy.get('.ant-card-body', timeout).should('be.visible');
     });
+
+    it('Shiftly', () => {
+      // Shiftly
+      cy.get('input[id="parameter_device_id"]', timeout).click();
+      cy.contains('Arus Agitator Ball 1', timeout).click();
+      cy.get('#parameter > :nth-child(2) > .CustomPopup__Container-tuxi8-0 > [data-testid=date-root]', timeout).click();
+      cy.get('[data-testid=Kemarin] > div', timeout).click(force);
+      cy.get('[data-testid="Per Shift"]', timeout).click();
+      cy.get('[data-testid=shift-1]', timeout).click();
+      cy.get('[data-testid=submit-btn]', timeout).click();
+      cy.contains('Download', timeout).should('be.visible');
+      cy.server().should((server) => {
+        expect(server.status).to.eq(200);
+      });
+      cy.get('.ant-card-body', timeout).should('be.visible');
+    });
+
+    it('Per Jam', () => {
+      // Perjam
+      cy.get('input[id="parameter_device_id"]', timeout).click();
+      cy.contains('Arus Agitator Ball 1', timeout).click();
+      cy.get('#parameter > :nth-child(2) > .CustomPopup__Container-tuxi8-0 > [data-testid=date-root]', timeout).click();
+      cy.get('[data-testid=Kemarin] > div', timeout).click(force);
+      cy.get('[data-testid="Per Jam"]', timeout).click();
+      cy.get('#parameter_hour', timeout).click();
+      cy.get('div[class="ant-picker-time-panel-cell-inner"]', timeout).eq(0).click();
+      cy.contains('Ok', timeout).click();
+      cy.get('.ant-picker-input-active > input', timeout).click();
+      cy.get('div[class="ant-picker-time-panel-cell-inner"]', timeout).eq(0).click();
+      cy.contains('Ok', timeout).click();
+      cy.get('[data-testid=submit-btn]', timeout).click();
+      cy.contains('Download', timeout).should('be.visible');
+      cy.server().should((server) => {
+        expect(server.status).to.eq(200);
+      });
+      cy.get('.ant-card-body', timeout).should('be.visible');
+    }); 
   });
 
   it('CHAT', () => {
