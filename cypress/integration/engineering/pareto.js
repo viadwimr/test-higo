@@ -535,7 +535,7 @@ describe('Pareto', () => {
         cy.get(':nth-child(1) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
         cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('unfilled');
       });
-  
+
       it('Descending', () => {
         cy.get(':nth-child(1) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
         cy.get(':nth-child(1) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
@@ -548,7 +548,7 @@ describe('Pareto', () => {
         cy.get(':nth-child(5) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
         cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('10s');
       });
-  
+
       it('Descending', () => {
         cy.get(':nth-child(5) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
         cy.get(':nth-child(5) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
@@ -561,7 +561,7 @@ describe('Pareto', () => {
         cy.get(':nth-child(6) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
         cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('31/10/21 - 07:00:14');
       });
-  
+
       it('Descending', () => {
         cy.get(':nth-child(6) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
         cy.get(':nth-child(6) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
@@ -574,14 +574,14 @@ describe('Pareto', () => {
         cy.get(':nth-child(7) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
         cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('31/10/21 - 07:10:35');
       });
-  
+
       it('Descending', () => {
         cy.get(':nth-child(7) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
         cy.get(':nth-child(7) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters > .ant-table-column-sorter > .ant-table-column-sorter-inner > .anticon-caret-down > svg', timeout).click();
         cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('07/11/21 - 19:20:24');
       });
     });
-   
+
   });
 
   describe('Perhitungan Presentase', () => {
@@ -615,5 +615,107 @@ describe('Pareto', () => {
       cy.contains('2.089.227', timeout).should('be.visible');
       cy.get('div[class="ant-table-container"]', timeout).should('exist');
     });
+  });
+
+  it('Perfromance losses frekuensi', () => {
+    cy.wait(3000);
+    cy.get('[style="margin-right: 10px;"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+    cy.contains('Performance', timeout).click();
+    cy.contains('Packaging 1', timeout).should('be.visible');
+    cy.contains('Total Frekuensi Speed Loss', timeout).should('be.visible');
+    cy.contains('Total Kuantitas Speed Loss', timeout).should('be.visible');
+  });
+
+  describe('Filter Mesin', () => {
+    beforeEach(() => {
+      cy.wait(3000);
+      cy.get('[style="margin-right: 10px;"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.contains('Performance', timeout).click();
+    });
+
+    it('Packaging 1', () => {
+      cy.wait(3000);
+      cy.get(':nth-child(1) > .ant-table-filter-column > .ant-table-filter-trigger-container > .ant-dropdown-trigger > .anticon > svg > path', timeout).click();
+      cy.get('.ant-dropdown-menu > :nth-child(1) > :nth-child(2)', timeout).click();
+      cy.get('.ant-btn-primary', timeout).click();
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Packaging 1', timeout);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(1).contains('Packaging 1', timeout);
+    });
+
+    it('Baking', () => {
+      cy.wait(3000);
+      cy.get(':nth-child(1) > .ant-table-filter-column > .ant-table-filter-trigger-container > .ant-dropdown-trigger > .anticon > svg > path', timeout).click();
+      cy.get('.ant-dropdown-menu > :nth-child(2) > :nth-child(2)', timeout).click();
+      cy.get('.ant-btn-primary', timeout).click();
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Baking', timeout);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(1).contains('Baking', timeout);
+    });
+  });
+
+  describe('Filter product', () => {
+    beforeEach(() => {
+      cy.wait(3000);
+      cy.get('[style="margin-right: 10px;"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.contains('Performance', timeout).click();
+    });
+
+    it('JGRJU 20 Vino Nut', () => {
+      cy.wait(3000);
+      cy.get(':nth-child(1) > .ant-table-filter-column > .ant-table-filter-trigger-container > .ant-dropdown-trigger > .anticon > svg > path', timeout).click();
+      cy.get('.ant-dropdown-menu > :nth-child(1) > :nth-child(2)', timeout).click();
+      cy.get('.ant-btn-primary', timeout).click();
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Packaging 1', timeout);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(1).contains('Packaging 1', timeout);
+
+      cy.get(':nth-child(4) > .ant-table-filter-column > .ant-table-filter-trigger-container > .ant-dropdown-trigger > .anticon > svg > path', timeout).click();
+      cy.contains('JGRJU 20 Vino Nut', timeout).click();
+      cy.contains('OK', timeout).click(force);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('JGRJU 20 Vino Nut', timeout);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(1).contains('JGRJU 20 Vino Nut', timeout);
+    });
+
+    it('MALS4', () => {
+      cy.wait(3000);
+      cy.get(':nth-child(1) > .ant-table-filter-column > .ant-table-filter-trigger-container > .ant-dropdown-trigger > .anticon > svg > path', timeout).click();
+      cy.get('.ant-dropdown-menu > :nth-child(1) > :nth-child(2)', timeout).click();
+      cy.get('.ant-btn-primary', timeout).click();
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Packaging 1', timeout);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(1).contains('Packaging 1', timeout);
+
+      cy.get(':nth-child(4) > .ant-table-filter-column > .ant-table-filter-trigger-container > .ant-dropdown-trigger > .anticon > svg > path', timeout).click();
+      cy.contains('MALS4', timeout).click();
+      cy.contains('OK', timeout).click(force);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('MALS4', timeout);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(1).contains('MALS4', timeout);
+    });
+
+    it('JGRLS 8 Abadi', () => {
+      cy.wait(3000);
+      cy.get(':nth-child(1) > .ant-table-filter-column > .ant-table-filter-trigger-container > .ant-dropdown-trigger > .anticon > svg > path', timeout).click();
+      cy.get('.ant-dropdown-menu > :nth-child(1) > :nth-child(2)', timeout).click();
+      cy.get('.ant-btn-primary', timeout).click();
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Packaging 1', timeout);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(1).contains('Packaging 1', timeout);
+
+      cy.get(':nth-child(4) > .ant-table-filter-column > .ant-table-filter-trigger-container > .ant-dropdown-trigger > .anticon > svg > path', timeout).click();
+      cy.contains('JGRLS 8 Abadi', timeout).click();
+      cy.contains('OK', timeout).click(force);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('JGRLS 8 Abadi', timeout);
+      cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(1).contains('JGRLS 8 Abadi', timeout);
+    });
+  });
+
+  it('Performance losses kuantitas', () => {
+    cy.wait(3000);
+    cy.get('[style="margin-right: 10px;"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+    cy.contains('Performance', timeout).click();
+    cy.wait(3000);
+    cy.get('[data-testid=kuantitas]', timeout).click();
+    cy.wait(3000);
+    cy.get(':nth-child(1) > .ant-table-filter-column > .ant-table-filter-trigger-container > .ant-dropdown-trigger > .anticon > svg > path', timeout).click();
+    cy.get('.ant-dropdown-menu > :nth-child(1) > :nth-child(2)', timeout).click();
+    cy.get('.ant-btn-primary', timeout).click();
+    cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(0).contains('Packaging 1', timeout);
+    cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).eq(1).contains('Packaging 1', timeout);
   });
 });
