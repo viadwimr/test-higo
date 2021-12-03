@@ -6,7 +6,7 @@ const force = { force: true };
 
 describe('Pareto', () => {
   before(() => {
-    // cy.login('engineering');
+    cy.login('engineering');
   });
 
   beforeEach(() => {
