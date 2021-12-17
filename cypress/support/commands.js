@@ -11,6 +11,10 @@ Cypress.Commands.add('login', (numb) => {
     cy.get('#login_username', timeout).type('engineering');
     cy.get('#login_password', timeout).type('password');
     cy.get('#btn-login', timeout).click();
+  } else if (numb === 'direktur') {
+    cy.get('#login_username', timeout).type('pungky');
+    cy.get('#login_password', timeout).type('password');
+    cy.get('#btn-login', timeout).click();
   }
   cy.wait(5000);
 });
