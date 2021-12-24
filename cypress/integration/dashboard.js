@@ -137,7 +137,7 @@ describe('Dashboard', () => {
         cy.get('[style="margin-left: -5px; margin-right: -5px; row-gap: 0px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
         cy.get('[data-testid=input-device_name]', timeout).clear().type('Aauto test 2');
         cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
-        cy.contains('Mixer', timeout).click();
+        cy.contains('Mixer', timeout).click({force:true});
         cy.get('[data-testid=input-location]', timeout).clear().type('auto test 2');
         cy.get('.ant-row-end > .ant-col > .Button__BaseButton-sc-1hmbtsr-0').click({force:true});
         cy.contains('Berhasil', timeout).should('be.visible');
@@ -149,7 +149,7 @@ describe('Dashboard', () => {
         cy.get('[href="/device/1_wiener_line_1_Cold_Water_Ball_2"] > .ant-card > .ant-card-body', timeout).click();
         cy.get('[style="margin-left: -5px; margin-right: -5px; row-gap: 0px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
         cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
-        cy.contains('Ball Mill', timeout).click();
+        cy.contains('Ball Mill', timeout).click({force:true});
         cy.get('[style="margin-bottom: 198px;"] > .ant-btn', timeout).click();
         cy.get('[data-testid=input-new-label]', timeout).clear().type('test');
         cy.get('[data-testid=input-new-info]', timeout).clear().type('auto');
@@ -207,11 +207,12 @@ describe('Dashboard', () => {
         cy.contains('Ball Mill', timeout).click({force:true});
         cy.get('[href="/device/1_wiener_line_1_Cold_Water_Ball_2"] > .ant-card > .ant-card-body', timeout).click();
         cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger', timeout).click();
-        cy.contains('Edit Kalibrasi', timeout).click();
+        cy.contains('Edit Kalibrasi', timeout).click({force:true});
         cy.get('.DetailCondition__InputNum-z5ehht-1', timeout).clear().type('abc').should('have.value', '');
         cy.get('.DetailCondition__InputNum-z5ehht-1', timeout).clear().type('3,9').should('have.value', '39');
         cy.get('.DetailCondition__InputNum-z5ehht-1', timeout).clear().type('44').should('have.value', '44');
-        cy.get('.ant-row-end > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
+        cy.get('.ant-row-end > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({force:true});
+        cy.contains('Berhasil', timeout).should('be.visible');
       });
 
       it('Cek Data Kalibrasi', () => {
