@@ -4,8 +4,26 @@ var timeout = { timeout: 60000 }
 
 describe('Device', () => {
   beforeEach(() => {
-    cy.visit('/');
-    cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
+    cy.visit('/device');
+  });
+
+  it('Check list device', () => {
+    cy.get(':nth-child(1) > a > .sector-card', timeout).should('be.visible');
+    cy.get('#rc-tabs-0-panel-condition_monitoring', timeout).should('be.visible');
+  });
+
+  it('Detail device', () => {
+    cy.contains('Arus Agitator Ball 2', timeout).click();
+    cy.get('div[id="download-Arus Listrik"]', timeout).should('be.visible');
+    cy.contains('Arus Agitator Ball 2', timeout).should('be.visible');
+    cy.contains('Temperatur', timeout).should('be.visible');
+    cy.get('div[id="download-Temperatur"]', timeout).should('be.visible');
+  });
+
+  it('Filter sektor', () => {
+    cy.wait(3000);
+    cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
+    cy.contains('Enrober', timeout).click();
   });
 
   describe('Sorting Data', () => {
@@ -140,6 +158,7 @@ describe('Device', () => {
       });
     });
     */
+    /*
     describe('Setting Kalibrasi', () => {
       it('Validasi Input dan Simpan', () => {
         cy.wait(3000);
@@ -168,7 +187,7 @@ describe('Device', () => {
         cy.get('.ant-modal-close-x').click();
       });
     });
-
+    */
     describe('Export Chart', () => {
       it('Export JPG', () => {
         cy.wait(3000);
