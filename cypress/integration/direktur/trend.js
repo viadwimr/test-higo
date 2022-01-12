@@ -6,7 +6,7 @@ const force = { force: true };
 
 describe('Trend', () => {
   before(() => {
-    cy.login('engineering');
+    cy.login('direktur');
   });
 
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe('Trend', () => {
   });
 
   it('Edit Grafik', () => {
-    cy.get('button[class="ant-dropdown-trigger AnalysisLineChart__DropDown-sc-1ue03a2-0 lpvECR Button__BaseButton-lb9z7q-0 kvyqRA"]', timeout).eq(6).click();
+    cy.get('button[class="ant-dropdown-trigger AnalysisLineChart__DropDown-sc-1ue03a2-0 lpvECR Button__BaseButton-lb9z7q-0 kvyqRA"]', timeout).eq(5).click();
     cy.contains('Edit', timeout).click();
     cy.contains('30 Hari Terakhir', timeout).click();
     cy.contains('24 Jam', timeout).click();
@@ -46,10 +46,10 @@ describe('Trend', () => {
   });
 
   it('Delete Grafik', () => {
-    cy.get('button[class="ant-dropdown-trigger AnalysisLineChart__DropDown-sc-1ue03a2-0 lpvECR Button__BaseButton-lb9z7q-0 kvyqRA"]', timeout).eq(6).click();
+    cy.get('button[class="ant-dropdown-trigger AnalysisLineChart__DropDown-sc-1ue03a2-0 lpvECR Button__BaseButton-lb9z7q-0 kvyqRA"]', timeout).eq(5).click();
     cy.contains('Delete', timeout).click();
     cy.contains('Tidak', timeout).click();
-    cy.get('button[class="ant-dropdown-trigger AnalysisLineChart__DropDown-sc-1ue03a2-0 lpvECR Button__BaseButton-lb9z7q-0 kvyqRA"]', timeout).eq(6).click();
+    cy.get('button[class="ant-dropdown-trigger AnalysisLineChart__DropDown-sc-1ue03a2-0 lpvECR Button__BaseButton-lb9z7q-0 kvyqRA"]', timeout).eq(5).click();
     cy.contains('Delete', timeout).click();
     cy.get('.swal2-confirm', timeout).click();
     cy.contains('Berhasil!', timeout).should('be.visible');
