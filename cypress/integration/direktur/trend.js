@@ -55,6 +55,13 @@ describe('Trend', () => {
     cy.contains('Berhasil!', timeout).should('be.visible');
   });
 
+  it('Sorting dan search list filter', () => {
+    cy.get(':nth-child(3) > .Button__BaseButton-lb9z7q-0', timeout).click(force);
+    cy.get('.ant-select-selection-overflow', timeout).type('Ball Mill');
+    cy.wait(2000);
+    cy.get('span[class="ant-select-tree-title"]', timeout).contains('Ball Mill');
+  });
+
   it('Validasi Input', () => {
     cy.get(':nth-child(3) > .Button__BaseButton-lb9z7q-0', timeout).click(force);
     cy.contains('Submit', timeout).click();
