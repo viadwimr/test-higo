@@ -75,7 +75,7 @@ describe('Indicator', () => {
       cy.get('#indikator_form_max_valid', timeout).should('have.value', '3');
     }); 
   });
-
+  
   describe('Sorting Data Indicator', () => {
     before(() => {
       cy.get('[title="Threshold"] > .ant-menu-title-content > a', timeout).click({ force: true });
