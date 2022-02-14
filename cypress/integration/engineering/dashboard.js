@@ -1,4 +1,4 @@
-// / <reference types="Cypress" />
+/// <reference types="cypress" />
 const timeout = { timeout: 60000 };
 const force = { force: true };
 
@@ -178,6 +178,35 @@ describe('Dashboard', () => {
   });
 
   describe('Filter', () => {
+    it('Filter Shift', () => {
+      cy.contains('SHIFTLY', timeout).click();
+      cy.get('div[class="ant-card ant-card-bordered"]', timeout).should('exist');
+      cy.get('div[id="download-highlight"]', timeout).should('exist');
+    });
+
+    it('Production Line', () => {
+      cy.get('div[class="bizcharts"]', timeout).should('exist');
+      cy.get('div[style="display: grid; margin-top: 20px;"]', timeout).should('exist');
+      cy.get('div[class="ant-card ant-card-bordered"]', timeout).should('exist');
+      cy.get('div[id="download-highlight"]', timeout).should('exist');
+    });
+
+    it('Machine Category', () => {
+      cy.get(':nth-child(1) > .ant-dropdown-trigger', timeout).click();
+      cy.contains('Oven Baking', timeout).click();
+      cy.get('div[class="bizcharts"]', timeout).should('exist');
+      cy.get('div[style="display: grid; margin-top: 20px;"]', timeout).should('exist');
+      cy.get('div[class="ant-card ant-card-bordered"]', timeout).should('exist');
+      cy.get('div[id="download-highlight"]', timeout).should('exist');
+    });
+
+    it('SKU', () => {
+      cy.get(':nth-child(1) > .ant-dropdown-trigger', timeout).click();
+      cy.contains('Production Line 1', timeout).click();
+      cy.contains('SKU', timeout).click();
+      cy.get('div[class="ant-row ant-row-space-between ant-row-middle"]', timeout).should('exist');
+    });
+
     it('Filter Interval', () => {
       cy.contains('Packaging 1', timeout).click();
 
