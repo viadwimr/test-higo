@@ -176,4 +176,48 @@ describe('Dashboard', () => {
       cy.get(':nth-child(2) > .ant-col-24 > a > .MachineCard__Container-sc-1euorj5-2', timeout).contains('Packaging 1');
     });
   });
+
+  describe('Filter', () => {
+    it('Filter Interval', () => {
+      cy.contains('Packaging 1', timeout).click();
+
+    });
+
+    it('Filter Waktu', () => {
+      cy.contains('Packaging 1', timeout).click();
+      cy.get('[data-testid=date-root]', timeout).click();
+      cy.contains('Kemarin', timeout).click();
+      cy.get('[data-testid=date-root]', timeout).contains('Kemarin', timeout).should('exist');
+      cy.get('g[class="apexcharts-inner apexcharts-graphical"]', timeout).should('exist');
+
+      cy.wait(3000);
+      cy.get('[data-testid=interval] > .ant-select-selector', timeout).click();
+      cy.contains('8 Jam', timeout).click();
+      cy.get('g[class="apexcharts-inner apexcharts-graphical"]', timeout).should('exist');
+    });
+
+    it('Filter Kumulatif', () => {
+      cy.contains('Packaging 1', timeout).click();
+      cy.get('[data-testid=button-kumulatif]', timeout).click();
+      cy.get('g[class="apexcharts-inner apexcharts-graphical"]', timeout).should('exist');
+    });
+
+    it('Filter Relatif', () => {
+      cy.contains('Packaging 1', timeout).click();
+      cy.get('[data-testid=button-relatif]', timeout).click();
+      cy.get('g[class="apexcharts-inner apexcharts-graphical"]', timeout).should('exist');
+    });
+
+    it('Filter Asset', () => {
+      cy.contains('Packaging 1', timeout).click();
+      cy.get('[data-testid=button-relatif]', timeout).click();
+      cy.get('g[class="apexcharts-inner apexcharts-graphical"]', timeout).should('exist');
+    });
+
+    it('Filter Indikator', () => {
+      cy.contains('Packaging 1', timeout).click();
+      cy.get('[data-testid=button-relatif]', timeout).click();
+      cy.get('g[class="apexcharts-inner apexcharts-graphical"]', timeout).should('exist');
+    });
+  });
 });
