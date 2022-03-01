@@ -5,7 +5,7 @@ const timeout = { timeout: 60000 };
 
 describe('Parameter', () => {
   before(() => {
-    cy.login('engineering');
+    cy.login('kepala_pabrik');
   });
 
   beforeEach(() => {
