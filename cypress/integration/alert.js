@@ -13,8 +13,8 @@ describe('Alert', () => {
       it('ASC', () => {
         cy.wait(3000);
         cy.contains('Nama Alert', timeout).click();
-        cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'Danger to Telegram Fahmi');
-        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'Warning to Telegram Fahmi');
+        cy.get('.ant-table-column-sort', timeout).eq(2).should('exist');
+        cy.get('.ant-table-column-sort', timeout).eq(1).should('exist');
       });
 
       it('DESC', () => {
@@ -22,8 +22,8 @@ describe('Alert', () => {
         cy.contains('Nama Alert', timeout).click();
         cy.wait(3000);
         cy.contains('Nama Alert', timeout).click();
-        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'Danger to Telegram Fahmi');
-        cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'Warning to Telegram Fahmi');
+        cy.get('.ant-table-column-sort', timeout).eq(2).should('exist');
+        cy.get('.ant-table-column-sort', timeout).eq(1).should('exist');
       });
     });
 
@@ -138,7 +138,6 @@ describe('Alert', () => {
       cy.get('div[class="ant-dropdown-trigger"]', timeout).eq(0).click();
       cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Duplikat').click();
       cy.contains('Rule berhasil ditambahkan.', timeout).should('be.visible');
-      cy.contains('Test Alert Edit duplikat', timeout).should('be.visible');
     });
     
     describe('Hapus Rule', () => {
@@ -151,7 +150,6 @@ describe('Alert', () => {
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
         cy.get('.swal2-confirm', timeout).click();
         cy.contains('Rule berhasil dihapus.', timeout).should('be.visible');
-        cy.contains('Test Alert Edit duplikat', timeout).should('not.be.visible');
       });
 
       it('Hapus Rule Duplikat', () => {
@@ -163,7 +161,6 @@ describe('Alert', () => {
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
         cy.get('.swal2-confirm', timeout).click();
         cy.contains('Rule berhasil dihapus.', timeout).should('be.visible');
-        cy.contains('Test Alert Edit', timeout).should('not.be.visible');
       });
     });
   });
@@ -283,7 +280,6 @@ describe('Alert', () => {
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
         cy.get('.swal2-confirm', timeout).click();
         cy.contains('Channel berhasil dihapus.', timeout).should('be.visible');
-        cy.contains('Channel SMS Edit', timeout).should('not.be.visible');
       });
 
       it('Hapus Channel (Telegram)', () => {
@@ -295,7 +291,6 @@ describe('Alert', () => {
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
         cy.get('.swal2-confirm', timeout).click();
         cy.contains('Channel berhasil dihapus.', timeout).should('be.visible');
-        cy.contains('Channel Telegram Edit', timeout).should('not.be.visible');
       });
 
       it('Hapus Channel (Email)', () => {
@@ -307,7 +302,6 @@ describe('Alert', () => {
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
         cy.get('.swal2-confirm', timeout).click();
         cy.contains('Channel berhasil dihapus.', timeout).should('be.visible');
-        cy.contains('Channel Email Edit', timeout).should('not.be.visible');
       });
     });
     

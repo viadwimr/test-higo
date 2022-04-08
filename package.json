@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test:spec": "cypress run --browser firefox --no-exit --spec cypress/integration/test.js",
-    "test:ci": "cypress run --headless --browser firefox --record --key fe5ac7d3-ef5b-438f-a6c2-9e37aa7cd291",
-    "test:e2e": "cypress run --headless --browser firefox"
+    "test:ci": "cypress run --headless --browser chrome --record --key 3fd020b4-96b1-4b64-ab8f-e0ef6e170630",
+    "test:e2e": "cypress run --headless --browser chrome"
   },
   "repository": {
     "type": "git",
