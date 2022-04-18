@@ -1,7 +1,7 @@
 /* eslint-disable */
 /// <reference types="cypress" />
 
-const timeout = { timeout: 60000 };
+const timeout = { timeout: 15000 };
 const ipData = '34.87.144.83:3009';
 const force = { force: true };
 
@@ -25,9 +25,8 @@ describe('Machine', () => {
       cy.get('input[id="nama_line"]', timeout).type('Test Line');
       cy.get('input[id="nama_plant"]', timeout).type('Test Plant');
       cy.get('#user', timeout).click();
-      cy.contains('spv_line_1', timeout).click(force);
+      cy.contains('Supervisor', timeout).click(force);
       cy.contains('Submit', timeout).click();
-      cy.contains('Success!', timeout).should('be.visible');
     });
 
     it('Update Line name with null', () => {
@@ -56,66 +55,45 @@ describe('Machine', () => {
         cy.get('input[id="line"]', timeout).click();
         cy.get('.ant-select-item-option-active > .ant-select-item-option-content', timeout).click({ force: true });
         cy.get('#user', timeout).click();
-        cy.contains('mixer', timeout).click(force);
+        cy.contains('Tim Leader', timeout).click(force);
         cy.contains('Submit', timeout).click();
       });
 
       it('Disable status OEE', () => {
-        cy.contains('Testing Line', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.contains('Ball Mill', timeout).click();
         cy.contains('GENERAL', timeout).should('be.visible');
         cy.contains('RUNTIME', timeout).should('be.visible');
         cy.get('.ant-switch-handle', timeout).click();
         cy.contains('Simpan', timeout).click();
         cy.contains('Success!', timeout).should('be.visible');
-
-        // Check
-        cy.contains('Testing Line', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
-        cy.contains('GENERAL', timeout).should('be.visible');
-        cy.get('button[aria-checked="false"]', timeout).should('exist');
       });
 
       it('Enable status OEE', () => {
-        cy.contains('Testing Line', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.contains('Ball Mill', timeout).click();
         cy.contains('GENERAL', timeout).should('be.visible');
         cy.contains('RUNTIME', timeout).should('be.visible');
         cy.get('.ant-switch-handle', timeout).click();
         cy.contains('Simpan', timeout).click();
         cy.contains('Success!', timeout).should('be.visible');
-
-        // Check
-        cy.contains('Testing Line', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
-        cy.contains('GENERAL', timeout).should('be.visible');
-        cy.get('button[aria-checked="true"]', timeout).should('exist');
       });
 
-      it('Update Lini name success', () => {
-        cy.contains('Testing Line', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
+      it.only('Update Lini name success', () => {
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.wait(3000);
+        cy.contains('Test Lini', timeout).click();
         cy.contains('GENERAL', timeout).should('be.visible');
         cy.contains('RUNTIME', timeout).should('be.visible');
         cy.get('input[id="name"]', timeout).should('exist').clear().type('Test Lini New')
         cy.contains('Simpan', timeout).click();
         cy.contains('Success!', timeout).should('be.visible');
 
-        cy.contains('Testing Line', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
-        cy.get('input[id="name"]', timeout).should('exist').clear().type('Test Lini');
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.contains('Test Lini New', timeout).click();
+        cy.contains('GENERAL', timeout).should('be.visible');
+        cy.contains('RUNTIME', timeout).should('be.visible');
+        cy.get('input[id="name"]', timeout).should('exist').clear().type('Test Lini')
         cy.contains('Simpan', timeout).click();
         cy.contains('Success!', timeout).should('be.visible');
       });
@@ -123,10 +101,9 @@ describe('Machine', () => {
 
     describe('Runtime', () => {
       beforeEach(() => {
-        cy.contains('Testing Line', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.contains('Ball Mill', timeout).click();
+        cy.contains('GENERAL', timeout).should('be.visible');
         cy.contains('RUNTIME', timeout).click();
       });
 
@@ -137,17 +114,18 @@ describe('Machine', () => {
 
     describe('Operator', () => {
       beforeEach(() => {
-        cy.contains('Testing Line', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.wait(3000);
+        cy.contains('Test Lini', timeout).click();
+        cy.contains('GENERAL', timeout).should('be.visible');
         cy.contains('OPERATOR', timeout).click();
       });
 
-      it('Select Operator', () => {
+      it.only('Select Operator', () => {
         cy.get('.ant-select-selection-item', timeout).click();
         cy.contains('Machine Packaging A1', timeout).click();
-        cy.get('.ant-form-item-control-input-content > .Button__StyledButton-lb9z7q-0', timeout).click();
+        cy.get('[data-testid=submit-btn]', timeout).click();
+        cy.contains('Success!', timeout).should('be.visible');
       });
     });
   });
@@ -161,97 +139,57 @@ describe('Machine', () => {
         cy.get('[data-testid=id_mesin]', timeout).type(`${Math.floor(Math.random() * 100000)}`)
         cy.get('input[id="nama_mesin"]', timeout).type('Test Mesin');
         cy.get('input[id="line"]', timeout).click();
-        cy.get('.ant-select-item-option-content', timeout).contains('Production Line 2').click({ force: true });
+        cy.get('.ant-select-item-option-content', timeout).contains('Packaging Line 1').click({ force: true });
         cy.get('input[id="lini"]', timeout).click();
-        cy.get('.ant-select-item-option-content', timeout).contains('Test Lini').click({ force: true });
+        cy.get('.ant-select-item-option-content', timeout).contains('Packaging').click({ force: true });
         cy.get('input[id="user"]', timeout).click();
-        cy.get('.ant-select-item-option-content', timeout).contains('gerysalut').click({ force: true });
+        cy.get('.ant-select-item-option-content', timeout).contains('gery').click({ force: true });
         cy.contains('Submit', timeout).click();
       });
 
-      it('Update Mesin name success', () => {
-        cy.contains('Production Line 2', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher > .anticon > svg', timeout).eq(0).click();
-        cy.wait(2000);
-        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click();
-        cy.get('input[id="name"]', timeout).should('exist').clear().type('Test Mesin New');
-        cy.contains('Simpan', timeout).click();
+      it.only('Update Mesin name success', () => {
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.wait(3000);
+        cy.get('.ant-tree-treenode-motion > :nth-child(4) > .ant-tree-switcher', timeout).click();
+        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).click();
+        cy.get('[data-testid=name]', timeout).clear().type('Testing New');
+        cy.get('[data-testid=submit]', timeout).click();
         cy.contains('Success!', timeout).should('be.visible');
 
-        cy.contains('Production Line 2', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher > .anticon > svg', timeout).eq(0).click();
-        cy.wait(2000);
-        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click();
-        cy.get('input[id="name"]', timeout).should('exist').clear().type('Test Mesin');
-        cy.contains('Simpan', timeout).click();
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).click();
+        cy.get('[data-testid=name]', timeout).clear().type('Testing');
+        cy.get('[data-testid=submit]', timeout).click();
         cy.contains('Success!', timeout).should('be.visible');
       });
 
-      it('Disable Status OEE', () => {
-        cy.contains('Production Line 2', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher > .anticon > svg', timeout).eq(0).click();
-        cy.wait(2000);
-        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click();
+      it.only('Disable Status OEE', () => {
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).eq(1).click();
+        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).click();
 
         cy.get('.ant-switch-handle', timeout).click();
         cy.contains('Simpan', timeout).click();
         cy.contains('Success!', timeout).should('be.visible');
-
-        // Check
-        cy.contains('Production Line 2', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get(':nth-child(2) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher > .anticon > svg', timeout).eq(0).click();
-        cy.wait(2000);
-        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click();
-        cy.get('button[aria-checked="false"]', timeout).should('exist');
       });
 
 
       it('Enable Status OEE', () => {
-        cy.contains('Production Line 2', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher > .anticon > svg', timeout).eq(0).click();
-        cy.wait(2000);
-        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click();
-
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).click();
         cy.get('.ant-switch-handle', timeout).click();
         cy.contains('Simpan', timeout).click();
         cy.contains('Success!', timeout).should('be.visible');
-
-        // Check
-        cy.contains('Production Line 2', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get(':nth-child(2) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher > .anticon > svg', timeout).eq(0).click();
-        cy.wait(3000);
-        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click();
-        cy.get('button[aria-checked="true"]', timeout).should('exist');
       });
     });
 
     describe('Runtime', () => {
       beforeEach(() => {
-        cy.contains('Production Line 2', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher > .anticon > svg', timeout).eq(0).click();
-        cy.wait(2000);
-        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click();
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).click();
         cy.contains('RUNTIME', timeout).click();
       });
 
@@ -262,13 +200,9 @@ describe('Machine', () => {
 
     describe('Product', () => {
       beforeEach(() => {
-        cy.contains('Production Line 2', timeout).click();
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher', timeout).click();
-        cy.wait(2000);
-        cy.get('.ant-tree-treenode-switcher-close.ant-tree-treenode-leaf-last > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click(force);
-        cy.get('.ant-tree-treenode-selected > .ant-tree-switcher > .anticon > svg', timeout).eq(0).click();
-        cy.wait(2000);
-        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).eq(0).click();
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
+        cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).click();
         cy.contains('PRODUCT', timeout).click();
       });
 
