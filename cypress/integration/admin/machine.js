@@ -79,7 +79,7 @@ describe('Machine', () => {
         cy.contains('Success!', timeout).should('be.visible');
       });
 
-      it.only('Update Lini name success', () => {
+      it('Update Lini name success', () => {
         cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
         cy.wait(3000);
         cy.contains('Test Lini', timeout).click();
@@ -121,7 +121,7 @@ describe('Machine', () => {
         cy.contains('OPERATOR', timeout).click();
       });
 
-      it.only('Select Operator', () => {
+      it('Select Operator', () => {
         cy.get('.ant-select-selection-item', timeout).click();
         cy.contains('Machine Packaging A1', timeout).click();
         cy.get('[data-testid=submit-btn]', timeout).click();
@@ -147,7 +147,7 @@ describe('Machine', () => {
         cy.contains('Submit', timeout).click();
       });
 
-      it.only('Update Mesin name success', () => {
+      it('Update Mesin name success', () => {
         cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
         cy.wait(3000);
         cy.get('.ant-tree-treenode-motion > :nth-child(4) > .ant-tree-switcher', timeout).click();
@@ -164,7 +164,7 @@ describe('Machine', () => {
         cy.contains('Success!', timeout).should('be.visible');
       });
 
-      it.only('Disable Status OEE', () => {
+      it('Disable Status OEE', () => {
         cy.get(':nth-child(1) > .ant-tree-switcher', timeout).click();
         cy.get(':nth-child(1) > .ant-tree-switcher', timeout).eq(1).click();
         cy.get(':nth-child(3) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).click();

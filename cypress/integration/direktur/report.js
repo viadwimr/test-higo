@@ -6,7 +6,7 @@ const force = { force : true };
 
 describe('Report', () => {
   before(() => {
-    cy.login('engineering');
+    cy.login('direktur');
   });
 
   beforeEach(() => {
