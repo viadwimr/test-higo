@@ -50,9 +50,9 @@ describe('Pareto', () => {
   });
 
   it('1 data reason', () => {
-    cy.intercept('34.87.144.83:3009/production_lines/pareto/downtime', {
-      fixture: '/production_lines/downtime-1.json',
-    }).as('downtime');
+    // cy.intercept('34.87.144.83:3009/production_lines/pareto/downtime', {
+    //   fixture: '/production_lines/downtime-1.json',
+    // }).as('downtime');
     cy.get('[title="Parameter"] > a', timeout).click();
     cy.get('[title="Pareto"] > a', timeout).click();
 
@@ -75,11 +75,7 @@ describe('Pareto', () => {
 
   describe('Filter Table', () => {
     before(() => {
-      cy.intercept('34.87.144.83:3009/production_lines/pareto/downtime', {
-        fixture: '/production_lines/downtime>1.json',
-      }).as('downtime');
-      cy.get('[title="Parameter"] > a', timeout).click();
-      cy.get('[title="Pareto"] > a', timeout).click();
+      cy.visit('/pareto')
     });
 
     describe('Sorting by Reason', () => {
@@ -87,45 +83,38 @@ describe('Pareto', () => {
         cy.get('span[class="ant-table-column-sorter-inner"]', timeout)
           .eq(0)
           .click();
-        cy.get('tr[data-row-key="0"]', timeout)
-          .contains('Reason 1')
-          .should('be.visible');
-        cy.get('tr[data-row-key="1"]', timeout)
-          .contains('Reason 2')
-          .should('be.visible');
-        cy.get('tr[data-row-key="2"]', timeout)
-          .contains('Reason 3')
-          .should('be.visible');
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).should('be.visible');
       });
 
       it('Descending', () => {
         cy.get('span[class="ant-table-column-sorter-inner"]', timeout)
           .eq(0)
           .click();
-        cy.get('tr[data-row-key="2"]', timeout)
-          .contains('Reason 3')
-          .should('be.visible');
-        cy.get('tr[data-row-key="1"]', timeout)
-          .contains('Reason 2')
-          .should('be.visible');
-        cy.get('tr[data-row-key="0"]', timeout)
-          .contains('Reason 1')
-          .should('be.visible');
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).should('be.visible');
       });
 
       it('Cancel sort', () => {
         cy.get('span[class="ant-table-column-sorter-inner"]', timeout)
           .eq(0)
           .click();
-        cy.get('tr[data-row-key="0"]', timeout)
-          .contains('Reason 1')
-          .should('be.visible');
-        cy.get('tr[data-row-key="1"]', timeout)
-          .contains('Reason 2')
-          .should('be.visible');
-        cy.get('tr[data-row-key="2"]', timeout)
-          .contains('Reason 3')
-          .should('be.visible');
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).should('be.visible');
+      });
+    });
+
+    describe('Sorting by Losses', () => {
+      it('Ascending', () => {
+        cy.get(':nth-child(8) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).should('be.visible');
+      });
+
+      it('Descending', () => {
+        cy.get(':nth-child(8) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).should('be.visible');
+      });
+
+      it('Cancel sort', () => {
+        cy.get(':nth-child(8) > .ant-table-column-sorters-with-tooltip > .ant-table-column-sorters', timeout).click();
+        cy.get('tr[class="ant-table-row ant-table-row-level-0"]', timeout).should('be.visible');
       });
     });
 
