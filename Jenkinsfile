@@ -7,9 +7,15 @@ pipeline {
   }
 
   stages {
-    stage('build and test') {
+    stage('build') {
       steps {
-        sh 'npm install -g'
+        sh 'npm ci'
+        sh 'npm run cy:verify'
+      }
+    }
+
+    stage('test') {
+      steps {
         sh 'npm run test:e2e'
       }
     }
