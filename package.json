@@ -6,7 +6,7 @@
   "scripts": {
     "test:spec": "cypress run --browser firefox --no-exit --spec cypress/integration/test.js",
     "cy:verify": "cypress verify",
-    "test:e2e": "cypress run --headless --browser firefox"
+    "test:e2e": "cypress run --headless --browser browser"
   },
   "repository": {
     "type": "git",
