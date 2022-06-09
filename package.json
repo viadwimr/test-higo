@@ -4,9 +4,9 @@
   "description": "e2e testing all product evomo",
   "main": "index.js",
   "scripts": {
-    "test:spec": "cypress run --browser firefox --no-exit --spec cypress/integration/test.js",
+    "test:spec": "cypress run --browser chrome --no-exit --spec cypress/integration/test.js",
     "cy:verify": "cypress verify",
-    "test:e2e": "cypress run --headless --browser browser"
+    "test:e2e": "cypress run --headless --browser chrome"
   },
   "repository": {
     "type": "git",
