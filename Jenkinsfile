@@ -9,8 +9,8 @@ pipeline {
   stages {
     stage('build and test') {
       steps {
-        sh 'npx install -g'
-        sh 'npx run test:e2e'
+        sh 'npm install -g'
+        sh './node_modules/.bin/cypress run'
       }
     }
   }
