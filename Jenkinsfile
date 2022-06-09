@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('build and test') {
       steps {
-        sh 'npm install -g'
+        sh 'cypress install'
         sh './node_modules/.bin/cypress run'
       }
     }
