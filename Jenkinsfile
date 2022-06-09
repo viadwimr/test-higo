@@ -9,8 +9,8 @@ pipeline {
   stages {
     stage('build and test') {
       steps {
-        sh 'npm install -g'
-        sh 'npm run test:e2e'
+        sh 'npx install -g'
+        sh 'npx run test:e2e'
       }
     }
   }
