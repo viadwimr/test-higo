@@ -1,3 +1,3 @@
-# evomo_e2e
+# evomo_e2e_production
 
-e2e testing all product evomo
+e2e testing all production evomo

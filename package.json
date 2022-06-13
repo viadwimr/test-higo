@@ -1,7 +1,7 @@
 {
-  "name": "evomo_e2e",
+  "name": "evomo_e2e_production",
   "version": "1.0.0",
-  "description": "e2e testing all product evomo",
+  "description": "e2e testing all production evomo",
   "main": "index.js",
   "scripts": {
     "test:spec": "cypress run --browser chrome --no-exit --spec cypress/integration/test.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://gitlab.playcourt.id/amoeba-jeager/evomo_e2e.git"
+    "url": "https://gitlab.playcourt.id/amoeba-jeager/automation_test/evomo_e2e_production.git"
   },
   "author": "",
   "license": "ISC",
