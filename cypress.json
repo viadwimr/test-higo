@@ -1,5 +1,5 @@
 {
-  "baseUrl": "10.50.15.25:8003",
+  "baseUrl": "http://10.50.15.25:8003",
   "video": false,
   "viewportWidth": 1500,
   "viewportHeight": 1000,
