@@ -2,3 +2,7 @@ node_modules/
 coverage
 .npm
 mochawesome-report
+env
+/cypress/videos
+/cypress/screenshots
+/cypress/reports
