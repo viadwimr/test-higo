@@ -53,8 +53,6 @@ describe('Alert', () => {
         cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'Channel Email');
         cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'Channel SMS');
         cy.get('.ant-table-column-sort', timeout).eq(3).should('have.contain', 'Channel Telegram');
-        cy.get('.ant-table-column-sort', timeout).eq(4).should('have.contain', 'test channel');
-        cy.get('.ant-table-column-sort', timeout).eq(5).should('have.contain', 'trial test');
       });
 
       it('DESC', () => {
@@ -62,11 +60,9 @@ describe('Alert', () => {
         cy.contains('Nama Channel', timeout).click();
         cy.wait(3000);
         cy.contains('Nama Channel', timeout).click();
-        cy.get('.ant-table-column-sort', timeout).eq(5).should('have.contain', 'Channel Email');
-        cy.get('.ant-table-column-sort', timeout).eq(4).should('have.contain', 'Channel SMS');
-        cy.get('.ant-table-column-sort', timeout).eq(3).should('have.contain', 'Channel Telegram');
-        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'test channel');
-        cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'trial test');
+        cy.get('.ant-table-column-sort', timeout).eq(3).should('have.contain', 'Channel Email');
+        cy.get('.ant-table-column-sort', timeout).eq(2).should('have.contain', 'Channel SMS');
+        cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'Channel Telegram');
       });
     });
   });
@@ -85,7 +81,7 @@ describe('Alert', () => {
       cy.contains('Channel wajib di pilih!', timeout).should('be.visible');
       cy.contains('Aksi wajib di pilih!', timeout).should('be.visible');
       cy.contains('Aksi wajib di pilih!', timeout).should('be.visible');
-      cy.contains('Interval wajib di input!', timeout).should('be.visible');
+      cy.contains('Interval wajib di pilih!', timeout).should('be.visible');
     });
 
     it('Tambah Rules (Positive)', () => {
@@ -138,6 +134,7 @@ describe('Alert', () => {
       cy.get('div[class="ant-dropdown-trigger"]', timeout).eq(0).click();
       cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Duplikat').click();
       cy.contains('Rule berhasil ditambahkan.', timeout).should('be.visible');
+      cy.contains('Test Alert Edit duplikat', timeout).should('be.visible');
     });
     
     describe('Hapus Rule', () => {
@@ -161,6 +158,7 @@ describe('Alert', () => {
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
         cy.get('.swal2-confirm', timeout).click();
         cy.contains('Rule berhasil dihapus.', timeout).should('be.visible');
+        cy.contains('Test Alert Edit', timeout).should('not.exist');
       });
     });
   });
@@ -170,58 +168,81 @@ describe('Alert', () => {
       cy.contains('CHANNEL', timeout).click();
     });
     
-    it('Tambah Channel (Negative)', () => {
+  describe('Tambah Channel (Negative)', () => {
+    it('Tambah Channel (Email)', () => {
       cy.wait(3000);
       cy.contains('Tambah Channel', timeout).click();
       cy.get('.ant-btn > span', timeout).click();
       cy.contains('Nama Channel wajib di isi!', timeout).should('be.visible');
       cy.contains('Email harus di isi.', timeout).should('be.visible');
-      cy.contains('Format email tidak sesuai.', timeout).should('be.visible');
     });
+
+    it('Tambah Channel (Telegram)', () => {
+      cy.wait(3000);
+      cy.contains('Tambah Channel', timeout).click();
+      cy.get('.ant-select-selection-item', timeout).click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Telegram').click();
+      cy.get('.ant-btn > span', timeout).click();
+      cy.contains('Nama Channel wajib di isi!', timeout).should('be.visible');
+      cy.contains('BOT TOKEN harus di isi.', timeout).should('be.visible');
+      cy.contains('CHAT ID harus di isi.', timeout).should('be.visible');
+    });
+
+    it('Tambah Channel (SMS)', () => {
+      cy.wait(3000);
+      cy.contains('Tambah Channel', timeout).click();
+      cy.get('.ant-select-selection-item', timeout).click();
+      cy.get('div[class="ant-select-item-option-content"]', timeout).contains('SMS').click();
+      cy.get('.ant-btn > span', timeout).click();
+      cy.contains('Nama Channel wajib di isi!', timeout).should('be.visible');
+      cy.contains('No Telepon harus di isi.', timeout).should('be.visible');
+    });
+  });
 
     describe('Tambah Channel (Positive)', () => {
       it('Tambah Channel (Email)', () => {
         cy.wait(3000);
         cy.contains('Tambah Channel', timeout).click();
-        cy.get('#name', timeout).type('Channel Email');
+        cy.get('#name', timeout).type('Channel Email Test');
         cy.get('.ant-select-selection-item', timeout).click();
         cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Email').click();
         cy.get('#list_email', timeout).type('test@mailinator.com');
         cy.get('.ant-btn > span', timeout).click();
         cy.contains('Channel berhasil ditambah.', timeout).should('be.visible');
-        cy.contains('Channel Email', timeout).should('be.visible');
+        cy.contains('Channel Email Test', timeout).should('be.visible');
       });
 
       it('Edit Channel (Email)', () => {
         cy.wait(3000);
         cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
-        cy.get('#name', timeout).clear().type('Channel Email Edit');
+        cy.get('#name', timeout).clear().type('Channel Email Test Edit');
         cy.get('.ant-btn > span', timeout).click();
         cy.contains('Channel berhasil diubah.', timeout).should('be.visible');
-        cy.contains('Channel Email Edit', timeout).should('be.visible');
+        cy.contains('Channel Email Test Edit', timeout).should('be.visible');
       });
 
       it('Tambah Channel (Telegram)', () => {
         cy.wait(3000);
         cy.contains('Tambah Channel', timeout).click();
-        cy.get('#name', timeout).type('Channel Telegram');
+        cy.get('#name', timeout).type('Channel Telegram Test');
         cy.get('.ant-select-selection-item', timeout).click();
         cy.get('div[class="ant-select-item-option-content"]', timeout).contains('Telegram').click();
         cy.get('#telegram_bot_token', timeout).type('123123');
         cy.get('#telegram_chat_id', timeout).type('chatid');
         cy.get('.ant-btn > span', timeout).click();
         cy.contains('Channel berhasil ditambah.', timeout).should('be.visible');
+        cy.contains('Channel Telegram Test', timeout).should('be.visible');
       });
 
       it('Edit Channel (Telegram)', () => {
         cy.wait(3000);
         cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
-        cy.get('#name', timeout).clear().type('Channel Telegram Edit');
+        cy.get('#name', timeout).clear().type('Channel Telegram Test Edit');
         cy.get('.ant-btn > span', timeout).click();
         cy.contains('Channel berhasil diubah.', timeout).should('be.visible');
-        cy.contains('Channel Telegram Edit', timeout).should('be.visible');
+        cy.contains('Channel Telegram Test Edit', timeout).should('be.visible');
       });
 
       // it('Tambah Channel (Push Notification)', () => {
@@ -251,22 +272,23 @@ describe('Alert', () => {
       it('Tambah Channel (SMS)', () => {
         cy.wait(3000);
         cy.contains('Tambah Channel', timeout).click();
-        cy.get('#name', timeout).type('Channel SMS');
+        cy.get('#name', timeout).type('Channel SMS Test');
         cy.get('.ant-select-selection-item', timeout).click();
         cy.get('div[class="ant-select-item-option-content"]', timeout).contains('SMS').click();
         cy.get('#list_phone', timeout).type('081222333444');
         cy.get('.ant-btn > span', timeout).click();
         cy.contains('Channel berhasil ditambah.', timeout).should('be.visible');
+        cy.contains('Channel SMS Test', timeout).should('be.visible');
       });
 
       it('Edit Channel (SMS)', () => {
         cy.wait(3000);
         cy.get(':nth-child(4) > [data-testid=menu-update-0]', timeout).click();
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Edit').click();
-        cy.get('#name', timeout).clear().type('Channel SMS Edit');
+        cy.get('#name', timeout).clear().type('Channel SMS Test Edit');
         cy.get('.ant-btn > span', timeout).click();
         cy.contains('Channel berhasil diubah.', timeout).should('be.visible');
-        cy.contains('Channel SMS Edit', timeout).should('be.visible');
+        cy.contains('Channel SMS Test Edit', timeout).should('be.visible');
       });
     });
     
@@ -280,6 +302,7 @@ describe('Alert', () => {
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
         cy.get('.swal2-confirm', timeout).click();
         cy.contains('Channel berhasil dihapus.', timeout).should('be.visible');
+        cy.contains('Channel SMS Test Edit', timeout).should('not.exist');
       });
 
       it('Hapus Channel (Telegram)', () => {
@@ -291,6 +314,7 @@ describe('Alert', () => {
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
         cy.get('.swal2-confirm', timeout).click();
         cy.contains('Channel berhasil dihapus.', timeout).should('be.visible');
+        cy.contains('Channel Telegram Test Edit', timeout).should('not.exist');
       });
 
       it('Hapus Channel (Email)', () => {
@@ -302,6 +326,7 @@ describe('Alert', () => {
         cy.get('span[class="ant-dropdown-menu-title-content"]', timeout).contains('Hapus').click();
         cy.get('.swal2-confirm', timeout).click();
         cy.contains('Channel berhasil dihapus.', timeout).should('be.visible');
+        cy.contains('Channel Email Test Edit', timeout).should('not.exist');
       });
     });
     
