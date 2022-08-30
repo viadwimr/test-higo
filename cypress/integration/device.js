@@ -51,20 +51,21 @@ describe('Device', () => {
       cy.get(':nth-child(8) > a > .sector-card', timeout).contains('Antares Perangkat 1');
       cy.get(':nth-child(9) > a > .sector-card', timeout).contains('Antares perangkat 2');
     });
-    /*
+    
     it('Sorting List Filter Sektor di Form', () => {
       cy.get(':nth-child(1) > a > .sector-card', timeout).click(timeout);
-      cy.get('[style="margin-left: -5px; margin-right: -5px; row-gap: 0px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout)
+      cy.wait(3000);
+      cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout)
         .click({force:true});
       cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
-      cy.contains('auto trial', timeout).should('be.visible');
-      cy.contains('Ball Mill', timeout).should('be.visible');
-      cy.contains('Ball Mill Line 2', timeout).should('be.visible');
-      cy.contains('Enrober', timeout).should('be.visible');
-      cy.contains('Forming Baking', timeout).should('be.visible');
-      cy.contains('Forming Baking Line 2', timeout).should('be.visible');
+      cy.get('[title="Baking Line 2"]', timeout).should('be.visible');
+      cy.get('[title="Ball Mill"]', timeout).should('be.visible');
+      cy.get('[title="Ball Mill Line 2"]', timeout).should('be.visible');
+      cy.get('[title="Enrober"]', timeout).should('be.visible');
+      cy.get('[title="Forming Baking"]', timeout).should('be.visible');
+      cy.get('[title="Forming Baking Line 2"]', timeout).should('be.visible');
+      cy.get('[title="Forming Line 2"]', timeout).should('be.visible');
     });
-    */
 
     it('Sorting List Sektor di Tabel', () => {
       cy.wait(3000);
@@ -195,7 +196,7 @@ describe('Device', () => {
     });
     */
     describe('Export Chart', () => {
-      it('Export JPG', () => {
+      beforeEach(() => {
         cy.wait(3000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
         cy.contains('Ball Mill', timeout).click();
@@ -203,6 +204,9 @@ describe('Device', () => {
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.wait(3000);
         cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg', timeout).click();
+      });
+
+      it('Export JPG', () => {
         cy.contains('Unduh sebagai JPG', timeout).click({force:true});
         cy.server().should((server) => {
           expect(server.status).to.eq(200);
@@ -210,12 +214,6 @@ describe('Device', () => {
       });
       
       it('Export PDF', () => {
-        cy.wait(3000);
-        cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Ball Mill', timeout).click();
-        cy.get(':nth-child(1) > a > .sector-card', timeout).click();
-        cy.wait(3000);
-        cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg', timeout).click();
         cy.contains('Unduh sebagai PDF', timeout).click({force:true});
         cy.server().should((server) => {
           expect(server.status).to.eq(200);
@@ -232,9 +230,9 @@ describe('Device', () => {
         cy.get(':nth-child(4) > .ant-card-body > .reason-card__container--warning > .reason-card__title--warning', timeout)
           .contains('Arus Agitator Ball 2 - Arus Listrik').should('be.visible');
         cy.get(':nth-child(4) > .ant-card-body > .reason-card__container--warning > :nth-child(2)', timeout)
-          .contains('28/08/2022').should('be.visible');
+          .should('be.visible');
         cy.get(':nth-child(4) > .ant-card-body > .reason-card__container--warning > :nth-child(3)', timeout)
-          .contains('19:03:26 - 20:05:13').should('be.visible');
+          .should('be.visible');
         cy.get(':nth-child(3) > .ant-card-body > .reason-card__container--warning', timeout)
           .click();
         cy.get('#input_reason_reason', timeout).clear().type('auto tes aab 2');
@@ -245,9 +243,9 @@ describe('Device', () => {
         cy.get(':nth-child(2) > .input-reason-form__row__field', timeout)
           .should('have.contain', 'Arus Agitator Ball 2 - Arus Listrik');
         cy.get('[style="margin-left: -12px; margin-right: -12px;"] > :nth-child(1) > .input-reason-form__row > .input-reason-form__row__field', timeout)
-          .should('have.contain', '20.05.13');
+          .should('be.visible');
         cy.get(':nth-child(2) > .input-reason-form__row > .input-reason-form__row__field', timeout)
-          .should('have.contain', '21.07.21');
+          .should('be.visible');
         cy.get('#input_reason_reason', timeout).should('have.value', 'auto tes aab 2');
         cy.get('.ant-modal-close-x', timeout).click();
         cy.get(':nth-child(3) > .ant-card-body > .reason-card__container--warning', timeout)
