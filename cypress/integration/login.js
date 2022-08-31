@@ -5,6 +5,9 @@ var force = { force: true }
 
 describe('Login', () => {
   before(() => {
+    cy.get('.ant-dropdown-trigger', timeout).click();
+    cy.contains('Logout', timeout).click();
+    cy.wait(3000);
     cy.clearCookies();
     cy.clearLocalStorage();
   });
@@ -14,7 +17,7 @@ describe('Login', () => {
   });
 
   it('Wrong Password', () => {
-    cy.get('#username', timeout).type('admingf');
+    cy.get('#username', timeout).type('admin');
     cy.get('#password', timeout).type('12334345');
     cy.get('.ant-btn', timeout).click();
     cy.contains('User not found, username or password is incorrect', timeout).should('be.visible');
@@ -30,7 +33,7 @@ describe('Login', () => {
   });
 
   it('Success Login', () => {
-    cy.get('#username', timeout).type('admingf');
+    cy.get('#username', timeout).type('admin');
     cy.get('#password', timeout).type('password');
     cy.get('.ant-btn', timeout).click();
     cy.contains('DASHBOARD', timeout).should('be.visible');
