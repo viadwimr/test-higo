@@ -13,21 +13,20 @@ describe('Check menu pada akun', () => {
 
   it('Admin', () => {
     cy.visit('/');
-    cy.get('#username', timeout).type('admingf');
+    cy.get('#username', timeout).type('admin');
     cy.get('#password', timeout).type('password');
     cy.get('.ant-btn', timeout).click();
 
     cy.contains('Dashboard', timeout).should('be.visible');
     cy.contains('Device', timeout).should('be.visible');
     cy.contains('Report', timeout).should('be.visible');
-
     cy.contains('User', timeout).should('be.visible');
     cy.contains('Threshold', timeout).should('be.visible');
   });
 
   it('Operator', () => {
     cy.visit('/');
-    cy.get('#username', timeout).type('operator');
+    cy.get('#username', timeout).type('gf_packaging_a1');
     cy.get('#password', timeout).type('password');
     cy.get('.ant-btn', timeout).click();
 
@@ -43,5 +42,6 @@ describe('Check menu pada akun', () => {
     cy.get('.ant-btn', timeout).click();
 
     cy.contains('Superadmin cannot access Environment Monitoring System', timeout).should('be.visible');
+    cy.get('.swal2-confirm', timeout).click();
   });
 });
