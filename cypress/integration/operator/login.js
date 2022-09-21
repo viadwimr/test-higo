@@ -5,6 +5,10 @@ var force = { force: true }
 
 describe('Login', () => {
   before(() => {
+    cy.login('admin');
+  });
+
+  before(() => {
     cy.get('.ant-dropdown-trigger', timeout).click();
     cy.contains('Logout', timeout).click();
     cy.wait(3000);
@@ -33,7 +37,7 @@ describe('Login', () => {
   });
 
   it('Success Login', () => {
-    cy.get('#username', timeout).type('admin');
+    cy.get('#username', timeout).type('tes-operator');
     cy.get('#password', timeout).type('password');
     cy.get('.ant-btn', timeout).click();
     cy.contains('DASHBOARD', timeout).should('be.visible');

@@ -3,13 +3,18 @@
 var timeout = { timeout: 60000 }
 
 describe('Device', () => {
+  before(() => {
+    cy.login('operator');
+  });
+
   beforeEach(() => {
-    cy.visit('/device');
+    // cy.visit('/device');
+    cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
   });
 
   it('Check list device', () => {
     cy.get(':nth-child(1) > a > .sector-card', timeout).should('be.visible');
-    cy.get('#rc-tabs-0-panel-condition_monitoring', timeout).should('be.visible');
+    cy.get('.ant-tabs-tab', timeout).should('be.visible');
   });
 
   it('Detail device', () => {
@@ -65,6 +70,7 @@ describe('Device', () => {
       cy.get('[title="Forming Baking"]', timeout).should('be.visible');
       cy.get('[title="Forming Baking Line 2"]', timeout).should('be.visible');
       cy.get('[title="Forming Line 2"]', timeout).should('be.visible');
+      cy.get('.ant-modal-close-x', timeout).click();
     });
 
     it('Sorting List Sektor di Tabel', () => {
@@ -80,32 +86,38 @@ describe('Device', () => {
         .contains('Ball Mill Line 2');
       cy.get('[data-row-key="6020f89178b2e30001e0cff5"] > :nth-child(1)', timeout)
         .contains('Enrober');
+      cy.get('.ant-modal-close-x', timeout).click();
     });
   });
 
   describe('Detail Device', () => {
     // bug tombol simpan tidak bisa diklik
-    /*
     describe('Edit Device', () => {
       it('Simpan', () => {
         cy.wait(3000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Ball Mill', timeout).click();
+        cy.contains('Ball Mill', timeout).click({force: true});
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.wait(3000);
         cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
         cy.get('[data-testid=input-device_name]', timeout).clear().type('ac per detik');
         cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
-        cy.contains('Mixer', timeout).click();
+        // cy.contains('Mixer', timeout).click();
+        cy.wait(5000);
+        cy.get('[title="Mixer"]', timeout).click();
+        cy.get('.ant-select-item-option-active > .ant-select-item-option-content', timeout).click();
         cy.get('[data-testid=input-location]', timeout).clear().type('auto test');
         cy.get('.ant-row-end > .ant-col > .Button__BaseButton-sc-1hmbtsr-0').click({force:true});
         cy.contains('Berhasil', timeout).should('be.visible');
+        cy.wait(3000);
       });
 
       it('Add Additional Info', () => {
-        cy.wait(3000);
+        cy.wait(7000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Mixer', timeout).click();
+        cy.wait(5000);
+        cy.get('[title="Mixer"]', timeout).click();
+        // cy.contains('Mixer', timeout).click();
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
         cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
@@ -163,9 +175,7 @@ describe('Device', () => {
         cy.contains('Berhasil', timeout).should('be.visible');
       });
     });
-    */
     // bug tombol simpan tidak bisa diklik
-    /*
     describe('Setting Kalibrasi', () => {
       it('Validasi Input dan Simpan', () => {
         cy.wait(3000);
@@ -194,7 +204,7 @@ describe('Device', () => {
         cy.get('.ant-modal-close-x').click();
       });
     });
-    */
+    
     describe('Export Chart', () => {
       beforeEach(() => {
         cy.wait(3000);
