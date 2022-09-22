@@ -25,7 +25,7 @@
   "dependencies": {
     "@shelex/cypress-allure-plugin": "^2.31.0",
     "allure-commandline": "^2.18.1",
-    "cypress": "^10.3.0"
+    "cypress": "^10.8.0"
   },
   "devDependencies": {
     "eslint-plugin-cypress": "^2.11.3"
