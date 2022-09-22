@@ -15,53 +15,47 @@ pipeline {
       steps {
         script {
           try {
-            if(JOB_NAME == 'OEE_Engineering_AllSchedule') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/all-schedule.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Admin_Alert') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/alert.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Dashboard') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/dashboard.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Admin_Dashboard') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/dashboard.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Downtime') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/downtime.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Admin_Device') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/device.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Heatmap') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/heatmap.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Admin_Indicator') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/indicator.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Issues') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/issues.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Admin_Login') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/login.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Losses') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/losses.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Admin_Report') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/report.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Machine') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/machine.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Admin_Threshold') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/threshold.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Parameter') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/parameter.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Admin_UserProfile') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/user-profile.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Pareto') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/pareto.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Admin_User') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/user.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Product') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/product.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Operator_Dashboard') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/dashboard.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Reason') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/reason.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Operator_Device') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/device.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Report') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/report.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Operator_Login') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/login.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Runtime') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/runtime.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Operator_Report') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/report.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'OEE_Engineering_Shift') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/shift.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'OEE_Engineering_Threshold') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/threshold.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'OEE_Engineering_Trend') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/engineering/trend.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Operator_UserProfile') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/shift.cy.js' --env allure=true"
             }
           } catch(Exception e) {
             currentBuild.result = 'FAILURE'

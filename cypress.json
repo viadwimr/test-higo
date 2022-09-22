@@ -1,8 +1,0 @@
-{
-  "baseUrl": "https://dev-cloud.evomo.id",
-  "video": true,
-  "viewportWidth": 1200,
-  "viewportHeight": 1000,
-  "waitForAnimations": true,
-  "projectId": "6jhnka"
-}
