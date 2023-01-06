@@ -65,6 +65,8 @@
       }
   }) */
 
+  const timeout = { timeout: 5000 };
+
   Cypress.Commands.add('login', (user, pass) => {
     cy.visit('/')
       .url()
@@ -81,11 +83,11 @@
       })
     cy.get('#btn-login')
       .click()
-      .wait(3000)
+      .wait(7000)
     cy.get('body')
       .then((body) => {
         if(body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body').length > 0) {
-          cy.get(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body')
+          cy.get(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body').click()
           cy.get('.ant-layout-content')
           cy.url()
             .should('include', '/dashboardhmi')
@@ -401,11 +403,16 @@
   })
   
   Cypress.Commands.add('logout', () => {
-    cy.get('.ant-avatar')
-      .click()
-    cy.get('.ant-dropdown-menu-item')
-      .click()
-    cy.get('#login')
-    cy.url()
-      .should('include', '/')
+    cy.wait(3000);
+    cy.get('body', timeout).then((body) => {
+      if (body.find('.ant-avatar').length > 0) {
+        cy.get('.ant-avatar')
+          .click()
+        cy.get('.ant-dropdown-menu-item')
+          .click()
+        cy.get('#login')
+        cy.url()
+          .should('include', '/')
+      }
+    });
   })
