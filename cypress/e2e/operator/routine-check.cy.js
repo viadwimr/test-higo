@@ -647,7 +647,7 @@ describe('Line 7', () => {
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
         // change runtime
-        cy.get('div[style=""] > div > .ant-btn', timeout).click();
+        cy.get('div[style=""] > div > .ant-btn', timeout).eq(0).click();
         cy.wait(3000);
         // check runtime
         cy.get('body', timeout).then((body) => {
@@ -736,7 +736,7 @@ describe('Line 7', () => {
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
         // change runtime
-        cy.get('div[style=""] > div > .ant-btn', timeout).click();
+        cy.get('div[style=""] > div > .ant-btn', timeout).eq(0).click();
         cy.wait(3000);
         // check runtime
         cy.get('body', timeout).then((body) => {
@@ -823,7 +823,7 @@ describe('Line 7', () => {
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
         // change runtime
-        cy.get('div[style=""] > div > .ant-btn', timeout).click();
+        cy.get('div[style=""] > div > .ant-btn', timeout).eq(0).click();
         cy.wait(3000);
         // check runtime
         cy.get('body', timeout).then((body) => {
