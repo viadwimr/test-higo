@@ -33,6 +33,7 @@ describe('Line 1', () => {
   beforeEach(() => {
     Cypress.Cookies.preserveOnce('secret')
   })
+
   it('Check Zero Value Filler Line 1', () => {
     cy.login(user, pass)
     cy.wait(7000);
@@ -87,7 +88,6 @@ describe('Line 1', () => {
                 });
               }
             });
-    
           }
         });
         
@@ -137,10 +137,6 @@ describe('Line 1', () => {
           }
         });
       }
-    
-
-
-
     });
   });
 
@@ -159,16 +155,20 @@ describe('Line 1', () => {
                   expect(parseInt(text.replace('%',''))).to.be.equal(0)
               });
             } else {
-              // check good product
-              cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                .invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
-              });
+            // get reject product
+            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
+              .invoke('text').then((text) => {
+                const valueReject = parseInt(text.replace('%','').replace('.',''))
+                // check good product
+                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                  .invoke('text').then((text) => {
+                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                });
+            });
             }
         });
       }
     });
-
   });
 
   it(`Check Zero Value Packer Line 1${noRuntime}`, () => {
@@ -230,7 +230,6 @@ describe('Line 1', () => {
         });
       }
     });
-    
   });
 
   it(`Check Good Value Packer Line 1${noRuntime}`, () => {
@@ -248,16 +247,20 @@ describe('Line 1', () => {
                 expect(parseInt(text.replace('%',''))).to.be.equal(0)
             });
           } else {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+            // get reject product
+            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
               .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+                const valueReject = parseInt(text.replace('%','').replace('.',''))
+                // check good product
+                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                  .invoke('text').then((text) => {
+                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                });
             });
           }
         });
       }
     });
-
   });
 });
 
@@ -323,7 +326,6 @@ describe('Line 2', () => {
                 });
               }
             });
-    
           }
         });
         
@@ -373,10 +375,6 @@ describe('Line 2', () => {
           }
         });
       }
-    
-
-
-
     });
   });
 
@@ -395,10 +393,15 @@ describe('Line 2', () => {
                 expect(parseInt(text.replace('%',''))).to.be.equal(0)
             });
           } else {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+            // get reject product
+            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
               .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+                const valueReject = parseInt(text.replace('%','').replace('.',''))
+                // check good product
+                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                  .invoke('text').then((text) => {
+                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                });
             });
           }
         });
@@ -465,7 +468,6 @@ describe('Line 2', () => {
         });
       }
     });
-
   });
 
   it(`Check Good Value Packer Line 2${noRuntime}`, () => {
@@ -483,11 +485,17 @@ describe('Line 2', () => {
                 expect(parseInt(text.replace('%',''))).to.be.equal(0)
             });
           } else {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+            // get reject product
+            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
               .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+                const valueReject = parseInt(text.replace('%','').replace('.',''))
+                // check good product
+                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                  .invoke('text').then((text) => {
+                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                });
             });
+
           }
         });
       }
@@ -558,7 +566,6 @@ describe('Line 7', () => {
                 });
               }
             });
-    
           }
         });
         
@@ -608,12 +615,7 @@ describe('Line 7', () => {
           }
         });
       }
-    
-
-
-
     });
-    
   });
 
   it(`Check Good Value Filler 1 Line 7${noRuntime}`, () => {
@@ -631,10 +633,15 @@ describe('Line 7', () => {
                 expect(parseInt(text.replace('%',''))).to.be.equal(0)
             });
           } else {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+            // get reject product
+            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
               .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+                const valueReject = parseInt(text.replace('%','').replace('.',''))
+                // check good product
+                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                  .invoke('text').then((text) => {
+                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                });
             });
           }
         });
@@ -701,7 +708,6 @@ describe('Line 7', () => {
         });
       }
     });
-
   });
 
   it(`Check Good Value Filler 2 Line 7${noRuntime}`, () => {
@@ -719,16 +725,20 @@ describe('Line 7', () => {
                 expect(parseInt(text.replace('%',''))).to.be.equal(0)
             });
           } else {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+            // get reject product
+            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
               .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+                const valueReject = parseInt(text.replace('%','').replace('.',''))
+                // check good product
+                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                  .invoke('text').then((text) => {
+                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                });
             });
           }
         });
       }
     });
-
   });
 
   it(`Check Zero Value Packer 1 Line 7${noRuntime}`, () => {
@@ -807,10 +817,15 @@ describe('Line 7', () => {
                 expect(parseInt(text.replace('%',''))).to.be.equal(0)
             });
           } else {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+            // get reject product
+            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
               .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+                const valueReject = parseInt(text.replace('%','').replace('.',''))
+                // check good product
+                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                  .invoke('text').then((text) => {
+                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                });
             });
           }
         });
@@ -877,7 +892,6 @@ describe('Line 7', () => {
         });
       }
     });
-
   });
 
   it(`Check Good Value Packer 2 Line 7${noRuntime}`, () => {
@@ -895,15 +909,19 @@ describe('Line 7', () => {
                 expect(parseInt(text.replace('%',''))).to.be.equal(0)
             });
           } else {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+            // get reject product
+            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
               .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+                const valueReject = parseInt(text.replace('%','').replace('.',''))
+                // check good product
+                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                  .invoke('text').then((text) => {
+                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                });
             });
           }
         });
       }
     });
-
   });
 });
