@@ -10,9 +10,9 @@ var noRuntime = '';
 // Shift Panjang
 if (d.getHours()>=22 || d.getHours()<6) {
   var [line1,line2,line7] = [3,6,9];
-} else if(d.getHours()>=6 && d.getHours()<15) {
+} else if(d.getHours()>=6 && d.getHours()<14) {
   var [line1,line2,line7] = [1,4,7];
-} else if (d.getHours()>=15 && d.getHours()<22) {
+} else if (d.getHours()>=14 && d.getHours()<22) {
   var [line1,line2,line7] = [2,5,8];
 }
 
