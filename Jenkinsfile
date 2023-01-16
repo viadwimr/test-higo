@@ -1,4 +1,5 @@
 def discordStatus = ""
+my_workspace = 'my-workspace'
 pipeline {
   agent { label 'qa-node' }
   tools {
@@ -52,7 +53,7 @@ pipeline {
       deleteDir()
     }
     failure {
-      ws(workspace+"/allure-report/"){ 
+      ws(my_workspace+"/allure-results/"){ 
         allure([
           includeProperties: false,
           jdk: '',
