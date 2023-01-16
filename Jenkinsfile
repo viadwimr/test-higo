@@ -1,53 +1,35 @@
+def discordStatus = ""
 pipeline {
-  agent any
+  agent { label 'qa-node' }
   tools {
-    nodejs '18.5.0'
+    nodejs 'nodejs'
   }
   stages {
-    stage('Shift Pagi') {
-      parallel {
-        stage('Operator Produksi 1') {
-          stages {
-            stage('Building') {
-              steps {
-                sh 'npm ci'
-                sh 'npm run cy:verify'
-              }
+    stage('Building') {
+      steps {
+        sh 'npm ci'
+        sh 'npm run cy:verify'
+      }
+    }
+    stage('Testing') {
+      steps {
+        script {
+          try {
+            if(JOB_NAME == 'hmi_prochiz') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/routine-check.cy.js' --env allure=true"
             }
-            stage('Testing') {
-              steps {
-                sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/opr_prd1.cy.js'"
-              }
-            }
+          } catch(Exception e) {
+            currentBuild.result = 'FAILURE'
           }
         }
-        stage('Operator Produksi 4') {
-          stages {
-            stage('Building') {
-              steps {
-                sh 'npm ci'
-                sh 'npm run cy:verify'
-              }
-            }
-            stage('Testing') {
-              steps {
-                sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/opr_prd4.cy.js'"
-              }
-            }
-          }
-        }
-        stage('Operator Produksi 7') {
-          stages {
-            stage('Building') {
-              steps {
-                sh 'npm ci'
-                sh 'npm run cy:verify'
-              }
-            }
-            stage('Testing') {
-              steps {
-                sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/opr_prd7.cy.js'"
-              }
+      }
+      post {
+        always {
+          script {
+            if(currentBuild.result == 'FAILURE') {
+              discordStatus = 'https://storage.googleapis.com/success_bug_icon/failed.png'
+            } else if (currentBuild.currentResult == 'SUCCESS'){
+              discordStatus = 'https://storage.googleapis.com/success_bug_icon/passed.png'
             }
           }
         }
@@ -55,14 +37,33 @@ pipeline {
     }
   }
   post {
-    always {
-      cleanWs(cleanWhenNotBuilt: false,
-                    deleteDirs: true,
-                    disableDeferredWipeout: true,
-                    notFailBuild: true,
-                    patterns: [[pattern: '/cypress/reports', type: 'EXCLUDE'],
-                              [pattern: '/cypress/screenshots', type: 'EXCLUDE'],
-                              [pattern: '/node_modules', type: 'EXCLUDE']])
+    success {
+      allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+      discordSend customAvatarUrl: "https://cdn-icons-png.flaticon.com/512/573/573131.png?w=740&t=st=1662092610~exp=1662093210~hmac=371422cdcab8bcef11a630644d30876eabb73ac7c0dd627d7ed6360054ae3259", 
+      customUsername: "E2E Tests Reporter", 
+      title: "${JOB_NAME} ${BUILD_DISPLAY_NAME}", 
+      link: "${env.BUILD_URL}/allure", 
+      description: "Running on jenkins ${NODE_LABELS}", 
+      result: currentBuild.currentResult, 
+      footer: "EVOMO", 
+      showChangeset: true, 
+      thumbnail: discordStatus, 
+      webhookURL: "https://discord.com/api/webhooks/1063045911778971678/oG7QZGG0hG9yHmC02UqyUYnk6v-F8SiG9vVJhEB5Z0wj6rNJzW0zTDU5iAdg1XQj_EDc"
+      deleteDir()
+    }
+    failure {
+      allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+      discordSend customAvatarUrl: "https://cdn-icons-png.flaticon.com/512/573/573131.png?w=740&t=st=1662092610~exp=1662093210~hmac=371422cdcab8bcef11a630644d30876eabb73ac7c0dd627d7ed6360054ae3259", 
+      customUsername: "E2E Tests Reporter", 
+      title: "${JOB_NAME} ${BUILD_DISPLAY_NAME}", 
+      link: "${env.BUILD_URL}/allure", 
+      description: "Running on jenkins ${NODE_LABELS}", 
+      result: currentBuild.currentResult, 
+      footer: "EVOMO", 
+      showChangeset: true, 
+      thumbnail: discordStatus, 
+      webhookURL: "https://discord.com/api/webhooks/1063045911778971678/oG7QZGG0hG9yHmC02UqyUYnk6v-F8SiG9vVJhEB5Z0wj6rNJzW0zTDU5iAdg1XQj_EDc"
+      deleteDir()
     }
   }
 }
