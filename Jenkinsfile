@@ -52,7 +52,7 @@ pipeline {
       deleteDir()
     }
     failure {
-      ws(workspace+"/"){ 
+      ws(workspace+"/allure-report/"){ 
         allure([
           includeProperties: false,
           jdk: '',
