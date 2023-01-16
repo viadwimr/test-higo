@@ -1,5 +1,6 @@
 import './commands'
 import 'cypress-mochawesome-reporter/register'
+import '@shelex/cypress-allure-plugin'
 
 Cypress.on('uncaught:exception', (err, runnable) => false);
 
