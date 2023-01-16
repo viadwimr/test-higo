@@ -24,21 +24,6 @@ module.exports = defineConfig({
     screenshotOnRunFailure: true,
     trashAssetsBeforeRuns: false,
     defaultCommandTimeout: 10000
-  },
-  env: {
-    oprprd1: 'OPR PRD 1',
-    oprprd2: 'OPR PRD 2',
-    oprprd3: 'OPR PRD 3',
-    oprprd4: 'OPR PRD 4',
-    oprprd5: 'OPR PRD 5',
-    oprprd6: 'OPR PRD 6',
-    oprprd7: 'OPR PRD 7',
-    oprprd8: 'OPR PRD 8',
-    oprprd9: 'OPR PRD 9',
-    spvprd1: 'SPV PRD 1',
-    password: 'password',
-    staging: 'gf_packaging_a1',
-    staging_pass: 'password'
   }
 });
 */
@@ -62,5 +47,20 @@ module.exports = defineConfig({
     viewportHeight: 1000,
     pageLoadTimeout: 60000
   },
+  env: {
+    oprprd1: 'OPR PRD 1',
+    oprprd2: 'OPR PRD 2',
+    oprprd3: 'OPR PRD 3',
+    oprprd4: 'OPR PRD 4',
+    oprprd5: 'OPR PRD 5',
+    oprprd6: 'OPR PRD 6',
+    oprprd7: 'OPR PRD 7',
+    oprprd8: 'OPR PRD 8',
+    oprprd9: 'OPR PRD 9',
+    spvprd1: 'SPV PRD 1',
+    password: 'password',
+    staging: 'gf_packaging_a1',
+    staging_pass: 'password'
+  }
 })
 
