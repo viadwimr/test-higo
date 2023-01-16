@@ -41,7 +41,7 @@ module.exports = defineConfig({
     trashAssetsBeforeRuns: true,
     chromeWebSecurity: false,
     waitForAnimations: true,
-    retries: 2,
+    retries: 0,
     defaultCommandTimeout: 10000,
     viewportWidth: 1500,
     viewportHeight: 1000,
