@@ -52,7 +52,7 @@ pipeline {
       deleteDir()
     }
     failure {
-      ws(${WORKSPACE}){ 
+      ws("${WORKSPACE}"){ 
         allure([
           includeProperties: false,
           jdk: '',
