@@ -52,7 +52,7 @@ pipeline {
       deleteDir()
     }
     failure {
-      ws(workspace+"/hmi_prochiz/"){ 
+      ws(workspace+"/"){ 
         allure([
           includeProperties: false,
           jdk: '',
