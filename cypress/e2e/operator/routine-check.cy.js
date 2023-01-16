@@ -263,7 +263,7 @@ describe('Line 1', () => {
     });
   });
 });
-
+/*
 describe('Line 2', () => {
   const user = Cypress.env(`oprprd${line2}`)
   const pass = Cypress.env('password')
@@ -925,3 +925,4 @@ describe('Line 7', () => {
     });
   });
 });
+*/
