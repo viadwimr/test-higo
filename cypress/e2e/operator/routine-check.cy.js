@@ -26,7 +26,7 @@ if (d.getHours()>=16 && d.getHours()<22) {
   var [line1,line2,line7] = [2,5,8];
 }
 */
-
+/*
 describe('Line 1', () => {
   const user = Cypress.env(`oprprd${line1}`)
   const pass = Cypress.env('password')
@@ -263,7 +263,7 @@ describe('Line 1', () => {
     });
   });
 });
-/*
+*/
 describe('Line 2', () => {
   const user = Cypress.env(`oprprd${line2}`)
   const pass = Cypress.env('password')
@@ -504,6 +504,7 @@ describe('Line 2', () => {
   });
 });
 
+/*
 describe('Line 7', () => {
   const user = Cypress.env(`oprprd${line7}`)
   const pass = Cypress.env('password')
