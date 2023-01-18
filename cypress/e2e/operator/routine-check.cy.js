@@ -79,7 +79,7 @@ describe('Line 1', () => {
               } else {
                 // check performance
                 cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
                 });
                 // check total product
                 cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
@@ -127,7 +127,7 @@ describe('Line 1', () => {
           } else {
             // check performance
             cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+              expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
             });
             // check total product
             cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
@@ -218,7 +218,7 @@ describe('Line 1', () => {
             } else {
               // check performance
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
               });
               // check total product
               cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
@@ -317,7 +317,7 @@ describe('Line 2', () => {
               } else {
                 // check performance
                 cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
                 });
                 // check total product
                 cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
@@ -365,7 +365,7 @@ describe('Line 2', () => {
           } else {
             // check performance
             cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+              expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
             });
             // check total product
             cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
@@ -456,7 +456,7 @@ describe('Line 2', () => {
             } else {
               // check performance
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
               });
               // check total product
               cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
@@ -557,7 +557,7 @@ describe('Line 7', () => {
               } else {
                 // check performance
                 cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
                 });
                 // check total product
                 cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
@@ -605,7 +605,7 @@ describe('Line 7', () => {
           } else {
             // check performance
             cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+              expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
             });
             // check total product
             cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
@@ -696,7 +696,7 @@ describe('Line 7', () => {
             } else {
               // check performance
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
               });
               // check total product
               cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
@@ -788,7 +788,7 @@ describe('Line 7', () => {
             } else {
               // check performance
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
               });
               // check total product
               cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
@@ -880,7 +880,7 @@ describe('Line 7', () => {
             } else {
               // check performance
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.within(1,110)
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
               });
               // check total product
               cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
