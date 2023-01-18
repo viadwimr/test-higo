@@ -34,7 +34,7 @@ describe('Line 1', () => {
     Cypress.Cookies.preserveOnce('secret')
   })
 
-  it('Check Zero Value Filler Line 1', () => {
+  it('Normal APQ Filler', () => {
     cy.login(user, pass)
     cy.wait(7000);
     cy.get('body', timeout).then((body) => {
@@ -63,7 +63,7 @@ describe('Line 1', () => {
             
             // check availability
             cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-              const valueAVA = parseInt(text.replace('%',''))
+              const valueAVA = parseInt(text.replace('%','').replace('.',''))
               expect(valueAVA).to.be.within(0,100)
               if (valueAVA == 0) {
                 // check performance, quality, oee
@@ -81,10 +81,13 @@ describe('Line 1', () => {
                 cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                   expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
                 });
-                // check total product
-                cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+                // check quality
+                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+                });
+                // check OEE
+                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
                 });
               }
             });
@@ -111,7 +114,7 @@ describe('Line 1', () => {
         
         // check availability
         cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-          const valueAVA = parseInt(text.replace('%',''))
+          const valueAVA = parseInt(text.replace('%','').replace('.',''))
           expect(valueAVA).to.be.within(0,100)
           if (valueAVA == 0) {
             // check performance, quality, oee
@@ -129,10 +132,13 @@ describe('Line 1', () => {
             cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
               expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
             });
-            // check total product
-            cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+            // check quality
+            cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+              expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+            });
+            // check OEE
+            cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+              expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
             });
           }
         });
@@ -140,7 +146,7 @@ describe('Line 1', () => {
     });
   });
 
-  it(`Check Good Value Filler Line 1${noRuntime}`, () => {
+  it(`Good-Reject Product Filler${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -171,7 +177,7 @@ describe('Line 1', () => {
     });
   });
 
-  it(`Check Zero Value Packer Line 1${noRuntime}`, () => {
+  it(`Normal APQ Packer${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -202,7 +208,7 @@ describe('Line 1', () => {
           cy.wait(7000);
           // check availability
           cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-            const valueAVA = parseInt(text.replace('%',''))
+            const valueAVA = parseInt(text.replace('%','').replace('.',''))
             expect(valueAVA).to.be.within(0,100)
             if (valueAVA == 0) {
               // check performance, quality, oee
@@ -220,10 +226,13 @@ describe('Line 1', () => {
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                 expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
               });
-              // check total product
-              cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-                .invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+              // check quality
+              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+              });
+              // check OEE
+              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
               });
             }
           });
@@ -232,7 +241,7 @@ describe('Line 1', () => {
     });
   });
 
-  it(`Check Good Value Packer Line 1${noRuntime}`, () => {
+  it(`Good-Reject Product Packer${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -271,7 +280,7 @@ describe('Line 2', () => {
     Cypress.Cookies.preserveOnce('secret')
   })
 
-  it('Check Zero Value Filler Line 2', () => {
+  it('Normal APQ Filler', () => {
     cy.logout()
     cy.login(user, pass)
     cy.wait(7000);
@@ -301,7 +310,7 @@ describe('Line 2', () => {
     
             // check availability
             cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-              const valueAVA = parseInt(text.replace('%',''))
+              const valueAVA = parseInt(text.replace('%','').replace('.',''))
               expect(valueAVA).to.be.within(0,100)
               if (valueAVA == 0) {
                 // check performance, quality, oee
@@ -319,10 +328,13 @@ describe('Line 2', () => {
                 cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                   expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
                 });
-                // check total product
-                cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+                // check quality
+                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+                });
+                // check OEE
+                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
                 });
               }
             });
@@ -349,7 +361,7 @@ describe('Line 2', () => {
         cy.wait(7000);
         // check availability
         cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-          const valueAVA = parseInt(text.replace('%',''))
+          const valueAVA = parseInt(text.replace('%','').replace('.',''))
           expect(valueAVA).to.be.within(0,100)
           if (valueAVA == 0) {
             // check performance, quality, oee
@@ -367,10 +379,13 @@ describe('Line 2', () => {
             cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
               expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
             });
-            // check total product
-            cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+            // check quality
+            cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+              expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+            });
+            // check OEE
+            cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+              expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
             });
           }
         });
@@ -378,7 +393,7 @@ describe('Line 2', () => {
     });
   });
 
-  it(`Check Good Value Filler Line 2${noRuntime}`, () => {
+  it(`Good-Reject Product Filler${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -409,7 +424,7 @@ describe('Line 2', () => {
     })
   });
 
-  it(`Check Zero Value Packer Line 2${noRuntime}`, () => {
+  it(`Normal APQ Packer${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -440,7 +455,7 @@ describe('Line 2', () => {
           cy.wait(7000);
           // check availability
           cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-            const valueAVA = parseInt(text.replace('%',''))
+            const valueAVA = parseInt(text.replace('%','').replace('.',''))
             expect(valueAVA).to.be.within(0,100)
             if (valueAVA == 0) {
               // check performance, quality, oee
@@ -458,10 +473,13 @@ describe('Line 2', () => {
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                 expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
               });
-              // check total product
-              cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-                .invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+              // check quality
+              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+              });
+              // check OEE
+              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
               });
             }
           });
@@ -470,7 +488,7 @@ describe('Line 2', () => {
     });
   });
 
-  it(`Check Good Value Packer Line 2${noRuntime}`, () => {
+  it(`Godd-Reject Product Packer${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -511,7 +529,7 @@ describe('Line 7', () => {
     Cypress.Cookies.preserveOnce('secret')
   })
 
-  it('Check Zero Value Filler 1 Line 7', () => {
+  it('Normal APQ Filler 1', () => {
     cy.logout()
     cy.login(user, pass)
     cy.wait(7000); 
@@ -541,7 +559,7 @@ describe('Line 7', () => {
     
             // check availability
             cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-              const valueAVA = parseInt(text.replace('%',''))
+              const valueAVA = parseInt(text.replace('%','').replace('.',''))
               expect(valueAVA).to.be.within(0,100)
               if (valueAVA == 0) {
                 // check performance, quality, oee
@@ -559,10 +577,13 @@ describe('Line 7', () => {
                 cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                   expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
                 });
-                // check total product
-                cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+                // check quality
+                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+                });
+                // check OEE
+                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
                 });
               }
             });
@@ -589,7 +610,7 @@ describe('Line 7', () => {
         cy.wait(7000);
         // check availability
         cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-          const valueAVA = parseInt(text.replace('%',''))
+          const valueAVA = parseInt(text.replace('%','').replace('.',''))
           expect(valueAVA).to.be.within(0,100)
           if (valueAVA == 0) {
             // check performance, quality, oee
@@ -607,10 +628,13 @@ describe('Line 7', () => {
             cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
               expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
             });
-            // check total product
-            cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+            // check quality
+            cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+              expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+            });
+            // check OEE
+            cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+              expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
             });
           }
         });
@@ -618,7 +642,7 @@ describe('Line 7', () => {
     });
   });
 
-  it(`Check Good Value Filler 1 Line 7${noRuntime}`, () => {
+  it(`Good-Reject Product Filler 1${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -649,7 +673,7 @@ describe('Line 7', () => {
     })
   });
 
-  it(`Check Zero Value Filler 2 Line 7${noRuntime}`, () => {
+  it(`Normal APQ Filler 2${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -680,7 +704,7 @@ describe('Line 7', () => {
           cy.wait(7000);
           // check availability
           cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-            const valueAVA = parseInt(text.replace('%',''))
+            const valueAVA = parseInt(text.replace('%','').replace('.',''))
             expect(valueAVA).to.be.within(0,100)
             if (valueAVA == 0) {
               // check performance, quality, oee
@@ -698,10 +722,13 @@ describe('Line 7', () => {
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                 expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
               });
-              // check total product
-              cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-                .invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+              // check quality
+              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+              });
+              // check OEE
+              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
               });
             }
           });
@@ -710,7 +737,7 @@ describe('Line 7', () => {
     });
   });
 
-  it(`Check Good Value Filler 2 Line 7${noRuntime}`, () => {
+  it(`Good-Reject Product Filler 2${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -741,7 +768,7 @@ describe('Line 7', () => {
     });
   });
 
-  it(`Check Zero Value Packer 1 Line 7${noRuntime}`, () => {
+  it(`Normal APQ Packer 1${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -772,7 +799,7 @@ describe('Line 7', () => {
           cy.wait(7000);
           // check availability
           cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-            const valueAVA = parseInt(text.replace('%',''))
+            const valueAVA = parseInt(text.replace('%','').replace('.',''))
             expect(valueAVA).to.be.within(0,100)
             if (valueAVA == 0) {
               // check performance, quality, oee
@@ -790,10 +817,13 @@ describe('Line 7', () => {
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                 expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
               });
-              // check total product
-              cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-                .invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+              // check quality
+              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+              });
+              // check OEE
+              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
               });
             }
           });
@@ -802,7 +832,7 @@ describe('Line 7', () => {
     });
   });
 
-  it(`Check Good Value Packer 1 Line 7${noRuntime}`, () => {
+  it(`Good-Reject Product Packer 1${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -833,7 +863,7 @@ describe('Line 7', () => {
     })
   });
 
-  it(`Check Zero Value Packer 2 Line 7${noRuntime}`, () => {
+  it(`Normal APQ Packer 2${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -864,7 +894,7 @@ describe('Line 7', () => {
           cy.wait(7000);
           // check availability
           cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-            const valueAVA = parseInt(text.replace('%',''))
+            const valueAVA = parseInt(text.replace('%','').replace('.',''))
             expect(valueAVA).to.be.within(0,100)
             if (valueAVA == 0) {
               // check performance, quality, oee
@@ -882,10 +912,13 @@ describe('Line 7', () => {
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                 expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
               });
-              // check total product
-              cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-                .invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.greaterThan(0)
+              // check quality
+              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+              });
+              // check OEE
+              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
               });
             }
           });
@@ -894,7 +927,7 @@ describe('Line 7', () => {
     });
   });
 
-  it(`Check Good Value Packer 2 Line 7${noRuntime}`, () => {
+  it(`Good-Reject Product Packer 2${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
