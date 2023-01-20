@@ -912,8 +912,8 @@ describe('Line 7', () => {
               }
             });
           } else {
-            // go to runtime page
-            cy.get('div[style=""] > div > .ant-btn', timeout).click();
+            // back to histori runtime
+            cy.get('div[style=""] > div > .ant-btn', timeout).eq(0).click();
           }
         })
       }
