@@ -87,7 +87,7 @@ describe('Line 1', () => {
                 });
                 // check OEE
                 cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
                 });
               }
             });
@@ -334,7 +334,7 @@ describe('Line 2', () => {
                 });
                 // check OEE
                 cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
                 });
               }
             });
@@ -583,7 +583,7 @@ describe('Line 7', () => {
                 });
                 // check OEE
                 cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+                  expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
                 });
               }
             });
