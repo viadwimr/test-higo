@@ -911,9 +911,6 @@ describe('Line 7', () => {
                 });
               }
             });
-          } else {
-            // back to histori runtime
-            cy.get('div[style=""] > div > .ant-btn', timeout).eq(0).click();
           }
         })
       }
