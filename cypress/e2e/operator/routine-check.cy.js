@@ -780,53 +780,102 @@ describe('Line 7', () => {
           // passed runtime
           if (body.find('.Button__StyledButton-sc-1s4bp2x-0').length > 0) {
             cy.get('.Button__StyledButton-sc-1s4bp2x-0', timeout).click();
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Packer HMPS').click();
-            cy.get('.swal2-confirm', timeout).click();
+              // check packer machine
+              cy.get('body', timeout).then((body) => {
+                if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(3) > .ant-card > .ant-card-body').length > 0) {
+                  // select runtime
+                  cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
+                    .contains('Packer HMPS').click();
+                  cy.get('.swal2-confirm', timeout).click();
+                  cy.wait(7000);
+                  // check availability
+                  cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
+                    const valueAVA = parseInt(text.replace('%','').replace('.',''))
+                    expect(valueAVA).to.be.within(0,100)
+                    if (valueAVA == 0) {
+                      // check performance, quality, oee
+                      cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
+                        expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                      });
+                      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                        expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                      });
+                      cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                        expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                      });
+                    } else {
+                      // check performance
+                      cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
+                        expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
+                      });
+                      // check quality
+                      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                        expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+                      });
+                      // check OEE
+                      cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                        expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
+                      });
+                    }
+                  });
+                } else {
+                  //close
+                  cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
+                  cy.wait(7000);
+                }
+              });
           }
           // running time
           else {
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Packer HMPS').click();
+            // check packer machine
+            cy.get('body', timeout).then((body) => {
+              if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(3) > .ant-card > .ant-card-body').length > 0) {
+                // select runtime
+                cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
+                .contains('Packer HMPS').click();
+                cy.get('body', timeout).then((body) => {
+                  if (body.find('.swal2-confirm').length > 0) {
+                    cy.get('.swal2-confirm', timeout).click();
+                  }
+                });
+                cy.wait(7000);
+                // check availability
+                cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
+                  const valueAVA = parseInt(text.replace('%','').replace('.',''))
+                  expect(valueAVA).to.be.within(0,100)
+                  if (valueAVA == 0) {
+                    // check performance, quality, oee
+                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                    });
+                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                    });
+                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                    });
+                  } else {
+                    // check performance
+                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
+                    });
+                    // check quality
+                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+                    });
+                    // check OEE
+                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
+                    });
+                  }
+                });
+              } else {
+                // close
+                cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
+                cy.wait(7000);
+              }
+            })
           }
-          cy.get('body', timeout).then((body) => {
-            if (body.find('.swal2-confirm').length > 0) {
-              cy.get('.swal2-confirm', timeout).click();
-            }
-          });
-          cy.wait(7000);
-          // check availability
-          cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-            const valueAVA = parseInt(text.replace('%','').replace('.',''))
-            expect(valueAVA).to.be.within(0,100)
-            if (valueAVA == 0) {
-              // check performance, quality, oee
-              cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-            } else {
-              // check performance
-              cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
-              });
-              // check quality
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
-              });
-              // check OEE
-              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
-              });
-            }
-          });
         });
       }
     });
@@ -836,29 +885,37 @@ describe('Line 7', () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
-        // check total Product
-        cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-        .invoke('text').then((text) => {
-          const valueProduct = parseInt(text.replace('%',''))
-          if (valueProduct == 0) {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-          } else {
-            // get reject product
-            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                const valueReject = parseInt(text.replace('%','').replace('.',''))
+        // check machine name
+        cy.get('body').find('.ant-page-header-heading-title').invoke('text').then((text) => {
+          if (text == `Operator Produksi ${line7} - Packer HMPS`) {
+            // check total Product
+            cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
+            .invoke('text').then((text) => {
+              const valueProduct = parseInt(text.replace('%',''))
+              if (valueProduct == 0) {
                 // check good product
                 cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
                   .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                    expect(parseInt(text.replace('%',''))).to.be.equal(0)
                 });
+              } else {
+                // get reject product
+                cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
+                  .invoke('text').then((text) => {
+                    const valueReject = parseInt(text.replace('%','').replace('.',''))
+                    // check good product
+                    cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                      .invoke('text').then((text) => {
+                        expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                    });
+                });
+              }
             });
+          } else {
+            // go to runtime page
+            cy.get('div[style=""] > div > .ant-btn', timeout).click();
           }
-        });
+        })
       }
     })
   });
@@ -875,53 +932,102 @@ describe('Line 7', () => {
           // passed runtime
           if (body.find('.Button__StyledButton-sc-1s4bp2x-0').length > 0) {
             cy.get('.Button__StyledButton-sc-1s4bp2x-0', timeout).click();
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Packer CIEME').click();
-            cy.get('.swal2-confirm', timeout).click();
+            // check packer machine
+            cy.get('body', timeout).then((body) => {
+              if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(3) > .ant-card > .ant-card-body').length > 0) {
+                // select runtime
+                cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
+                  .contains('Packer CIEME').click();
+                cy.get('.swal2-confirm', timeout).click();
+                cy.wait(7000);
+                // check availability
+                cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
+                  const valueAVA = parseInt(text.replace('%','').replace('.',''))
+                  expect(valueAVA).to.be.within(0,100)
+                  if (valueAVA == 0) {
+                    // check performance, quality, oee
+                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                    });
+                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                    });
+                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                    });
+                  } else {
+                    // check performance
+                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
+                    });
+                    // check quality
+                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+                    });
+                    // check OEE
+                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
+                    });
+                  }
+                });
+              } else {
+                // close
+                cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();
+                cy.wait(7000);
+              }
+            });
           }
           // running time
           else {
-            // select runtime
-            cy.get(':nth-child(1) > .ant-row > .ant-col > .ant-card > .ant-card-body', timeout)
-              .contains('Packer CIEME').click();
+            // check packer machine
+            cy.get('body', timeout).then((body) => {
+              if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(3) > .ant-card > .ant-card-body').length > 0) {
+                // select runtime
+                cy.get(':nth-child(1) > .ant-row > .ant-col > .ant-card > .ant-card-body', timeout)
+                .contains('Packer CIEME').click();
+                cy.get('body', timeout).then((body) => {
+                  if (body.find('.swal2-confirm').length > 0) {
+                    cy.get('.swal2-confirm', timeout).click();
+                  }
+                });
+                cy.wait(7000);
+                // check availability
+                cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
+                  const valueAVA = parseInt(text.replace('%','').replace('.',''))
+                  expect(valueAVA).to.be.within(0,100)
+                  if (valueAVA == 0) {
+                    // check performance, quality, oee
+                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                    });
+                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                    });
+                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
+                    });
+                  } else {
+                    // check performance
+                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
+                    });
+                    // check quality
+                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
+                    });
+                    // check OEE
+                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
+                    });
+                  }
+                });
+              } else {
+                // close
+                cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();
+                cy.wait(7000);
+              }
+            }); 
           }
-          cy.get('body', timeout).then((body) => {
-            if (body.find('.swal2-confirm').length > 0) {
-              cy.get('.swal2-confirm', timeout).click();
-            }
-          });
-          cy.wait(7000);
-          // check availability
-          cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-            const valueAVA = parseInt(text.replace('%','').replace('.',''))
-            expect(valueAVA).to.be.within(0,100)
-            if (valueAVA == 0) {
-              // check performance, quality, oee
-              cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-            } else {
-              // check performance
-              cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
-              });
-              // check quality
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,100)
-              });
-              // check OEE
-              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%','').replace('.',''))).to.be.within(1,110)
-              });
-            }
-          });
         });
       }
     });
@@ -931,27 +1037,32 @@ describe('Line 7', () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
-        // check total Product
-        cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-        .invoke('text').then((text) => {
-          const valueProduct = parseInt(text.replace('%',''))
-          if (valueProduct == 0) {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-          } else {
-            // get reject product
-            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                const valueReject = parseInt(text.replace('%','').replace('.',''))
-                // check good product
-                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
-                });
-            });
+        // check machine name
+        cy.get('body').find('.ant-page-header-heading-title').invoke('text').then((text) => {
+          if (text == `Operator Produksi ${line7} - Packer CIEME`) {
+          // check total Product
+          cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
+          .invoke('text').then((text) => {
+            const valueProduct = parseInt(text.replace('%',''))
+            if (valueProduct == 0) {
+              // check good product
+              cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                .invoke('text').then((text) => {
+                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
+              });
+            } else {
+              // get reject product
+              cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
+                .invoke('text').then((text) => {
+                  const valueReject = parseInt(text.replace('%','').replace('.',''))
+                  // check good product
+                  cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+                    .invoke('text').then((text) => {
+                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
+                  });
+              });
+            }
+          });
           }
         });
       }
