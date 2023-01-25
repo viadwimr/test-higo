@@ -81,17 +81,17 @@ describe('Line 1', () => {
                 cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                   var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
                   expect(valuePER).to.be.within(1,110)
-                });
-                // check quality
-                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                  var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valueQUA).to.be.within(1,100)
-                });
-                // calculate oee
-                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                  var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                  expect(calculateOEE).to.be.equal(valueOEE)
+                  // check quality
+                  cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                    var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                    expect(valueQUA).to.be.within(1,100)
+                    // calculate oee
+                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                      var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                      var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                      expect(calculateOEE).to.be.equal(valueOEE)
+                    });
+                  });
                 });
               }
             });
@@ -136,17 +136,17 @@ describe('Line 1', () => {
             cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
               var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
               expect(valuePER).to.be.within(1,110)
-            });
-            // check quality
-            cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-              var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-              expect(valueQUA).to.be.within(1,100)
-            });
-            // calculate oee
-            cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-              var valueOEE = parseInt(text.replace('%','').replace('.',''))
-              var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-              expect(calculateOEE).to.be.equal(valueOEE)
+              // check quality
+              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                expect(valueQUA).to.be.within(1,100)
+                // calculate oee
+                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                  var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                  var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                  expect(calculateOEE).to.be.equal(valueOEE)
+                });
+              });
             });
           }
         });
@@ -234,17 +234,17 @@ describe('Line 1', () => {
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                 var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
                 expect(valuePER).to.be.within(1,110)
-              });
-              // check quality
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                expect(valueQUA).to.be.within(1,100)
-              });
-              // calculate oee
-              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                expect(calculateOEE).to.be.equal(valueOEE)
+                // check quality
+                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                  var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                  expect(valueQUA).to.be.within(1,100)
+                  // calculate oee
+                  cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                    var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                    var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                    expect(calculateOEE).to.be.equal(valueOEE)
+                  });
+                });
               });
             }
           });
@@ -340,17 +340,17 @@ describe('Line 2', () => {
                 cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                   var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
                   expect(valuePER).to.be.within(1,110)
-                });
-                // check quality
-                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                  var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valueQUA).to.be.within(1,100)
-                });
-                // calculate oee
-                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                  var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                  expect(calculateOEE).to.be.equal(valueOEE)
+                  // check quality
+                  cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                    var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                    expect(valueQUA).to.be.within(1,100)
+                    // calculate oee
+                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                      var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                      var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                      expect(calculateOEE).to.be.equal(valueOEE)
+                    });
+                  });
                 });
               }
             });
@@ -395,17 +395,17 @@ describe('Line 2', () => {
             cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
               var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
               expect(valuePER).to.be.within(1,110)
-            });
-            // check quality
-            cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-              var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-              expect(valueQUA).to.be.within(1,100)
-            });
-            // calculate oee
-            cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-              var valueOEE = parseInt(text.replace('%','').replace('.',''))
-              var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-              expect(calculateOEE).to.be.equal(valueOEE)
+              // check quality
+              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                expect(valueQUA).to.be.within(1,100)
+                // calculate oee
+                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                  var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                  var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                  expect(calculateOEE).to.be.equal(valueOEE)
+                });
+              });
             });
           }
         });
@@ -493,17 +493,17 @@ describe('Line 2', () => {
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                 var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
                 expect(valuePER).to.be.within(1,110)
-              });
-              // check quality
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                expect(valueQUA).to.be.within(1,100)
-              });
-              // calculate oee
-              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                expect(calculateOEE).to.be.equal(valueOEE)
+                // check quality
+                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                  var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                  expect(valueQUA).to.be.within(1,100)
+                  // calculate oee
+                  cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                    var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                    var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                    expect(calculateOEE).to.be.equal(valueOEE)
+                  });
+                });
               });
             }
           });
@@ -601,17 +601,17 @@ describe('Line 7', () => {
                 cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                   var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
                   expect(valuePER).to.be.within(1,110)
-                });
-                // check quality
-                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                  var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valueQUA).to.be.within(1,100)
-                });
-                // calculate oee
-                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                  var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                  expect(calculateOEE).to.be.equal(valueOEE)
+                  // check quality
+                  cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                    var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                    expect(valueQUA).to.be.within(1,100)
+                    // calculate oee
+                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                      var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                      var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                      expect(calculateOEE).to.be.equal(valueOEE)
+                    });
+                  });
                 });
               }
             });
@@ -656,17 +656,17 @@ describe('Line 7', () => {
             cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
               var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
               expect(valuePER).to.be.within(1,110)
-            });
-            // check quality
-            cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-              var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-              expect(valueQUA).to.be.within(1,100)
-            });
-            // calculate oee
-            cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-              var valueOEE = parseInt(text.replace('%','').replace('.',''))
-              var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-              expect(calculateOEE).to.be.equal(valueOEE)
+              // check quality
+              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                expect(valueQUA).to.be.within(1,100)
+                // calculate oee
+                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                  var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                  var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                  expect(calculateOEE).to.be.equal(valueOEE)
+                });
+              });
             });
           }
         });
@@ -754,17 +754,17 @@ describe('Line 7', () => {
               cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                 var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
                 expect(valuePER).to.be.within(1,110)
-              });
-              // check quality
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                expect(valueQUA).to.be.within(1,100)
-              });
-              // calculate oee
-              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                expect(calculateOEE).to.be.equal(valueOEE)
+                // check quality
+                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                  var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                  expect(valueQUA).to.be.within(1,100)
+                  // calculate oee
+                  cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                    var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                    var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                    expect(calculateOEE).to.be.equal(valueOEE)
+                  });
+                });
               });
             }
           });
@@ -844,17 +844,17 @@ describe('Line 7', () => {
                       cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                         var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
                         expect(valuePER).to.be.within(1,110)
-                      });
-                      // check quality
-                      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                        var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                        expect(valueQUA).to.be.within(1,100)
-                      });
-                      // calculate oee
-                      cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                        var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                        var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                        expect(calculateOEE).to.be.equal(valueOEE)
+                        // check quality
+                        cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                          var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                          expect(valueQUA).to.be.within(1,100)
+                          // calculate oee
+                          cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                            var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                            var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                            expect(calculateOEE).to.be.equal(valueOEE)
+                          });
+                        });
                       });
                     }
                   });
@@ -899,17 +899,17 @@ describe('Line 7', () => {
                     cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                       var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
                       expect(valuePER).to.be.within(1,110)
-                    });
-                    // check quality
-                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                      var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                      expect(valueQUA).to.be.within(1,100)
-                    });
-                    // calculate oee
-                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                      var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                      var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                      expect(calculateOEE).to.be.equal(valueOEE)
+                      // check quality
+                      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                        var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                        expect(valueQUA).to.be.within(1,100)
+                        // calculate oee
+                        cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                          var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                          var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                          expect(calculateOEE).to.be.equal(valueOEE)
+                        });
+                      });
                     });
                   }
                 });
@@ -1001,17 +1001,17 @@ describe('Line 7', () => {
                     cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                       var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
                       expect(valuePER).to.be.within(1,110)
-                    });
-                    // check quality
-                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                      var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                      expect(valueQUA).to.be.within(1,100)
-                    });
-                    // calculate oee
-                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                      var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                      var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                      expect(calculateOEE).to.be.equal(valueOEE)
+                      // check quality
+                      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                        var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                        expect(valueQUA).to.be.within(1,100)
+                        // calculate oee
+                        cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                          var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                          var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                          expect(calculateOEE).to.be.equal(valueOEE)
+                        });
+                      });
                     });
                   }
                 });
@@ -1056,17 +1056,17 @@ describe('Line 7', () => {
                     cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
                       var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
                       expect(valuePER).to.be.within(1,110)
-                    });
-                    // check quality
-                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                      var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                      expect(valueQUA).to.be.within(1,100)
-                    });
-                    // calculate oee
-                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                      var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                      var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                      expect(calculateOEE).to.be.equal(valueOEE)
+                      // check quality
+                      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+                        var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+                        expect(valueQUA).to.be.within(1,100)
+                        // calculate oee
+                        cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+                          var valueOEE = parseInt(text.replace('%','').replace('.',''))
+                          var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+                          expect(calculateOEE).to.be.equal(valueOEE)
+                        });
+                      });
                     });
                   }
                 });
