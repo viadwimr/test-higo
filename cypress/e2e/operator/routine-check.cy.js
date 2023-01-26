@@ -59,42 +59,8 @@ describe('Line 1', () => {
                 cy.get('.swal2-confirm', timeout).click();
               }
             });
-            cy.wait(7000);
-            
-            // check availability
-            cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-              const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-              expect(valueAVA).to.be.within(0,100)
-              if (valueAVA == 0) {
-                // check performance, quality, oee
-                cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                });
-                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                });
-                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                });
-              } else {
-                // check performance
-                cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                  var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valuePER).to.be.within(1,110)
-                  // check quality
-                  cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                    var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                    expect(valueQUA).to.be.within(1,100)
-                    // calculate oee
-                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                      var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                      var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                      expect(calculateOEE).to.be.equal(valueOEE)
-                    });
-                  });
-                });
-              }
-            });
+            cy.wait(7000);      
+            cy.oeeAPQ();
           }
         });
         
@@ -115,41 +81,7 @@ describe('Line 1', () => {
           }
         });
         cy.wait(7000);
-        
-        // check availability
-        cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-          const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-          expect(valueAVA).to.be.within(0,100)
-          if (valueAVA == 0) {
-            // check performance, quality, oee
-            cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-            cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-            cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-          } else {
-            // check performance
-            cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-              var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-              expect(valuePER).to.be.within(1,110)
-              // check quality
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                expect(valueQUA).to.be.within(1,100)
-                // calculate oee
-                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                  var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                  expect(calculateOEE).to.be.equal(valueOEE)
-                });
-              });
-            });
-          }
-        });
+        cy.oeeAPQ();
       }
     });
   });
@@ -158,29 +90,7 @@ describe('Line 1', () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
-        // check total Product
-        cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-          .invoke('text').then((text) => {
-            const valueProduct = parseInt(text.replace('%',''))
-            if (valueProduct == 0) {
-              // check good product
-              cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                .invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-            } else {
-            // get reject product
-            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                const valueReject = parseInt(text.replace('%','').replace('.',''))
-                // check good product
-                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
-                });
-            });
-            }
-        });
+        cy.totalProduct();
       }
     });
   });
@@ -214,40 +124,7 @@ describe('Line 1', () => {
             }
           });
           cy.wait(7000);
-          // check availability
-          cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-            const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-            expect(valueAVA).to.be.within(0,100)
-            if (valueAVA == 0) {
-              // check performance, quality, oee
-              cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-            } else {
-              // check performance
-              cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                expect(valuePER).to.be.within(1,110)
-                // check quality
-                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                  var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valueQUA).to.be.within(1,100)
-                  // calculate oee
-                  cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                    var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                    var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                    expect(calculateOEE).to.be.equal(valueOEE)
-                  });
-                });
-              });
-            }
-          });
+          cy.oeeAPQ();
         });
       }
     });
@@ -257,29 +134,7 @@ describe('Line 1', () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
-        // check total Product
-        cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-        .invoke('text').then((text) => {
-          const valueProduct = parseInt(text.replace('%',''))
-          if (valueProduct == 0) {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-          } else {
-            // get reject product
-            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                const valueReject = parseInt(text.replace('%','').replace('.',''))
-                // check good product
-                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
-                });
-            });
-          }
-        });
+        cy.totalProduct();
       }
     });
   });
@@ -319,41 +174,7 @@ describe('Line 2', () => {
               }
             });
             cy.wait(7000);
-    
-            // check availability
-            cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-              const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-              expect(valueAVA).to.be.within(0,100)
-              if (valueAVA == 0) {
-                // check performance, quality, oee
-                cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                });
-                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                });
-                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                });
-              } else {
-                // check performance
-                cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                  var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valuePER).to.be.within(1,110)
-                  // check quality
-                  cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                    var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                    expect(valueQUA).to.be.within(1,100)
-                    // calculate oee
-                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                      var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                      var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                      expect(calculateOEE).to.be.equal(valueOEE)
-                    });
-                  });
-                });
-              }
-            });
+            cy.oeeAPQ();
           }
         });
         
@@ -375,40 +196,7 @@ describe('Line 2', () => {
           }
         });
         cy.wait(7000);
-        // check availability
-        cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-          const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-          expect(valueAVA).to.be.within(0,100)
-          if (valueAVA == 0) {
-            // check performance, quality, oee
-            cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-            cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-            cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-          } else {
-            // check performance
-            cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-              var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-              expect(valuePER).to.be.within(1,110)
-              // check quality
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                expect(valueQUA).to.be.within(1,100)
-                // calculate oee
-                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                  var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                  expect(calculateOEE).to.be.equal(valueOEE)
-                });
-              });
-            });
-          }
-        });
+        cy.oeeAPQ();
       }
     });
   });
@@ -417,29 +205,7 @@ describe('Line 2', () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
-        // check total Product
-        cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-        .invoke('text').then((text) => {
-          const valueProduct = parseInt(text.replace('%',''))
-          if (valueProduct == 0) {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-          } else {
-            // get reject product
-            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                const valueReject = parseInt(text.replace('%','').replace('.',''))
-                // check good product
-                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
-                });
-            });
-          }
-        });
+        cy.totalProduct();
       }
     })
   });
@@ -473,76 +239,19 @@ describe('Line 2', () => {
             }
           });
           cy.wait(7000);
-          // check availability
-          cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-            const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-            expect(valueAVA).to.be.within(0,100)
-            if (valueAVA == 0) {
-              // check performance, quality, oee
-              cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-            } else {
-              // check performance
-              cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                expect(valuePER).to.be.within(1,110)
-                // check quality
-                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                  var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valueQUA).to.be.within(1,100)
-                  // calculate oee
-                  cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                    var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                    var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                    expect(calculateOEE).to.be.equal(valueOEE)
-                  });
-                });
-              });
-            }
-          });
+          cy.oeeAPQ();
         });
       }
     });
   });
 
-  it(`Godd-Reject Product Packer${noRuntime}`, () => {
+  it(`Good-Reject Product Packer${noRuntime}`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
-        // check total Product
-        cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-        .invoke('text').then((text) => {
-          const valueProduct = parseInt(text.replace('%',''))
-          if (valueProduct == 0) {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-          } else {
-            // get reject product
-            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                const valueReject = parseInt(text.replace('%','').replace('.',''))
-                // check good product
-                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
-                });
-            });
-
-          }
-        });
+        cy.totalProduct();
       }
     });
-
   });
 });
 
@@ -580,41 +289,7 @@ describe('Line 7', () => {
               }
             });
             cy.wait(7000);
-    
-            // check availability
-            cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-              const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-              expect(valueAVA).to.be.within(0,100)
-              if (valueAVA == 0) {
-                // check performance, quality, oee
-                cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                });
-                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                });
-                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                });
-              } else {
-                // check performance
-                cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                  var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valuePER).to.be.within(1,110)
-                  // check quality
-                  cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                    var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                    expect(valueQUA).to.be.within(1,100)
-                    // calculate oee
-                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                      var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                      var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                      expect(calculateOEE).to.be.equal(valueOEE)
-                    });
-                  });
-                });
-              }
-            });
+            cy.oeeAPQ();
           }
         });
         
@@ -636,40 +311,7 @@ describe('Line 7', () => {
           }
         });
         cy.wait(7000);
-        // check availability
-        cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-          const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-          expect(valueAVA).to.be.within(0,100)
-          if (valueAVA == 0) {
-            // check performance, quality, oee
-            cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-            cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-            cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-              expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-          } else {
-            // check performance
-            cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-              var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-              expect(valuePER).to.be.within(1,110)
-              // check quality
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                expect(valueQUA).to.be.within(1,100)
-                // calculate oee
-                cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                  var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                  var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                  expect(calculateOEE).to.be.equal(valueOEE)
-                });
-              });
-            });
-          }
-        });
+        cy.oeeAPQ();
       }
     });
   });
@@ -678,29 +320,7 @@ describe('Line 7', () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
-        // check total Product
-        cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-        .invoke('text').then((text) => {
-          const valueProduct = parseInt(text.replace('%',''))
-          if (valueProduct == 0) {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-          } else {
-            // get reject product
-            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                const valueReject = parseInt(text.replace('%','').replace('.',''))
-                // check good product
-                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
-                });
-            });
-          }
-        });
+        cy.totalProduct();
       }
     })
   });
@@ -734,40 +354,7 @@ describe('Line 7', () => {
             }
           });
           cy.wait(7000);
-          // check availability
-          cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-            const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-            expect(valueAVA).to.be.within(0,100)
-            if (valueAVA == 0) {
-              // check performance, quality, oee
-              cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-              cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-              cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-            } else {
-              // check performance
-              cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                expect(valuePER).to.be.within(1,110)
-                // check quality
-                cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                  var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valueQUA).to.be.within(1,100)
-                  // calculate oee
-                  cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                    var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                    var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                    expect(calculateOEE).to.be.equal(valueOEE)
-                  });
-                });
-              });
-            }
-          });
+          cy.oeeAPQ();
         });
       }
     });
@@ -777,29 +364,7 @@ describe('Line 7', () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
-        // check total Product
-        cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-        .invoke('text').then((text) => {
-          const valueProduct = parseInt(text.replace('%',''))
-          if (valueProduct == 0) {
-            // check good product
-            cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                expect(parseInt(text.replace('%',''))).to.be.equal(0)
-            });
-          } else {
-            // get reject product
-            cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
-              .invoke('text').then((text) => {
-                const valueReject = parseInt(text.replace('%','').replace('.',''))
-                // check good product
-                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
-                });
-            });
-          }
-        });
+        cy.totalProduct();
       }
     });
   });
@@ -824,40 +389,7 @@ describe('Line 7', () => {
                     .contains('Packer HMPS').click();
                   cy.get('.swal2-confirm', timeout).click();
                   cy.wait(7000);
-                  // check availability
-                  cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-                    const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                    expect(valueAVA).to.be.within(0,100)
-                    if (valueAVA == 0) {
-                      // check performance, quality, oee
-                      cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                        expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                      });
-                      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                        expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                      });
-                      cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                        expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                      });
-                    } else {
-                      // check performance
-                      cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                        var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                        expect(valuePER).to.be.within(1,110)
-                        // check quality
-                        cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                          var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                          expect(valueQUA).to.be.within(1,100)
-                          // calculate oee
-                          cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                            var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                            var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                            expect(calculateOEE).to.be.equal(valueOEE)
-                          });
-                        });
-                      });
-                    }
-                  });
+                  cy.oeeAPQ();
                 } else {
                   //close
                   cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
@@ -879,40 +411,7 @@ describe('Line 7', () => {
                   }
                 });
                 cy.wait(7000);
-                // check availability
-                cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-                  const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valueAVA).to.be.within(0,100)
-                  if (valueAVA == 0) {
-                    // check performance, quality, oee
-                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                    });
-                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                    });
-                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                    });
-                  } else {
-                    // check performance
-                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                      var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                      expect(valuePER).to.be.within(1,110)
-                      // check quality
-                      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                        var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                        expect(valueQUA).to.be.within(1,100)
-                        // calculate oee
-                        cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                          var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                          var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                          expect(calculateOEE).to.be.equal(valueOEE)
-                        });
-                      });
-                    });
-                  }
-                });
+                cy.oeeAPQ();
               } else {
                 // close
                 cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
@@ -932,29 +431,7 @@ describe('Line 7', () => {
         // check machine name
         cy.get('body').find('.ant-page-header-heading-title').invoke('text').then((text) => {
           if (text == `Operator Produksi ${line7} - Packer HMPS`) {
-            // check total Product
-            cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-            .invoke('text').then((text) => {
-              const valueProduct = parseInt(text.replace('%',''))
-              if (valueProduct == 0) {
-                // check good product
-                cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                });
-              } else {
-                // get reject product
-                cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
-                  .invoke('text').then((text) => {
-                    const valueReject = parseInt(text.replace('%','').replace('.',''))
-                    // check good product
-                    cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                      .invoke('text').then((text) => {
-                        expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
-                    });
-                });
-              }
-            });
+            cy.totalProduct();
           }
         })
       }
@@ -981,40 +458,7 @@ describe('Line 7', () => {
                   .contains('Packer CIEME').click();
                 cy.get('.swal2-confirm', timeout).click();
                 cy.wait(7000);
-                // check availability
-                cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-                  const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valueAVA).to.be.within(0,100)
-                  if (valueAVA == 0) {
-                    // check performance, quality, oee
-                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                    });
-                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                    });
-                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                    });
-                  } else {
-                    // check performance
-                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                      var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                      expect(valuePER).to.be.within(1,110)
-                      // check quality
-                      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                        var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                        expect(valueQUA).to.be.within(1,100)
-                        // calculate oee
-                        cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                          var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                          var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                          expect(calculateOEE).to.be.equal(valueOEE)
-                        });
-                      });
-                    });
-                  }
-                });
+                cy.oeeAPQ();
               } else {
                 // close
                 cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();
@@ -1036,40 +480,7 @@ describe('Line 7', () => {
                   }
                 });
                 cy.wait(7000);
-                // check availability
-                cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
-                  const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                  expect(valueAVA).to.be.within(0,100)
-                  if (valueAVA == 0) {
-                    // check performance, quality, oee
-                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                    });
-                    cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                    });
-                    cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                      expect(parseInt(text.replace('%',''))).to.be.equal(0)
-                    });
-                  } else {
-                    // check performance
-                    cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
-                      var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                      expect(valuePER).to.be.within(1,110)
-                      // check quality
-                      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
-                        var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
-                        expect(valueQUA).to.be.within(1,100)
-                        // calculate oee
-                        cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
-                          var valueOEE = parseInt(text.replace('%','').replace('.',''))
-                          var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-                          expect(calculateOEE).to.be.equal(valueOEE)
-                        });
-                      });
-                    });
-                  }
-                });
+                cy.oeeAPQ();
               } else {
                 // close
                 cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();
@@ -1089,29 +500,7 @@ describe('Line 7', () => {
         // check machine name
         cy.get('body').find('.ant-page-header-heading-title').invoke('text').then((text) => {
           if (text == `Operator Produksi ${line7} - Packer CIEME`) {
-          // check total Product
-          cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
-          .invoke('text').then((text) => {
-            const valueProduct = parseInt(text.replace('%',''))
-            if (valueProduct == 0) {
-              // check good product
-              cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                .invoke('text').then((text) => {
-                  expect(parseInt(text.replace('%',''))).to.be.equal(0)
-              });
-            } else {
-              // get reject product
-              cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
-                .invoke('text').then((text) => {
-                  const valueReject = parseInt(text.replace('%','').replace('.',''))
-                  // check good product
-                  cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
-                    .invoke('text').then((text) => {
-                      expect(parseInt(text.replace('%','').replace('.',''))).to.be.greaterThan(valueReject)
-                  });
-              });
-            }
-          });
+            cy.totalProduct();
           }
         });
       }
