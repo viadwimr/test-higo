@@ -84,6 +84,15 @@ describe('Line 1', () => {
     });
   });
 
+  it(`Count Downtime Filler`, () => {
+    // check runtime/no runtime
+    cy.get('body', timeout).then((body) => {
+      if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
+        cy.count_downtime();
+      }
+    });
+  });
+
   it(`Good-Reject Product Filler`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
@@ -123,6 +132,15 @@ describe('Line 1', () => {
           cy.wait(7000);
           cy.oeeAPQ();
         });
+      }
+    });
+  });
+
+  it(`Count Downtime Packer`, () => {
+    // check runtime/no runtime
+    cy.get('body', timeout).then((body) => {
+      if (body.find('div[style=""] > div > .ant-btn').length > 0) {
+        cy.count_downtime();
       }
     });
   });
@@ -196,6 +214,15 @@ describe('Line 2', () => {
     });
   });
 
+  it(`Count Downtime Filler`, () => {
+    // check runtime/no runtime
+    cy.get('body', timeout).then((body) => {
+      if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
+        cy.count_downtime();
+      }
+    })
+  });
+
   it(`Good-Reject Product Filler`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
@@ -235,6 +262,15 @@ describe('Line 2', () => {
           cy.wait(7000);
           cy.oeeAPQ();
         });
+      }
+    });
+  });
+
+  it(`Count Downtime Packer`, () => {
+    // check runtime/no runtime
+    cy.get('body', timeout).then((body) => {
+      if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
+        cy.count_downtime();
       }
     });
   });
@@ -309,6 +345,15 @@ describe('Line 7', () => {
     });
   });
 
+  it(`Count Downtime Filler 1`, () => {
+    // check runtime/no runtime
+    cy.get('body', timeout).then((body) => {
+      if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
+        cy.count_downtime();
+      }
+    })
+  });
+
   it(`Good-Reject Product Filler 1`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
@@ -348,6 +393,15 @@ describe('Line 7', () => {
           cy.wait(7000);
           cy.oeeAPQ();
         });
+      }
+    });
+  });
+
+  it(`Count Downtime Filler 2`, () => {
+    // check runtime/no runtime
+    cy.get('body', timeout).then((body) => {
+      if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
+        cy.count_downtime();
       }
     });
   });
@@ -405,6 +459,20 @@ describe('Line 7', () => {
     });
   });
 
+  it(`Count Downtime Packer 1`, () => {
+    // check runtime/no runtime
+    cy.get('body', timeout).then((body) => {
+      if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
+        // check machine name
+        cy.get('body').find('.ant-page-header-heading-title').invoke('text').then((text) => {
+          if (text == `Operator Produksi ${line7} - Packer HMPS`) {
+            cy.count_downtime();
+          }
+        })
+      }
+    })
+  });
+
   it(`Good-Reject Product Packer 1`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
@@ -457,6 +525,20 @@ describe('Line 7', () => {
                 cy.wait(7000);
               }
             }); 
+          }
+        });
+      }
+    });
+  });
+
+  it(`Count Downtime Packer 2`, () => {
+    // check runtime/no runtime
+    cy.get('body', timeout).then((body) => {
+      if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
+        // check machine name
+        cy.get('body').find('.ant-page-header-heading-title').invoke('text').then((text) => {
+          if (text == `Operator Produksi ${line7} - Packer CIEME`) {
+            cy.count_downtime();
           }
         });
       }

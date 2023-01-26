@@ -819,6 +819,7 @@ Cypress.Commands.add(`count_downtime`, () => {
     var totalMinorStop=0;
     var totalDowntimeMoreThanOneHours=0
     var numberReason=1;
+    var totalMinorStopReason=0
     if (frequencyReasons > 0) {
       while (numberReason <= frequencyReasons) {
         // check downtime/minorstop
@@ -826,7 +827,8 @@ Cypress.Commands.add(`count_downtime`, () => {
           totalMinorStop=0;
           totalDowntimeMoreThanOneHours=0
           numberReason=1;
-          while (numberReason <= frequencyReasons) {
+          totalMinorStopReason=0
+          while (numberReason < frequencyReasons) {
             if (body.find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--danger > :nth-child(3)`).length > 0) {
               // check downtime hour
               cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--danger > :nth-child(3)`)
@@ -838,32 +840,52 @@ Cypress.Commands.add(`count_downtime`, () => {
                   if (reasonHourMinus != 0) {
                     if (endReasonHour > startReasonHour) {
                       reasonHourMinus=endReasonHour-startReasonHour
-                     } else if ( endReasonHour < startReasonHour ) {
-                       reasonHourMinus=endReasonHour+24-startReasonHour
-                     }
-                    totalDowntimeMoreThanOneHours=totalDowntimeMoreThanOneHours+reasonHourMinus
+                    } else if ( endReasonHour < startReasonHour ) {
+                      reasonHourMinus=endReasonHour+24-startReasonHour
+                    }
+                    totalDowntimeMoreThanOneHours++
+                  }                 
+              });                  
+            } else if (body.find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default`).length > 0) {  
+              cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default > :nth-child(3)`)
+              .invoke('text').then((text) => {
+                var endReasonHour = parseInt(text.slice(10,13))
+                var startReasonHour = parseInt(text.slice(0,2))
+                var reasonHourMinus = endReasonHour - startReasonHour
+                // check downtime width
+                if (reasonHourMinus != 0) {
+                  if (endReasonHour > startReasonHour) {
+                    reasonHourMinus=endReasonHour-startReasonHour
+                  } else if ( endReasonHour < startReasonHour ) {
+                    reasonHourMinus=endReasonHour+24-startReasonHour
                   }
-              });
-            } else if (body.find('.reason-card__container--default > :nth-child(2)').length > 0) {
-              // abu2 card
+                  totalDowntimeMoreThanOneHours++
+                }
+                cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default > .reason-card__title--default`).invoke('text').then((text) => {
+                  if (text == 'minor_stop') {
+                    totalMinorStopReason++
+                  }
+                })               
+              });                  
             } else {
-              totalMinorStop=totalMinorStop+1
+              totalMinorStop++
             }
-            numberReason=numberReason+1
+            numberReason++
           }
-          
         }) 
-        numberReason=numberReason+1
+        numberReason++
       }
 
       // get downtimes frequency
       cy.get('body').find('[style*="background-color: rgb(235, 87, 87)"]').then((downtimeBar) => {
         var downtimeBarCount = Cypress.$(downtimeBar).length;
-        expect(downtimeBarCount).to.be.greaterThan(-1)
-        expect(totalDowntimeMoreThanOneHours).to.be.greaterThan(-1)
-        expect(frequencyReasons).to.be.greaterThan(-1)
-        expect(totalMinorStop).to.be.greaterThan(-1)
-        expect(downtimeBarCount-totalDowntimeMoreThanOneHours).to.be.equal(frequencyReasons-totalMinorStop)
+        expect(downtimeBarCount).to.be.at.least(0)
+        expect(totalDowntimeMoreThanOneHours).to.be.at.least(0)
+        expect(frequencyReasons).to.be.at.least(0)
+        expect(totalMinorStop).to.be.at.least(0)
+        expect(totalMinorStopReason).to.be.at.least(0)
+        expect(downtimeBarCount-totalDowntimeMoreThanOneHours)
+          .to.be.equal(frequencyReasons-totalMinorStop-totalMinorStopReason)
       })
     }
   })
