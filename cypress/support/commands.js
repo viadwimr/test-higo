@@ -741,6 +741,77 @@ Cypress.Commands.add("packer_card_shiftly2", () => {
   cy.get(".ant-page-header-back-button > svg > path").click();
 });
 
+Cypress.Commands.add("oeeAPQ", () => {
+  // check availability
+  cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
+    const valueAVA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+    expect(valueAVA).to.be.within(0,100)
+    if (valueAVA == 0) {
+      // check performance, quality, oee
+      cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
+        expect(parseInt(text.replace('%',''))).to.be.equal(0)
+      });
+      cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+        expect(parseInt(text.replace('%',''))).to.be.equal(0)
+      });
+      cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+        expect(parseInt(text.replace('%',''))).to.be.equal(0)
+      });
+    } else {
+      // check performance
+      cy.get('body').find('[data-testid="percent-PER"]').invoke('text').then((text) => {
+        var valuePER = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+        if (valueAVA > 0 && valueAVA < 0.3) {
+          expect(valuePER).to.be.within(0,110)
+        } else if (valueAVA >= 0.3 && valueAVA < 1) {
+          expect(valuePER).to.be.within(10,110)
+        } else if (valueAVA >= 1 && valueAVA < 10) {
+          expect(valuePER).to.be.within(30,110)
+        } else {
+          expect(valuePER).to.be.within(50,110)
+        }
+        // check quality
+        cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
+          var valueQUA = parseFloat(text.replace('%','').replace('.','').replace(',','.'))
+          expect(valueQUA).to.be.within(0,110)
+          // calculate oee
+          cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
+            var valueOEE = parseInt(text.replace('%','').replace('.',''))
+            var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
+            expect(calculateOEE).to.be.equal(valueOEE)
+          });
+        });
+      });
+    }
+  });
+})
+
+Cypress.Commands.add("totalProduct", () => {
+  // check total Product
+  cy.get('body').find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value')
+    .invoke('text').then((text) => {
+      const valueProduct = parseInt(text.replace('%','').replace('.',''))
+        // get reject product
+        cy.get('body').find(':nth-child(3) > .ant-card > .ant-card-body > .qtt-value')
+        .invoke('text').then((text) => {
+          const valueReject = parseInt(text.replace('%','').replace('.',''))
+          // check good product
+          cy.get('body').find(':nth-child(2) > .ant-card > .ant-card-body > .qtt-value')
+            .invoke('text').then((text) => {
+              const valueGood = parseInt(text.replace('%','').replace('.',''))
+              if (valueProduct == 0) {
+                expect(valueGood).to.be.equal(0)
+                expect(valueReject).to.be.equal(0)
+              } else {
+                var valueHalfProduct = valueProduct / 2
+                expect(valueGood).to.be.greaterThan(valueReject)
+                expect(valueGood).to.be.at.least(valueHalfProduct)
+              }
+          });
+        });
+  });
+})
+
 /*-----Logout------*/
 Cypress.Commands.add("logout", () => {
   cy.wait(3000);
