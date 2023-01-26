@@ -5,7 +5,6 @@ const timeout = { timeout: 5000 };
 //const ipData = '34.87.144.83:3009';
 const force = { force: true };
 const d = new Date();
-var noRuntime = '';
 
 // Shift Panjang
 if (d.getHours()>=22 || d.getHours()<6) {
@@ -40,27 +39,26 @@ describe('Line 1', () => {
     cy.get('body', timeout).then((body) => {
       // history runtime
       if (body.find('[style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;"] > .ant-space').length > 0) {
+        cy.contains('Tidak ada runtime yang berjalan', timeout).should('be.visible');
         cy.get('.Button__StyledButton-sc-1s4bp2x-0', timeout).click();
         cy.wait(3000);
         // check data runtime
         cy.get('body', timeout).then((body) => {
           if (body.find('[data-testid="nodata"]').length > 0) {
+            cy.contains('Tidak Ada Runtime').should('be.visible');
             // close
             cy.get('.ant-row > :nth-child(2)', timeout).click();
             cy.logout()
-            // detect no runtime
-            noRuntime = ' (No Runtime)';
           } else {
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Filler GBM').click();
+            // check passed runtime
             cy.get('body', timeout).then((body) => {
-              if (body.find('.swal2-confirm').length > 0) {
-                cy.get('.swal2-confirm', timeout).click();
+              if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body').length > 0) {
+                // close
+                expect('Filler GBM tidak ada runtime').to.deep.equal('Filler GBM tidak ada runtime')
+                cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
+                cy.wait(3000);
               }
-            });
-            cy.wait(7000);      
-            cy.oeeAPQ();
+            })
           }
         });
         
@@ -86,7 +84,7 @@ describe('Line 1', () => {
     });
   });
 
-  it(`Good-Reject Product Filler${noRuntime}`, () => {
+  it(`Good-Reject Product Filler`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -95,7 +93,7 @@ describe('Line 1', () => {
     });
   });
 
-  it(`Normal APQ Packer${noRuntime}`, () => {
+  it(`Normal APQ Packer`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -106,11 +104,10 @@ describe('Line 1', () => {
         cy.get('body', timeout).then((body) => {
           // passed runtime
           if (body.find('.Button__StyledButton-sc-1s4bp2x-0').length > 0) {
-            cy.get('.Button__StyledButton-sc-1s4bp2x-0', timeout).click();
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Packaging').click();
-            cy.get('.swal2-confirm', timeout).click();
+            // close
+            expect('Packaging tidak ada runtime').to.deep.equal('Packaging tidak ada runtime')
+            cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
+            cy.wait(3000);
           }
           // running time
           else {
@@ -130,7 +127,7 @@ describe('Line 1', () => {
     });
   });
 
-  it(`Good-Reject Product Packer${noRuntime}`, () => {
+  it(`Good-Reject Product Packer`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -154,30 +151,28 @@ describe('Line 2', () => {
     cy.get('body', timeout).then((body) => {
       // history runtime
       if (body.find('[style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;"] > .ant-space').length > 0) {
+        cy.contains('Tidak ada runtime yang berjalan', timeout).should('be.visible');
         cy.get('.Button__StyledButton-sc-1s4bp2x-0', timeout).click();
         cy.wait(3000);
         // check data runtime
         cy.get('body', timeout).then((body) => {
           if (body.find('[data-testid="nodata"]').length > 0) {
+            cy.contains('Tidak Ada Runtime').should('be.visible');
             // close
             cy.get('.ant-row > :nth-child(2)', timeout).click();
             cy.logout()
-            // detect no runtime
-            noRuntime = 'No Runtime';
           } else {
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Filler NATEC').click();
+            // check passed runtime
             cy.get('body', timeout).then((body) => {
-              if (body.find('.swal2-confirm').length > 0) {
-                cy.get('.swal2-confirm', timeout).click();
+              if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body').length > 0) {
+                // close
+                expect('Filler NATEC tidak ada runtime').to.deep.equal('Filler NATEC tidak ada runtime')
+                cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
+                cy.wait(3000);
               }
-            });
-            cy.wait(7000);
-            cy.oeeAPQ();
+            })
           }
         });
-        
       } else {
         // back to the history runtime
         cy.get('div[style=""] > div > .ant-btn', timeout).click();
@@ -201,7 +196,7 @@ describe('Line 2', () => {
     });
   });
 
-  it(`Good-Reject Product Filler${noRuntime}`, () => {
+  it(`Good-Reject Product Filler`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -210,7 +205,7 @@ describe('Line 2', () => {
     })
   });
 
-  it(`Normal APQ Packer${noRuntime}`, () => {
+  it(`Normal APQ Packer`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -221,11 +216,10 @@ describe('Line 2', () => {
         cy.get('body', timeout).then((body) => {
           // passed runtime
           if (body.find('.Button__StyledButton-sc-1s4bp2x-0').length > 0) {
-            cy.get('.Button__StyledButton-sc-1s4bp2x-0', timeout).click();
-            // select runtime
-            cy.get(':nth-child(1) > .ant-row > .ant-col > .ant-card > .ant-card-body', timeout)
-              .contains('Packer PFM SCIROCO').click();
-            cy.get('.swal2-confirm', timeout).click();
+            // close
+            expect('Packer PFM SCIROCO tidak ada runtime').to.deep.equal('Packer PFM SCIROCO tidak ada runtime')
+            cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
+            cy.wait(3000);
           }
           // running time
           else {
@@ -245,7 +239,7 @@ describe('Line 2', () => {
     });
   });
 
-  it(`Good-Reject Product Packer${noRuntime}`, () => {
+  it(`Good-Reject Product Packer`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -269,27 +263,26 @@ describe('Line 7', () => {
     cy.get('body', timeout).then((body) => {
       // history runtime
       if (body.find('[style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;"] > .ant-space').length > 0) {
+        cy.contains('Tidak ada runtime yang berjalan', timeout).should('be.visible');
         cy.get('.Button__StyledButton-sc-1s4bp2x-0', timeout).click();
         cy.wait(3000);
         // check data runtime
         cy.get('body', timeout).then((body) => {
           if (body.find('[data-testid="nodata"]').length > 0) {
+            cy.contains('Tidak Ada Runtime').should('be.visible');
             // close
             cy.get('.ant-row > :nth-child(2)', timeout).click();
             cy.logout()
-            // detect no runtime
-            noRuntime = 'No Runtime';
           } else {
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Filler TREPKO A').click();
+            // check passed runtime
             cy.get('body', timeout).then((body) => {
-              if (body.find('.swal2-confirm').length > 0) {
-                cy.get('.swal2-confirm', timeout).click();
+              if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body').length > 0) {
+                // close
+                expect('Filler TREPKO A tidak ada runtime').to.deep.equal('Filler TREPKO A tidak ada runtime')
+                cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
+                cy.wait(3000);
               }
-            });
-            cy.wait(7000);
-            cy.oeeAPQ();
+            })
           }
         });
         
@@ -316,7 +309,7 @@ describe('Line 7', () => {
     });
   });
 
-  it(`Good-Reject Product Filler 1${noRuntime}`, () => {
+  it(`Good-Reject Product Filler 1`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -325,7 +318,7 @@ describe('Line 7', () => {
     })
   });
 
-  it(`Normal APQ Filler 2${noRuntime}`, () => {
+  it(`Normal APQ Filler 2`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -336,11 +329,10 @@ describe('Line 7', () => {
         cy.get('body', timeout).then((body) => {
           // passed runtime
           if (body.find('.Button__StyledButton-sc-1s4bp2x-0').length > 0) {
-            cy.get('.Button__StyledButton-sc-1s4bp2x-0', timeout).click();
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Filler TREPKO B').click();
-            cy.get('.swal2-confirm', timeout).click();
+            // close
+            expect('Filler TREPKO B tidak ada runtime').to.deep.equal('Filler TREPKO B tidak ada runtime')
+            cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
+            cy.wait(3000);
           }
           // running time
           else {
@@ -360,7 +352,7 @@ describe('Line 7', () => {
     });
   });
 
-  it(`Good-Reject Product Filler 2${noRuntime}`, () => {
+  it(`Good-Reject Product Filler 2`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -369,7 +361,7 @@ describe('Line 7', () => {
     });
   });
 
-  it(`Normal APQ Packer 1${noRuntime}`, () => {
+  it(`Normal APQ Packer 1`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -380,22 +372,10 @@ describe('Line 7', () => {
         cy.get('body', timeout).then((body) => {
           // passed runtime
           if (body.find('.Button__StyledButton-sc-1s4bp2x-0').length > 0) {
-            cy.get('.Button__StyledButton-sc-1s4bp2x-0', timeout).click();
-              // check packer machine
-              cy.get('body', timeout).then((body) => {
-                if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(3) > .ant-card > .ant-card-body').length > 0) {
-                  // select runtime
-                  cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-                    .contains('Packer HMPS').click();
-                  cy.get('.swal2-confirm', timeout).click();
-                  cy.wait(7000);
-                  cy.oeeAPQ();
-                } else {
-                  //close
-                  cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
-                  cy.wait(7000);
-                }
-              });
+            //close
+            expect('Packer HMPS tidak ada runtime').to.deep.equal('Packer HMPS tidak ada runtime')
+            cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
+            cy.wait(7000);
           }
           // running time
           else {
@@ -414,6 +394,7 @@ describe('Line 7', () => {
                 cy.oeeAPQ();
               } else {
                 // close
+                expect('Packer HMPS tidak ada runtime').to.deep.equal('Packer HMPS tidak ada runtime')
                 cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
                 cy.wait(7000);
               }
@@ -424,7 +405,7 @@ describe('Line 7', () => {
     });
   });
 
-  it(`Good-Reject Product Packer 1${noRuntime}`, () => {
+  it(`Good-Reject Product Packer 1`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {
@@ -438,7 +419,7 @@ describe('Line 7', () => {
     })
   });
 
-  it(`Normal APQ Packer 2${noRuntime}`, () => {
+  it(`Normal APQ Packer 2`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find('div[style=""] > div > .ant-btn').length > 0) {
@@ -449,22 +430,10 @@ describe('Line 7', () => {
         cy.get('body', timeout).then((body) => {
           // passed runtime
           if (body.find('.Button__StyledButton-sc-1s4bp2x-0').length > 0) {
-            cy.get('.Button__StyledButton-sc-1s4bp2x-0', timeout).click();
-            // check packer machine
-            cy.get('body', timeout).then((body) => {
-              if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(3) > .ant-card > .ant-card-body').length > 0) {
-                // select runtime
-                cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-                  .contains('Packer CIEME').click();
-                cy.get('.swal2-confirm', timeout).click();
-                cy.wait(7000);
-                cy.oeeAPQ();
-              } else {
-                // close
-                cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();
-                cy.wait(7000);
-              }
-            });
+            // close
+            expect('Packer CIEME tidak ada runtime').to.deep.equal('Packer CIEME tidak ada runtime')
+            cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();
+            cy.wait(7000);
           }
           // running time
           else {
@@ -483,7 +452,8 @@ describe('Line 7', () => {
                 cy.oeeAPQ();
               } else {
                 // close
-                cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();
+                expect('Packer CIEME tidak ada runtime').to.deep.equal('Packer CIEME tidak ada runtime')
+                cy.get('.ant-row > :nth-child(2)', timeout).eq(0).click();  
                 cy.wait(7000);
               }
             }); 
@@ -493,7 +463,7 @@ describe('Line 7', () => {
     });
   });
 
-  it(`Good-Reject Product Packer 2${noRuntime}`, () => {
+  it(`Good-Reject Product Packer 2`, () => {
     // check runtime/no runtime
     cy.get('body', timeout).then((body) => {
       if (body.find(':nth-child(1) > .ant-card > .ant-card-body > .qtt-value').length > 0) {

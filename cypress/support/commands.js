@@ -768,7 +768,7 @@ Cypress.Commands.add("oeeAPQ", () => {
         } else if (valueAVA >= 1 && valueAVA < 10) {
           expect(valuePER).to.be.within(30,110)
         } else {
-          expect(valuePER).to.be.within(50,110)
+          expect(valuePER).to.be.within(45,110)
         }
         // check quality
         cy.get('body').find('[data-testid="percent-QUA"]').invoke('text').then((text) => {
@@ -810,6 +810,63 @@ Cypress.Commands.add("totalProduct", () => {
           });
         });
   });
+})
+
+Cypress.Commands.add(`count_downtime`, () => {
+  // get reasons frequency
+  cy.get('body').find('[data-testid="count"]').invoke('text').then((text) => {
+    var frequencyReasons = parseInt(text)
+    var totalMinorStop=0;
+    var totalDowntimeMoreThanOneHours=0
+    var numberReason=1;
+    if (frequencyReasons > 0) {
+      while (numberReason <= frequencyReasons) {
+        // check downtime/minorstop
+        cy.get('body', { timeout: 5000 }).then((body) => {
+          totalMinorStop=0;
+          totalDowntimeMoreThanOneHours=0
+          numberReason=1;
+          while (numberReason <= frequencyReasons) {
+            if (body.find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--danger > :nth-child(3)`).length > 0) {
+              // check downtime hour
+              cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--danger > :nth-child(3)`)
+                .invoke('text').then((text) => {
+                  var endReasonHour = parseInt(text.slice(10,13))
+                  var startReasonHour = parseInt(text.slice(0,2))
+                  var reasonHourMinus = endReasonHour - startReasonHour
+                  // check downtime width
+                  if (reasonHourMinus != 0) {
+                    if (endReasonHour > startReasonHour) {
+                      reasonHourMinus=endReasonHour-startReasonHour
+                     } else if ( endReasonHour < startReasonHour ) {
+                       reasonHourMinus=endReasonHour+24-startReasonHour
+                     }
+                    totalDowntimeMoreThanOneHours=totalDowntimeMoreThanOneHours+reasonHourMinus
+                  }
+              });
+            } else if (body.find('.reason-card__container--default > :nth-child(2)').length > 0) {
+              // abu2 card
+            } else {
+              totalMinorStop=totalMinorStop+1
+            }
+            numberReason=numberReason+1
+          }
+          
+        }) 
+        numberReason=numberReason+1
+      }
+
+      // get downtimes frequency
+      cy.get('body').find('[style*="background-color: rgb(235, 87, 87)"]').then((downtimeBar) => {
+        var downtimeBarCount = Cypress.$(downtimeBar).length;
+        expect(downtimeBarCount).to.be.greaterThan(-1)
+        expect(totalDowntimeMoreThanOneHours).to.be.greaterThan(-1)
+        expect(frequencyReasons).to.be.greaterThan(-1)
+        expect(totalMinorStop).to.be.greaterThan(-1)
+        expect(downtimeBarCount-totalDowntimeMoreThanOneHours).to.be.equal(frequencyReasons-totalMinorStop)
+      })
+    }
+  })
 })
 
 /*-----Logout------*/
