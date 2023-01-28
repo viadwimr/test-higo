@@ -6,6 +6,7 @@ const timeout = { timeout: 5000 };
 const force = { force: true };
 const d = new Date();
 
+/*
 // Shift Panjang
 if (d.getHours()>=22 || d.getHours()<6) {
   var [line1,line2,line7] = [3,6,9];
@@ -14,8 +15,8 @@ if (d.getHours()>=22 || d.getHours()<6) {
 } else if (d.getHours()>=14 && d.getHours()<22) {
   var [line1,line2,line7] = [2,5,8];
 }
+*/
 
-/*
 // Shift Pendek
 if (d.getHours()>=16 && d.getHours()<22) {
   var [line1,line2,line7] = [3,5,9];
@@ -24,7 +25,6 @@ if (d.getHours()>=16 && d.getHours()<22) {
 } else if (d.getHours()>=12 && d.getHours()<16) {
   var [line1,line2,line7] = [2,5,8];
 }
-*/
 
 describe('Line 1', () => {
   const user = Cypress.env(`oprprd${line1}`)
