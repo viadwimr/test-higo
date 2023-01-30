@@ -828,7 +828,7 @@ Cypress.Commands.add(`count_downtime`, () => {
           totalDowntimeMoreThanOneHours=0
           numberReason=1;
           totalMinorStopReason=0
-          while (numberReason < frequencyReasons) {
+          while (numberReason <= frequencyReasons) {
             if (body.find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--danger > :nth-child(3)`).length > 0) {
               // check downtime hour
               cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--danger > :nth-child(3)`)
@@ -843,8 +843,9 @@ Cypress.Commands.add(`count_downtime`, () => {
                     } else if ( endReasonHour < startReasonHour ) {
                       reasonHourMinus=endReasonHour+24-startReasonHour
                     }
-                    totalDowntimeMoreThanOneHours++
-                  }                 
+                    totalDowntimeMoreThanOneHours=totalDowntimeMoreThanOneHours+reasonHourMinus
+                  } 
+                  expect(totalDowntimeMoreThanOneHours).to.be.at.least(0)                
               });                  
             } else if (body.find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default`).length > 0) {  
               cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default > :nth-child(3)`)
@@ -859,8 +860,9 @@ Cypress.Commands.add(`count_downtime`, () => {
                   } else if ( endReasonHour < startReasonHour ) {
                     reasonHourMinus=endReasonHour+24-startReasonHour
                   }
-                  totalDowntimeMoreThanOneHours++
+                  totalDowntimeMoreThanOneHours=totalDowntimeMoreThanOneHours+reasonHourMinus
                 }
+                expect(totalDowntimeMoreThanOneHours).to.be.at.least(0)
                 cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default > .reason-card__title--default`).invoke('text').then((text) => {
                   if (text == 'minor_stop') {
                     totalMinorStopReason++
