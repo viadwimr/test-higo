@@ -817,38 +817,16 @@ Cypress.Commands.add(`count_downtime`, () => {
   cy.get('body').find('[data-testid="count"]').invoke('text').then((text) => {
     var frequencyReasons = parseInt(text)
     var totalMinorStop=0;
+    var totalMinorStopReason=0
     var totalDowntimeMoreThanOneHours=0
     var numberReason=1;
-    var totalMinorStopReason=0
     if (frequencyReasons > 0) {
-      while (numberReason <= frequencyReasons) {
-        // check downtime/minorstop
-        cy.get('body', { timeout: 5000 }).then((body) => {
-          totalMinorStop=0;
-          totalDowntimeMoreThanOneHours=0
-          numberReason=1;
-          totalMinorStopReason=0
-          while (numberReason <= frequencyReasons) {
-            if (body.find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--danger > :nth-child(3)`).length > 0) {
-              // check downtime hour
-              cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--danger > :nth-child(3)`)
-                .invoke('text').then((text) => {
-                  var endReasonHour = parseInt(text.slice(10,13))
-                  var startReasonHour = parseInt(text.slice(0,2))
-                  var reasonHourMinus = endReasonHour - startReasonHour
-                  // check downtime width
-                  if (reasonHourMinus != 0) {
-                    if (endReasonHour > startReasonHour) {
-                      reasonHourMinus=endReasonHour-startReasonHour
-                    } else if ( endReasonHour < startReasonHour ) {
-                      reasonHourMinus=endReasonHour+24-startReasonHour
-                    }
-                    totalDowntimeMoreThanOneHours=totalDowntimeMoreThanOneHours+reasonHourMinus
-                  } 
-                  expect(totalDowntimeMoreThanOneHours).to.be.at.least(0)                
-              });                  
-            } else if (body.find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default`).length > 0) {  
-              cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default > :nth-child(3)`)
+      // check downtime/minorstop
+      cy.get('body', { timeout: 5000 }).then((body) => {
+        while (numberReason <= frequencyReasons) {
+          if (body.find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--danger > :nth-child(3)`).length > 0) {
+            // check downtime hour
+            cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--danger > :nth-child(3)`)
               .invoke('text').then((text) => {
                 var endReasonHour = parseInt(text.slice(10,13))
                 var startReasonHour = parseInt(text.slice(0,2))
@@ -861,22 +839,37 @@ Cypress.Commands.add(`count_downtime`, () => {
                     reasonHourMinus=endReasonHour+24-startReasonHour
                   }
                   totalDowntimeMoreThanOneHours=totalDowntimeMoreThanOneHours+reasonHourMinus
+                } 
+                expect(totalDowntimeMoreThanOneHours).to.be.at.least(0)                
+            });                  
+          } else if (body.find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default`).length > 0) {  
+            cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default > :nth-child(3)`)
+            .invoke('text').then((text) => {
+              var endReasonHour = parseInt(text.slice(10,13))
+              var startReasonHour = parseInt(text.slice(0,2))
+              var reasonHourMinus = endReasonHour - startReasonHour
+              // check downtime width
+              if (reasonHourMinus != 0) {
+                if (endReasonHour > startReasonHour) {
+                  reasonHourMinus=endReasonHour-startReasonHour
+                } else if ( endReasonHour < startReasonHour ) {
+                  reasonHourMinus=endReasonHour+24-startReasonHour
                 }
-                expect(totalDowntimeMoreThanOneHours).to.be.at.least(0)
-                cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default > .reason-card__title--default`).invoke('text').then((text) => {
-                  if (text == 'minor_stop') {
-                    totalMinorStopReason++
-                  }
-                })               
-              });                  
-            } else {
-              totalMinorStop++
-            }
-            numberReason++
+                totalDowntimeMoreThanOneHours=totalDowntimeMoreThanOneHours+reasonHourMinus
+              }
+              expect(totalDowntimeMoreThanOneHours).to.be.at.least(0)             
+            });
+            cy.get('body').find(`:nth-child(${numberReason}) > .ant-card-body > .reason-card__container--default > .reason-card__title--default`).invoke('text').then((text) => {
+              if (text == 'minor_stop') {
+                totalMinorStopReason++
+              }
+            })                 
+          } else {
+            totalMinorStop++
           }
-        }) 
-        numberReason++
-      }
+          numberReason++
+        }
+      }) 
 
       // get downtimes frequency
       cy.get('body').find('[style*="background-color: rgb(235, 87, 87)"]').then((downtimeBar) => {
