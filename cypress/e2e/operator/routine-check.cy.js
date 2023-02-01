@@ -6,7 +6,7 @@ const timeout = { timeout: 5000 };
 const force = { force: true };
 const d = new Date();
 
-// Shift Panjang
+// default shift
 if (d.getHours()>=22 || d.getHours()<6) {
   var [line1,line2,line7] = [3,6,9];
 } else if(d.getHours()>=6 && d.getHours()<14) {
@@ -14,17 +14,6 @@ if (d.getHours()>=22 || d.getHours()<6) {
 } else if (d.getHours()>=14 && d.getHours()<22) {
   var [line1,line2,line7] = [2,5,8];
 }
-
-/*
-// Shift Pendek
-if (d.getHours()>=16 && d.getHours()<22) {
-  var [line1,line2,line7] = [3,5,9];
-} else if(d.getHours()>=6 && d.getHours()<11) {
-  var [line1,line2,line7] = [1,4,7];
-} else if (d.getHours()>=12 && d.getHours()<16) {
-  var [line1,line2,line7] = [2,5,8];
-}
-*/
 
 describe('Line 1', () => {
   const user = Cypress.env(`oprprd${line1}`)
@@ -68,18 +57,32 @@ describe('Line 1', () => {
         cy.wait(7000);
         cy.get('body', timeout).then((body) => {
           if (body.find('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)').length > 0) {
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Filler GBM').click();
+            // check shift
+            cy.get('body').find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body > .ant-row > :nth-child(3) > .ant-space > .ant-space-item > table > tbody > :nth-child(2) > [data-testid="end-time"]')
+            .invoke('text').then((text) => {
+              var shiftEnd = text.substring(11)
+              if (shiftEnd=='10:59:59' || shiftEnd=='15:59:59' || shiftEnd=='20:59:59') {
+                if (d.getHours()>=16 && d.getHours()<22) {
+                  var [line1,line2,line7] = [3,5,9];
+                } else if(d.getHours()>=6 && d.getHours()<11) {
+                  var [line1,line2,line7] = [1,4,7];
+                } else if (d.getHours()>=12 && d.getHours()<16) {
+                  var [line1,line2,line7] = [2,5,8];
+                }
+                // close
+                cy.get('.ant-row > :nth-child(2)', timeout).click();
+                cy.logout()
+                // re-login
+                user = Cypress.env(`oprprd${line1}`)
+                cy.login(user, pass) 
+                cy.wait(7000);     
+              }
+            })
+            cy.select_runtime('Filler GBM')
+            cy.wait(7000);
+            cy.oeeAPQ();
           }
         });
-        cy.get('body', timeout).then((body) => {
-          if (body.find('.swal2-confirm').length > 0) {
-            cy.get('.swal2-confirm', timeout).click();
-          }
-        });
-        cy.wait(7000);
-        cy.oeeAPQ();
       }
     });
   });
@@ -120,17 +123,10 @@ describe('Line 1', () => {
           }
           // running time
           else {
-            // select runtime
-            cy.get(':nth-child(1) > .ant-row > .ant-col > .ant-card > .ant-card-body', timeout)
-              .contains('Packaging').click();
-          }
-          cy.get('body', timeout).then((body) => {
-            if (body.find('.swal2-confirm').length > 0) {
-              cy.get('.swal2-confirm', timeout).click();
-            }
-          });
-          cy.wait(7000);
-          cy.oeeAPQ();
+            cy.select_runtime('Packaging')
+            cy.wait(7000);
+            cy.oeeAPQ();
+          };
         });
       }
     });
@@ -198,18 +194,32 @@ describe('Line 2', () => {
         // check runtime
         cy.get('body', timeout).then((body) => {
           if (body.find('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)').length > 0) {
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Filler NATEC').click();
+            // check shift
+            cy.get('body').find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body > .ant-row > :nth-child(3) > .ant-space > .ant-space-item > table > tbody > :nth-child(2) > [data-testid="end-time"]')
+            .invoke('text').then((text) => {
+              var shiftEnd = text.substring(11)
+              if (shiftEnd=='10:59:59' || shiftEnd=='15:59:59' || shiftEnd=='20:59:59') {
+                if (d.getHours()>=16 && d.getHours()<22) {
+                  var [line1,line2,line7] = [3,5,9];
+                } else if(d.getHours()>=6 && d.getHours()<11) {
+                  var [line1,line2,line7] = [1,4,7];
+                } else if (d.getHours()>=12 && d.getHours()<16) {
+                  var [line1,line2,line7] = [2,5,8];
+                }
+                // close
+                cy.get('.ant-row > :nth-child(2)', timeout).click();
+                cy.logout()
+                // re-login
+                user = Cypress.env(`oprprd${line2}`)
+                cy.login(user, pass) 
+                cy.wait(7000);     
+              }
+            })
+            cy.select_runtime('Filler NATEC')
+            cy.wait(7000);
+            cy.oeeAPQ();
           }
         });
-        cy.get('body', timeout).then((body) => {
-          if (body.find('.swal2-confirm').length > 0) {
-            cy.get('.swal2-confirm', timeout).click();
-          }
-        });
-        cy.wait(7000);
-        cy.oeeAPQ();
       }
     });
   });
@@ -250,17 +260,10 @@ describe('Line 2', () => {
           }
           // running time
           else {
-            // select runtime
-            cy.get(':nth-child(1) > .ant-row > .ant-col > .ant-card > .ant-card-body', timeout)
-              .contains('Packer PFM SCIROCO').click();
+            cy.select_runtime('Packer PFM SCIROCO')
+            cy.wait(7000);
+            cy.oeeAPQ();
           }
-          cy.get('body', timeout).then((body) => {
-            if (body.find('.swal2-confirm').length > 0) {
-              cy.get('.swal2-confirm', timeout).click();
-            }
-          });
-          cy.wait(7000);
-          cy.oeeAPQ();
         });
       }
     });
@@ -329,18 +332,32 @@ describe('Line 7', () => {
         // check runtime
         cy.get('body', timeout).then((body) => {
           if (body.find('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)').length > 0) {
-            // select runtime
-            cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-              .contains('Filler TREPKO A').click();
+            // check shift
+            cy.get('body').find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body > .ant-row > :nth-child(3) > .ant-space > .ant-space-item > table > tbody > :nth-child(2) > [data-testid="end-time"]')
+            .invoke('text').then((text) => {
+              var shiftEnd = text.substring(11)
+              if (shiftEnd=='10:59:59' || shiftEnd=='15:59:59' || shiftEnd=='20:59:59') {
+                if (d.getHours()>=16 && d.getHours()<22) {
+                  var [line1,line2,line7] = [3,5,9];
+                } else if(d.getHours()>=6 && d.getHours()<11) {
+                  var [line1,line2,line7] = [1,4,7];
+                } else if (d.getHours()>=12 && d.getHours()<16) {
+                  var [line1,line2,line7] = [2,5,8];
+                }
+                // close
+                cy.get('.ant-row > :nth-child(2)', timeout).click();
+                cy.logout()
+                // re-login
+                user = Cypress.env(`oprprd${line7}`)
+                cy.login(user, pass) 
+                cy.wait(7000);     
+              }
+            })
+            cy.select_runtime('Filler TREPKO A')
+            cy.wait(7000);
+            cy.oeeAPQ();
           }
         });
-        cy.get('body', timeout).then((body) => {
-          if (body.find('.swal2-confirm').length > 0) {
-            cy.get('.swal2-confirm', timeout).click();
-          }
-        });
-        cy.wait(7000);
-        cy.oeeAPQ();
       }
     });
   });
@@ -381,17 +398,10 @@ describe('Line 7', () => {
           }
           // running time
           else {
-            // select runtime
-            cy.get(':nth-child(1) > .ant-row > .ant-col > .ant-card > .ant-card-body', timeout)
-              .contains('Filler TREPKO B').click();
+            cy.select_runtime('Filler TREPKO B')
+            cy.wait(7000);
+            cy.oeeAPQ();
           }
-          cy.get('body', timeout).then((body) => {
-            if (body.find('.swal2-confirm').length > 0) {
-              cy.get('.swal2-confirm', timeout).click();
-            }
-          });
-          cy.wait(7000);
-          cy.oeeAPQ();
         });
       }
     });
@@ -436,14 +446,7 @@ describe('Line 7', () => {
             // check packer machine
             cy.get('body', timeout).then((body) => {
               if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(3) > .ant-card > .ant-card-body').length > 0) {
-                // select runtime
-                cy.get('.ant-layout-content > :nth-child(1) > :nth-child(2) > :nth-child(1)', timeout)
-                .contains('Packer HMPS').click();
-                cy.get('body', timeout).then((body) => {
-                  if (body.find('.swal2-confirm').length > 0) {
-                    cy.get('.swal2-confirm', timeout).click();
-                  }
-                });
+                cy.select_runtime('Packer HMPS')
                 cy.wait(7000);
                 cy.oeeAPQ();
               } else {
@@ -508,14 +511,7 @@ describe('Line 7', () => {
             // check packer machine
             cy.get('body', timeout).then((body) => {
               if (body.find(':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(3) > .ant-card > .ant-card-body').length > 0) {
-                // select runtime
-                cy.get(':nth-child(1) > .ant-row > .ant-col > .ant-card > .ant-card-body', timeout)
-                .contains('Packer CIEME').click();
-                cy.get('body', timeout).then((body) => {
-                  if (body.find('.swal2-confirm').length > 0) {
-                    cy.get('.swal2-confirm', timeout).click();
-                  }
-                });
+                cy.select_runtime('Packer CIEME')
                 cy.wait(7000);
                 cy.oeeAPQ();
               } else {

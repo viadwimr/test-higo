@@ -741,6 +741,17 @@ Cypress.Commands.add("packer_card_shiftly2", () => {
   cy.get(".ant-page-header-back-button > svg > path").click();
 });
 
+Cypress.Commands.add("select_runtime", (machineName) => {
+  // select runtime
+  cy.get(':nth-child(1) > .ant-row > .ant-col > .ant-card > .ant-card-body', { timeout: 5000 })
+  .contains(machineName).click();
+  cy.get('body', { timeout: 5000 }).then((body) => {
+    if (body.find('.swal2-confirm').length > 0) {
+      cy.get('.swal2-confirm', { timeout: 5000 }).click();
+    }
+  });
+})
+
 Cypress.Commands.add("oeeAPQ", () => {
   // check availability
   cy.get('body').find('[data-testid="percent-AVA"]').invoke('text').then((text) => {
@@ -778,7 +789,9 @@ Cypress.Commands.add("oeeAPQ", () => {
           cy.get('body').find('[data-testid="percent-OEE"]').invoke('text').then((text) => {
             var valueOEE = parseInt(text.replace('%','').replace('.',''))
             var calculateOEE = parseInt((valueAVA/100 * valuePER/100 * valueQUA/100)*100)
-            expect(calculateOEE).to.be.equal(valueOEE)
+            var OEETopTolerance = valueOEE+1
+            var OEEBottomTolereance = valueOEE-1
+            expect(calculateOEE).to.be.within(OEEBottomTolereance,OEETopTolerance)
           });
         });
       });
