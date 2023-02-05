@@ -9,7 +9,7 @@ module.exports = defineConfig({
       AllureWriter(on, config);
       return require('./cypress/plugins/index.js')(on, config);
     },
-    baseUrl: 'https://dev-cloud.evomo.id',
+    baseUrl: 'http://100.71.187.75:8085/',
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
     video: true,
     screenshotOnRunFailure: true,
