@@ -67,33 +67,38 @@
 
 //const timeout = { timeout: 5000 };
 
-Cypress.Commands.add("login", (user, pass) => {
-  cy.visit("/").url().should("include", "/");
-  cy.get("#login_username").type(user).should("have.value", user);
-  cy.get("#login_password")
-    .type(pass, { log: false })
-    .should((el$) => {
-      if (el$.val() !== pass) {
-        throw new Error("Different value of typed password");
-      }
-    });
-  cy.get("#btn-login").click().wait(7000);
-  cy.get("body").then((body) => {
-    if (
-      body.find(
-        ':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body'
-      ).length > 0
-    ) {
-      cy.get(
-        ':nth-child(1) > [style="margin-left: -4px; margin-right: -4px; row-gap: 8px;"] > :nth-child(1) > .ant-card > .ant-card-body'
-      ).click();
-      cy.get(".ant-layout-content");
-      cy.url().should("include", "/dashboardhmi");
-    } else {
-      cy.get(".Button__StyledButton-sc-1s4bp2x-0");
-    }
-  });
+var timeout = { timeout: 60000 }
+var force = { force: true }
+
+Cypress.Commands.add('login', (numb) => {
+  cy.clearCookies();
+  cy.clearLocalStorage();
+  cy.visit('/');
+  if(numb === 'admin') {
+    cy.get('#username', timeout).type('admindenso');
+    cy.get('#password', timeout).type('Jeager123');
+    cy.get('.ant-btn', timeout).click();
+    cy.contains('Dashboard', timeout).should('be.visible');
+    cy.contains('Device', timeout).should('be.visible');
+    cy.contains('Report', timeout).should('be.visible');
+    cy.contains('User', timeout).should('be.visible');
+    cy.contains('Alert', timeout).should('be.visible');
+    cy.get('[title="Target"] > .ant-menu-title-content > a', timeout).should('be.visible');
+    cy.contains('Indicator', timeout).should('be.visible');
+    cy.contains('Analysis', timeout).click();
+    cy.contains('Trend', timeout).should('be.visible');
+    // cy.contains('Threshold', timeout).should('be.visible');
+  } else if (numb === 'operator') {
+    // cy.visit('/');
+    cy.get('#username', timeout).type('tes-operator');
+    cy.get('#password', timeout).type('password');
+    cy.get('.ant-btn', timeout).click();
+    cy.contains('Dashboard', timeout).should('be.visible');
+    cy.contains('Device', timeout).should('be.visible');
+    cy.contains('Report', timeout).should('be.visible');
+  }
 });
+
 
 Cypress.Commands.add("select_product", () => {
   cy.get("body").then((body) => {

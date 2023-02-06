@@ -35,7 +35,7 @@ module.exports = defineConfig({
       AllureWriter(on, config);
       return require('./cypress/plugins/index.js')(on, config);
     },
-    baseUrl: 'http://10.50.15.25:8003/',
+    baseUrl: 'http://100.71.187.75:8085/',
     video: true,
     screenshotOnRunFailure: true,
     trashAssetsBeforeRuns: true,
