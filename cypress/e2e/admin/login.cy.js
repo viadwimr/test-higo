@@ -9,9 +9,9 @@ describe('Login', () => {
   });
 
   before(() => {
-    cy.get('.ant-dropdown-trigger', timeout).click();
+    cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.contains('Logout', timeout).click();
-    cy.wait(3000);
+    cy.wait(7000);
     cy.clearCookies();
     cy.clearLocalStorage();
   });
@@ -21,7 +21,7 @@ describe('Login', () => {
   });
 
   it('Wrong Password', () => {
-    cy.get('#username', timeout).type('admin');
+    cy.get('#username', timeout).type('admindenso');
     cy.get('#password', timeout).type('12334345');
     cy.get('.ant-btn', timeout).click();
     cy.contains('User not found, username or password is incorrect', timeout).should('be.visible');
@@ -29,17 +29,25 @@ describe('Login', () => {
   });
 
   it('Password length', () => {
-    cy.get('#username', timeout).type('admingf');
+    cy.get('#username', timeout).type('admindenso');
     cy.get('#password', timeout).type('1233');
     cy.get('.ant-btn', timeout).click();
     cy.contains('"password" length must be at least 6 characters long', timeout).should('be.visible');
     cy.get('.swal2-confirm', timeout).click();
   });
 
-  it('Success Login', () => {
-    cy.get('#username', timeout).type('tes-admin');
-    cy.get('#password', timeout).type('password');
+  it('Wrong Username', () => {
+    cy.get('#username', timeout).type('test');
+    cy.get('#password', timeout).type('Jeager123');
     cy.get('.ant-btn', timeout).click();
-    cy.contains('DASHBOARD', timeout).should('be.visible');
+    cy.contains(`400 Cannot read property 'clientId' of null`, timeout).should('be.visible');
+    cy.get('.swal2-confirm', timeout).click();
+  });
+
+  it('Success Login', () => {
+    cy.get('#username', timeout).type('admindenso');
+    cy.get('#password', timeout).type('Jeager123');
+    cy.get('.ant-btn', timeout).click();
+    cy.get('.logo > img', timeout).should('be.visible');
   });
 });

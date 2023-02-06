@@ -1,8 +1,8 @@
 def discordStatus = ""
 pipeline {
-  agent any
+  agent { label 'qa-node' }
   tools {
-    nodejs '18.5.0'
+    nodejs 'nodejs'
   }
   stages {
     stage('Building') {
@@ -79,7 +79,11 @@ pipeline {
     success {
       allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
       discordSend customAvatarUrl: "https://cdn-icons-png.flaticon.com/512/573/573131.png?w=740&t=st=1662092610~exp=1662093210~hmac=371422cdcab8bcef11a630644d30876eabb73ac7c0dd627d7ed6360054ae3259", 
+<<<<<<< HEAD
       customUsername: "E2E Tests Reporter", 
+=======
+      customUsername: "Tests Reporter", 
+>>>>>>> denso-updated
       title: "${JOB_NAME} ${BUILD_DISPLAY_NAME}", 
       link: "${env.BUILD_URL}/allure", 
       description: "Running on jenkins ${NODE_LABELS}", 
@@ -88,12 +92,19 @@ pipeline {
       showChangeset: true, 
       thumbnail: discordStatus, 
       webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
+<<<<<<< HEAD
       deleteDir()
+=======
+>>>>>>> denso-updated
     }
     failure {
       allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
       discordSend customAvatarUrl: "https://cdn-icons-png.flaticon.com/512/573/573131.png?w=740&t=st=1662092610~exp=1662093210~hmac=371422cdcab8bcef11a630644d30876eabb73ac7c0dd627d7ed6360054ae3259", 
+<<<<<<< HEAD
       customUsername: "E2E Tests Reporter", 
+=======
+      customUsername: "Tests Reporter", 
+>>>>>>> denso-updated
       title: "${JOB_NAME} ${BUILD_DISPLAY_NAME}", 
       link: "${env.BUILD_URL}/allure", 
       description: "Running on jenkins ${NODE_LABELS}", 
@@ -102,7 +113,13 @@ pipeline {
       showChangeset: true, 
       thumbnail: discordStatus, 
       webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
+<<<<<<< HEAD
       deleteDir()
     }
   }
 }
+=======
+    }
+  }
+}
+>>>>>>> denso-updated

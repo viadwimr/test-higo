@@ -1,13 +1,12 @@
 {
-  "name": "evomo_e2e",
+  "name": "evomo_e2e_production",
   "version": "1.0.0",
-  "description": "e2e testing all product evomo",
+  "description": "e2e testing all production evomo",
   "main": "index.js",
   "scripts": {
-    "test:spec": "cypress run --browser firefox --no-exit --spec cypress/integration/test.js",
-    "test:ci": "cypress run --headless --browser chrome --record --key 3fd020b4-96b1-4b64-ab8f-e0ef6e170630",
-    "test:e2e": "cypress run --headless --browser chrome",
+    "test:spec": "npx cypress run --spec 'cypress/e2e/test.cy.js'",
     "cy:verify": "cypress verify",
+    "test:e2e": "cypress run",
     "staging:edge": "npx cypress run --browser edge --spec 'cypress/e2e/' --env allure=true",
     "cy:run": "npx cypress run --env allure=true",
     "allure:report": "allure generate allure-results --clean -o allure-report",
@@ -18,16 +17,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://gitlab.playcourt.id/amoeba-jeager/evomo_e2e.git"
+    "url": "https://gitlab.playcourt.id/amoeba-jeager/automation_test/evomo_e2e_production.git"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@shelex/cypress-allure-plugin": "^2.31.0",
-    "allure-commandline": "^2.18.1",
-    "cypress": "^10.8.0"
+    "cypress-mochawesome-reporter": "^3.2.0",
+    "eslint-plugin-cypress": "^2.11.3"
   },
   "devDependencies": {
-    "eslint-plugin-cypress": "^2.11.3"
+    "@shelex/cypress-allure-plugin": "^2.34.0",
+    "cypress": "^10.11.0"
   }
 }

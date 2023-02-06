@@ -10,7 +10,6 @@ module.exports = defineConfig({
       return require('./cypress/plugins/index.js')(on, config);
     },
     baseUrl: 'http://100.71.187.75:8085/',
-    specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
     video: true,
     screenshotOnRunFailure: true,
     trashAssetsBeforeRuns: true,
