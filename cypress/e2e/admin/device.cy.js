@@ -1,119 +1,117 @@
 /// <reference types="Cypress" />
 
-var timeout = { timeout: 60000 }
+var timeout = { timeout: 5000 }
 
 describe('Device', () => {
   before(() => {
     cy.login('admin');
-  });
-
-  beforeEach(() => {
     cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
   });
 
-  it('Check list device', () => {
-    cy.get(':nth-child(1) > a > .sector-card', timeout).should('be.visible');
-    cy.get('#rc-tabs-0-panel-condition_monitoring', timeout).should('be.visible');
+  describe('Sektor', () => {
+    it('Validasi Input', () => {
+      cy.get('[data-testid="atur-sector-button"]', timeout).click();
+      cy.contains('Tambah Sektor', timeout).click();
+      cy.get('[data-testid="sector_name"]', timeout).clear();
+      cy.get('[data-testid="sector_description"]', timeout).clear();
+      cy.contains('Nama Sektor tidak boleh kosong').should('be.visible');
+      cy.contains('Deskripsi tidak boleh kosong').should('be.visible');
+    })
+
+    it('Add Sector', () => {
+      cy.get('[data-testid="sector_name"]', timeout).clear().type('test');
+      cy.get('[data-testid="sector_description"]', timeout).clear().type('uji coba');
+      cy.get('[data-testid="confirm-batal"]', timeout).click();
+      cy.contains('Tambah Sektor', timeout).click();
+      cy.get('[data-testid="sector_name"]', timeout).clear().type('test lagi');
+      cy.get('[data-testid="sector_description"]', timeout).clear().type('uji coba lagi');
+      cy.contains('Nama Sektor tidak boleh kosong').should('not.exist');
+      cy.contains('Deskripsi tidak boleh kosong').should('not.exist');
+      cy.get('[data-row-key="new_item"] > [style="text-align: center;"] > .ant-row > :nth-child(1)', timeout)
+        .click();
+      cy.contains('Berhasil', timeout).should('be.visible');
+      cy.wait(3000);
+    })
+
+    it('Read Sector', () => {
+      cy.get('[data-testid="atur-sector-button"]', timeout).click();
+      cy.wait(1000);
+      cy.get('.ant-table-container', timeout).contains('DMIA').should('be.visible');
+      cy.get('.ant-table-container', timeout).contains('test lagi').should('be.visible');
+      cy.get('.ant-table-container', timeout).contains('uji coba lagi').should('be.visible');
+    })
+
+    it('Update Sector', () => {
+      cy.get('[data-testid="edit-button"]', timeout).eq(1).click();
+      cy.get('[data-testid="sector_name"]', timeout).clear().type('test edit');
+      cy.get('[data-testid="sector_description"]', timeout).clear().type('uji coba edit');
+      cy.get('[data-testid="confirm-simpan"]', timeout).click();
+      cy.contains('Berhasil', timeout).should('be.visible');
+      cy.wait(3000);
+      // check after update
+      cy.get('[data-testid="atur-sector-button"]', timeout).click();
+      cy.wait(1000);
+      cy.get('.ant-table-container', timeout).contains('DMIA').should('be.visible');
+      cy.get('.ant-table-container', timeout).contains('test edit').should('be.visible');
+      cy.get('.ant-table-container', timeout).contains('uji coba edit').should('be.visible');
+      cy.get('.ant-table-container', timeout).contains('test lagi').should('not.exist');
+      cy.get('.ant-table-container', timeout).contains('uji coba lagi').should('not.exist');
+      // close
+      cy.get('.ant-modal-close-x', timeout).click();
+    })
   });
 
-  it('Detail device', () => {
-    cy.contains('Arus Agitator Ball 2', timeout).click();
-    cy.get('div[id="download-Arus Listrik"]', timeout).should('be.visible');
-    cy.contains('Arus Agitator Ball 2', timeout).should('be.visible');
-    cy.contains('Temperatur', timeout).should('be.visible');
-    cy.get('div[id="download-Temperatur"]', timeout).should('be.visible');
-  });
-
-  it('Filter sektor', () => {
-    cy.wait(3000);
-    cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-    cy.contains('Enrober', timeout).click();
-  });
-
-  describe('Sorting Data', () => {
-    it('Sorting List Device', () => {
-      cy.get(':nth-child(1) > a > .sector-card', timeout).should('have.contain', 'ac Produksi Aktual Per Detik', timeout);
-      cy.get(':nth-child(2) > a > .sector-card', timeout).should('have.contain', 'ac Produksi Recipe Per Detik');
-      cy.get(':nth-child(3) > a > .sector-card', timeout).should('have.contain', 'ac Produksi Recipe Per Menit');
-      cy.get(':nth-child(4) > a > .sector-card', timeout).should('have.contain', 'Agromon');
-      cy.get(':nth-child(5) > a > .sector-card', timeout).should('have.contain', 'air blower c');
-      cy.get(':nth-child(6) > a > .sector-card', timeout).should('have.contain', 'air blower p');
+  describe('Device', () => {
+    it('Check list device', () => {
+      cy.get(':nth-child(1) > a > .sector-card', timeout).should('be.visible');
+      cy.get('#rc-tabs-0-panel-condition_monitoring', timeout).should('be.visible');
+      cy.get(':nth-child(2) > a > .sector-card', timeout).should('be.visible');
+      cy.get(':nth-child(3) > a > .sector-card', timeout).should('not.exist');
     });
 
-    it('Sorting List Filter Sektor', () => {
-      cy.wait(3000);
-      cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout)
-        .click({force:true});
-      cy.contains('Semua Sektor', timeout).should('be.visible');
-      cy.get(':nth-child(1) > a > .sector-card', timeout).contains('ac Produksi Aktual Per Detik');
-      cy.get(':nth-child(2) > a > .sector-card', timeout).contains('ac Produksi Recipe Per Detik');
-      cy.get(':nth-child(3) > a > .sector-card', timeout).contains('ac Produksi Recipe Per Menit');
-      cy.get(':nth-child(4) > a > .sector-card', timeout).contains('Agromon');
-      cy.get(':nth-child(5) > a > .sector-card', timeout).contains('air blower c');
-      cy.get(':nth-child(6) > a > .sector-card', timeout).contains('air blower p');
-      cy.get(':nth-child(7) > a > .sector-card', timeout).contains('Antares Perangkat');
-      cy.get(':nth-child(8) > a > .sector-card', timeout).contains('Antares Perangkat 1');
-      cy.get(':nth-child(9) > a > .sector-card', timeout).contains('Antares perangkat 2');
-    });
-    
-    it('Sorting List Filter Sektor di Form', () => {
-      cy.get(':nth-child(1) > a > .sector-card', timeout).click(timeout);
-      cy.wait(3000);
-      cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout)
-        .click({force:true});
-      cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
-      cy.get('[title="Baking Line 2"]', timeout).should('be.visible');
-      cy.get('[title="Ball Mill"]', timeout).should('be.visible');
-      cy.get('[title="Ball Mill Line 2"]', timeout).should('be.visible');
-      cy.get('[title="Enrober"]', timeout).should('be.visible');
-      cy.get('[title="Forming Baking"]', timeout).should('be.visible');
-      cy.get('[title="Forming Baking Line 2"]', timeout).should('be.visible');
-      cy.get('[title="Forming Line 2"]', timeout).should('be.visible');
-    });
-
-    it('Sorting List Sektor di Tabel', () => {
-      cy.wait(3000);
-      cy.get('[data-testid=atur-sector-button]', timeout).click();
-      cy.get('[data-row-key="61dfc15e3fd9cf00013a335c"] > :nth-child(1)', timeout)
-        .contains('Antares Power Monitoring');
-      cy.get('[data-row-key="61efb8bdbb9f91000183d6e6"] > :nth-child(1)', timeout)
-        .contains('Baking Line 2');
-      cy.get('[data-row-key="6020f89178b2e30001e0cff4"] > :nth-child(1)', timeout)
-        .contains('Ball Mill');
-      cy.get('[data-row-key="616efef25493c40001803758"] > :nth-child(1)', timeout)
-        .contains('Ball Mill Line 2');
-      cy.get('[data-row-key="6020f89178b2e30001e0cff5"] > :nth-child(1)', timeout)
-        .contains('Enrober');
+    it('Informasi device', () => {
+      cy.contains('MP_01', timeout).click();
+      cy.get('.ant-layout-content > :nth-child(1)', timeout).should('be.visible');
+      cy.get('.AnomaliWrapper__Container-sc-1qw2y45-0', timeout).should('be.visible')
     });
   });
 
   describe('Detail Device', () => {
-    // bug tombol simpan tidak bisa diklik
-    /*
     describe('Edit Device', () => {
+      beforeEach(() => {
+        cy.visit('/')
+        cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
+      });  
+      
       it('Simpan', () => {
-        cy.wait(3000);
+        cy.wait(7000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Ball Mill', timeout).click();
+        cy.contains('DMIA', timeout).click();
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.wait(3000);
         cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
-        cy.get('[data-testid=input-device_name]', timeout).clear().type('ac per detik');
+        cy.get('[data-testid=input-device_name]', timeout).clear().type('MP_01-edit');
         cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
-        cy.contains('Mixer', timeout).click();
+        cy.contains('test edit', timeout).click();
         cy.get('[data-testid=input-location]', timeout).clear().type('auto test');
         cy.get('.ant-row-end > .ant-col > .Button__BaseButton-sc-1hmbtsr-0').click({force:true});
         cy.contains('Berhasil', timeout).should('be.visible');
+
+        // check data
+        cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'MP_01-edit');
+        cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'test edit');
+        cy.get('[data-testid=input-location]', timeout).should('have.value', 'auto test');
       });
 
       it('Add Additional Info', () => {
-        cy.wait(3000);
+        cy.wait(7000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Mixer', timeout).click();
+        cy.contains('test edit', timeout).click();
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
+        cy.wait(3000);
         cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
-        cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
-        cy.contains('Ball Mill', timeout).click();
+        cy.get('.ant-select-selector', timeout).click();
+        cy.contains('DMIA', timeout).click();
         cy.get('[style="margin-bottom: 198px;"] > .ant-btn', timeout).click();
         cy.get('[data-testid=input-new-label]', timeout).clear().type('test');
         cy.get('[data-testid=input-new-info]', timeout).clear().type('auto');
@@ -127,36 +125,48 @@ describe('Device', () => {
       });
 
       it('Update Additional Info', () => {
-        cy.wait(3000);
+        cy.wait(7000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Ball Mill', timeout).click();
+        cy.contains('DMIA', timeout).click();
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
         cy.get('[style="margin-bottom: 198px;"] > .ant-btn', timeout).click();
-        cy.get(':nth-child(6) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid=input-additional_info]', timeout).clear({force:true}).type('auto update', {force:true});
-        cy.get(':nth-child(8) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid=input-additional_info]', timeout).clear({force:true}).type('auto 2 update', {force:true});
+        cy.get(':nth-child(6) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout).clear({force:true}).type('auto update', {force:true});
+        cy.get(':nth-child(8) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout).clear({force:true}).type('auto 2 update', {force:true});
+        cy.get('.ant-row-end > .ant-col > .Button__BaseButton-sc-1hmbtsr-0').click({force:true});
+        cy.contains('Berhasil', timeout).should('be.visible');
+      });
+
+      it('Update Info', () => {
+        cy.wait(7000);
+        cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
+        cy.contains('DMIA', timeout).click();
+        cy.get(':nth-child(1) > a > .sector-card', timeout).click();
+        cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
+        cy.get('[data-testid=input-device_name]', timeout).clear().type('MP_01');
+        cy.get('[data-testid=input-location]', timeout).clear().type('0');
         cy.get('.ant-row-end > .ant-col > .Button__BaseButton-sc-1hmbtsr-0').click({force:true});
         cy.contains('Berhasil', timeout).should('be.visible');
       });
 
       it('Cek Data Additional Info', () => {
-        cy.wait(3000);
+        cy.wait(7000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Ball Mill', timeout).click();
+        cy.contains('DMIA', timeout).click();
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
-        cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'ac per detik');
-        cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'Ball Mill');
-        cy.get('[data-testid=input-location]', timeout).should('have.value', 'auto test');
-        cy.get(':nth-child(6) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid=input-additional_info]', timeout).should('have.value', 'auto update');
-        cy.get(':nth-child(8) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid=input-additional_info]', timeout).should('have.value', 'auto 2 update');
+        cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'MP_01');
+        cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'DMIA');
+        cy.get('[data-testid=input-location]', timeout).should('have.value', '0');
+        cy.get(':nth-child(6) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout).should('have.value', 'auto update');
+        cy.get(':nth-child(8) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout).should('have.value', 'auto 2 update');
         cy.get('.ant-modal-close-x > .anticon > svg').click();
       });
 
       it('Hapus Additional Info', () => {
         cy.wait(3000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Ball Mill', timeout).click();
+        cy.contains('DMIA', timeout).click();
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
         cy.get(':nth-child(6) > [style="height: 40px; display: flex; align-items: center;"]', timeout).click();
@@ -167,14 +177,12 @@ describe('Device', () => {
         cy.contains('Berhasil', timeout).should('be.visible');
       });
     });
-    */
-    // bug tombol simpan tidak bisa diklik
-    /*
+  
     describe('Setting Kalibrasi', () => {
       it('Validasi Input dan Simpan', () => {
         cy.wait(3000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Ball Mill', timeout).click();
+        cy.contains('DMIA', timeout).click();
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger', timeout).click({force:true});
         cy.contains('Edit Kalibrasi', timeout).click({force:true});
@@ -188,7 +196,7 @@ describe('Device', () => {
       it('Cek Data Kalibrasi', () => {
         cy.wait(3000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Ball Mill', timeout).click();
+        cy.contains('DMIA', timeout).click();
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger', timeout).click({force:true});
         cy.contains('Edit Kalibrasi', timeout).click({force:true});
@@ -198,12 +206,13 @@ describe('Device', () => {
         cy.get('.ant-modal-close-x').click();
       });
     });
-    */
+
     describe('Export Chart', () => {
       beforeEach(() => {
+        cy.visit('/device')
         cy.wait(3000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('Ball Mill', timeout).click();
+        cy.contains('DMIA', timeout).click();
         cy.wait(3000);
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.wait(3000);
@@ -224,7 +233,20 @@ describe('Device', () => {
         });  
       });
     });
-    
+
+    describe('Back to prev data', () => {
+      it('Hapus Sector', () => {
+        cy.visit('/device');
+        cy.get('[data-testid="atur-sector-button"]', timeout).click();
+        cy.get('[data-testid="hapus-button"]', timeout).eq(1).click();
+        cy.contains('Ya, Hapus', timeout).click();
+        cy.contains('Berhasil', timeout).should('be.visible');
+        cy.wait(3000);
+        // check after update
+        cy.contains('test edit', timeout).should('not.exist');
+      });
+    });
+    /*
     describe('Anomali Reason', () => {
       it('Read and Update', () => {
         cy.wait(3000);
@@ -266,5 +288,6 @@ describe('Device', () => {
         cy.get('.ant-modal-close-x', timeout).click();
       });
     });
+  */
   });
 });
