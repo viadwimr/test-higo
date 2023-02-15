@@ -87,7 +87,6 @@ Cypress.Commands.add('login', (numb) => {
     cy.contains('Indicator', timeout).should('be.visible');
     cy.contains('Analysis', timeout).click();
     cy.contains('Trend', timeout).should('be.visible');
-    // cy.contains('Threshold', timeout).should('be.visible');
   } else if (numb === 'operator') {
     // cy.visit('/');
     cy.get('#username', timeout).type('tes-operator');

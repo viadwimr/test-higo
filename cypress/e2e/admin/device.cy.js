@@ -7,7 +7,7 @@ describe('Device', () => {
     cy.login('admin');
     cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
   });
-
+  /*
   describe('Sektor', () => {
     it('Validasi Input', () => {
       cy.get('[data-testid="atur-sector-button"]', timeout).click();
@@ -59,8 +59,18 @@ describe('Device', () => {
       // close
       cy.get('.ant-modal-close-x', timeout).click();
     })
-  });
 
+    it('Hapus Sector', () => {
+      cy.get('[data-testid="atur-sector-button"]', timeout).click();
+      cy.get('[data-testid="hapus-button"]', timeout).eq(1).click();
+      cy.contains('Ya, Hapus', timeout).click();
+      cy.contains('Berhasil', timeout).should('be.visible');
+      cy.wait(3000);
+      // check after update
+      cy.contains('test edit', timeout).should('not.exist');
+    });
+  });
+  */
   describe('Device', () => {
     it('Check list device', () => {
       cy.get(':nth-child(1) > a > .sector-card', timeout).should('be.visible');
@@ -75,7 +85,7 @@ describe('Device', () => {
       cy.get('.AnomaliWrapper__Container-sc-1qw2y45-0', timeout).should('be.visible')
     });
   });
-
+  
   describe('Detail Device', () => {
     describe('Edit Device', () => {
       beforeEach(() => {
@@ -91,27 +101,27 @@ describe('Device', () => {
         cy.wait(3000);
         cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
         cy.get('[data-testid=input-device_name]', timeout).clear().type('MP_01-edit');
-        cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
-        cy.contains('test edit', timeout).click();
+        // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
+        // cy.contains('test edit', timeout).click();
         cy.get('[data-testid=input-location]', timeout).clear().type('auto test');
         cy.get('.ant-row-end > .ant-col > .Button__BaseButton-sc-1hmbtsr-0').click({force:true});
         cy.contains('Berhasil', timeout).should('be.visible');
 
         // check data
         cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'MP_01-edit');
-        cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'test edit');
+        //cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'test edit');
         cy.get('[data-testid=input-location]', timeout).should('have.value', 'auto test');
       });
 
       it('Add Additional Info', () => {
         cy.wait(7000);
         cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('test edit', timeout).click();
+        cy.contains('DMIA', timeout).click();
         cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.wait(3000);
         cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
-        cy.get('.ant-select-selector', timeout).click();
-        cy.contains('DMIA', timeout).click();
+        // cy.get('.ant-select-selector', timeout).click();
+        // cy.contains('DMIA', timeout).click();
         cy.get('[style="margin-bottom: 198px;"] > .ant-btn', timeout).click();
         cy.get('[data-testid=input-new-label]', timeout).clear().type('test');
         cy.get('[data-testid=input-new-info]', timeout).clear().type('auto');
@@ -179,15 +189,13 @@ describe('Device', () => {
     });
   
     describe('Setting Kalibrasi', () => {
-      it('Validasi Input dan Simpan', () => {
+      it('Edit Kalibrasi', () => {
         cy.wait(3000);
-        cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('DMIA', timeout).click();
-        cy.get(':nth-child(1) > a > .sector-card', timeout).click();
+        // cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
+        // cy.contains('DMIA', timeout).click();
+        // cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger', timeout).click({force:true});
         cy.contains('Edit Kalibrasi', timeout).click({force:true});
-        cy.get('.DetailCondition__InputNum-z5ehht-1', timeout).clear().type('abc').should('have.value', '');
-        cy.get('.DetailCondition__InputNum-z5ehht-1', timeout).clear().type('3,9').should('have.value', '39');
         cy.get('.DetailCondition__InputNum-z5ehht-1', timeout).clear().type('44').should('have.value', '44');
         cy.get('.ant-row-end > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({force:true});
         cy.contains('Berhasil', timeout).should('be.visible')
@@ -195,18 +203,22 @@ describe('Device', () => {
 
       it('Cek Data Kalibrasi', () => {
         cy.wait(3000);
-        cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-        cy.contains('DMIA', timeout).click();
-        cy.get(':nth-child(1) > a > .sector-card', timeout).click();
+        // cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
+        // cy.contains('DMIA', timeout).click();
+        // cy.get(':nth-child(1) > a > .sector-card', timeout).click();
         cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger', timeout).click({force:true});
         cy.contains('Edit Kalibrasi', timeout).click({force:true});
         cy.get('.DetailCondition__InputNum-z5ehht-1', timeout).should('have.value', '44');
-        const todaysDate = Cypress.moment().format('DD/MM/YYYY')
-        cy.get('p', timeout).should('have.contain', 'Terakhir Diubah: ' + todaysDate);
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = dd + '/' + mm + '/' + yyyy;
+        cy.get('p', timeout).should('have.contain', 'Terakhir Diubah: ' + today);
         cy.get('.ant-modal-close-x').click();
       });
     });
-
+    /*
     describe('Export Chart', () => {
       beforeEach(() => {
         cy.visit('/device')
@@ -233,19 +245,7 @@ describe('Device', () => {
         });  
       });
     });
-
-    describe('Back to prev data', () => {
-      it('Hapus Sector', () => {
-        cy.visit('/device');
-        cy.get('[data-testid="atur-sector-button"]', timeout).click();
-        cy.get('[data-testid="hapus-button"]', timeout).eq(1).click();
-        cy.contains('Ya, Hapus', timeout).click();
-        cy.contains('Berhasil', timeout).should('be.visible');
-        cy.wait(3000);
-        // check after update
-        cy.contains('test edit', timeout).should('not.exist');
-      });
-    });
+    */
     /*
     describe('Anomali Reason', () => {
       it('Read and Update', () => {

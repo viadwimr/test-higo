@@ -14,9 +14,9 @@ describe('Report', () => {
     
     it('Filter Daily', () => {
       cy.get('#report_form_device', timeout).click(timeout);
-      cy.contains('Cold Water Ball', timeout).click();
+      cy.get('[data-testid="select-MP_01"]', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Percent', timeout).click();
+      cy.contains('Energi', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
       cy.get('#report_form_period', timeout).click();
       cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(3).click();
@@ -24,10 +24,9 @@ describe('Report', () => {
       cy.contains('15 Menit', timeout).click({force:true});
       cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).click();
       cy.get('[data-testid=submit-btn-report]').click({force:true});
-  
       cy.get('[data-testid=download-report]', timeout).should('be.visible');
       cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report Cold Water Ball', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
     });
@@ -49,14 +48,12 @@ describe('Report', () => {
       cy.get('[data-testid=schedule-name-form]', timeout).type('Test');
       cy.get('[data-testid=schedule-note-form]', timeout).type('Test');
       cy.get('[data-testid=schedule-daily-btn] > [data-testid=label]').click();
-
       cy.get('[data-testid=schedule-send-date-form]').click();
       cy.get('a[class="ant-picker-today-btn"]', timeout).click();
       cy.get('#scheduled_report_form_send_time', timeout).click();
       cy.get('li[class="rc-time-picker-panel-select-option-selected"]', timeout).eq(0).click();
       cy.get('[data-testid=schedule-daily-btn] > [data-testid=label]').click();
       cy.get('[data-testid=schedule-type-send] > :nth-child(1) > :nth-child(2)', timeout).click();
-    
       cy.get('[data-testid=schedule-submit-btn]').click();
       cy.contains('Berhasil Disimpan!', timeout).should('be.visible');
     });
@@ -69,9 +66,9 @@ describe('Report', () => {
 
     it('Filter Hourly', () => {
       cy.get('#report_form_device', timeout).click(timeout);
-      cy.contains('Cold Water Ball', timeout).click();
+      cy.get('[data-testid="select-MP_01"]', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Percent', timeout).click();
+      cy.contains('Energi', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
       cy.get('#report_form_period', timeout).click();
       cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(3).click();
@@ -83,10 +80,9 @@ describe('Report', () => {
       cy.get('#report_form_end_time', timeout).click();
       cy.get(':nth-child(1) > ul > .rc-time-picker-panel-select-option-selected', timeout).click();
       cy.get('[data-testid=submit-btn-report]').click();
-  
       cy.get('[data-testid=download-report]', timeout).should('be.visible');
       cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report Cold Water Ball', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
     });
@@ -132,9 +128,9 @@ describe('Report', () => {
 
     it('Hari ini', () => {
       cy.get('#report_form_device', timeout).click(timeout);
-      cy.contains('Cold Water Ball', timeout).click();
+      cy.get('[data-testid="select-MP_01"]', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Percent', timeout).click();
+      cy.contains('Energi', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
       cy.get('#report_form_period', timeout).click();
       cy.contains('Hari ini', timeout).click();
@@ -145,16 +141,16 @@ describe('Report', () => {
   
       cy.get('[data-testid=download-report]', timeout).should('be.visible');
       cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report Cold Water Ball', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
     });
 
     it('Kemarin', () => {
       cy.get('#report_form_device', timeout).click(timeout);
-      cy.contains('Cold Water Ball', timeout).click();
+      cy.get('[data-testid="select-MP_01"]', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Percent', timeout).click();
+      cy.contains('Energi', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
       cy.get('#report_form_period', timeout).click();
       cy.get('[data-testid=list-periode-1]', timeout).click();
@@ -165,16 +161,16 @@ describe('Report', () => {
   
       cy.get('[data-testid=download-report]', timeout).should('be.visible');
       cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report Cold Water Ball', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
     });
 
     it('Seminggu terakhir', () => {
       cy.get('#report_form_device', timeout).click(timeout);
-      cy.contains('Cold Water Ball', timeout).click();
+      cy.get('[data-testid="select-MP_01"]', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Percent', timeout).click();
+      cy.contains('Energi', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
       cy.get('#report_form_period', timeout).click();
       cy.get('[data-testid=list-periode-2]', timeout).click();
@@ -185,16 +181,16 @@ describe('Report', () => {
   
       cy.get('[data-testid=download-report]', { timeout : 200000}).should('be.visible');
       cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report Cold Water Ball', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
     });
 
     it('Dua minggu terakhir', () => {
       cy.get('#report_form_device', timeout).click(timeout);
-      cy.contains('Cold Water Ball', timeout).click();
+      cy.get('[data-testid="select-MP_01"]', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Percent', timeout).click();
+      cy.contains('Energi', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
       cy.get('#report_form_period', timeout).click();
       cy.get('[data-testid=list-periode-3]', timeout).click();
@@ -205,7 +201,7 @@ describe('Report', () => {
   
       cy.get('[data-testid=download-report]', { timeout : 200000}).should('be.visible');
       cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report Cold Water Ball', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
     });
@@ -222,9 +218,9 @@ describe('Report', () => {
 
     it('Auto Download Report', () => {
       cy.get('#report_form_device', timeout).click(timeout);
-      cy.contains('Cold Water Ball', timeout).click();
+      cy.get('[data-testid="select-MP_01"]', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Percent', timeout).click();
+      cy.contains('Energi', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
       cy.get('#report_form_period', timeout).click();
       cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(4).click();
@@ -240,9 +236,9 @@ describe('Report', () => {
     
     it('Simpan Sebagai Report Terjadwal', () => {
       cy.get('#report_form_device', timeout).click(timeout);
-      cy.contains('Cold Water Ball', timeout).click();
+      cy.get('[data-testid="select-MP_01"]', timeout).click();
       cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Percent', timeout).click({force:true});
+      cy.contains('Energi', timeout).click({force:true});
       cy.get('.css-1hwfws3', timeout).click();
       cy.get('#report_form_period', timeout).click();
       cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(5).click();
@@ -276,7 +272,12 @@ describe('Report', () => {
     });
 
     it('Edit Status On/Off', () => {
-      cy.get('.ant-table-row > :nth-child(5)', timeout).eq(0).click({force:true});
+      cy.wait(1000);
+      cy.get('button.ant-switch.ant-switch-checked', timeout).eq(2).should('be.exist');
+      cy.get(':nth-child(5) > .ant-switch', timeout).eq(0).click({force:true});
+      cy.wait(1000);
+      cy.get('button.ant-switch', timeout).eq(2).should('be.exist');
+      cy.get('button.ant-switch.ant-switch-checked', timeout).eq(2).should('not.exist');
     });
 
     it('Hapus Report Terjadwal', () => {
@@ -285,8 +286,24 @@ describe('Report', () => {
       cy.contains('Tidak', timeout).click();
       cy.get('.ant-table-row > :nth-child(6)', timeout).eq(0).click();
       cy.contains('Hapus', timeout).click({force:true});
+      cy.contains('Yakin hapus autotes', timeout).should('be.visible');
       cy.get('.swal2-confirm', timeout).click();
       cy.contains('Report berhasil dihapus.', timeout).should('be.visible');
+
+      // multi delete
+      cy.wait(1000);
+      cy.get('.ant-table-row > :nth-child(6)', timeout).eq(0).click();
+      cy.contains('Hapus', timeout).click({force:true});
+      cy.contains('Yakin hapus Test', timeout).should('be.visible');
+      cy.get('.swal2-confirm', timeout).click();
+      cy.contains('Report berhasil dihapus.', timeout).should('be.visible');
+      cy.wait(1000);
+      cy.get('.ant-table-row > :nth-child(6)', timeout).eq(0).click();
+      cy.contains('Hapus', timeout).click({force:true});
+      cy.contains('Yakin hapus Test', timeout).should('be.visible');
+      cy.get('.swal2-confirm', timeout).click();
+      cy.contains('Report berhasil dihapus.', timeout).should('be.visible');
+      cy.get('h4', timeout).contains('Anda belum memiliki report terjadwal').should('be.visible');
     });
   });
 
@@ -298,27 +315,22 @@ describe('Report', () => {
     it('Filter Device', () => {
       cy.wait(3000);
       cy.get('#report_form_device', timeout).click({force:true});
-      cy.get('[title="Antares Power Monitoring"]', timeout).should('be.visible');
-      cy.get('[data-testid=select-PM_POH_1] > .ant-select-item-option-content', timeout).should('be.visible');
-      cy.get('[data-testid=select-PM5300] > .ant-select-item-option-content', timeout).should('be.visible');
-      cy.get('[title="Baking Line 2"]', timeout).should('be.visible');
-      cy.get('[title="Ball Mill"]', timeout).should('be.visible');
-      cy.get('[data-testid="select-Arus Agitator Ball 1"] > .ant-select-item-option-content', timeout).should('be.visible');
-      cy.get('[data-testid="select-Cold Water Ball"] > .ant-select-item-option-content', timeout).should('be.visible');
-      cy.get('[data-testid="select-Kecepatan Mixer Manual"] > .ant-select-item-option-content', timeout).should('be.visible');
+      cy.get('.ant-select-item-group', timeout).contains('DMIA').should('be.visible');
+      cy.get('[data-testid="select-MP_01"]', timeout).should('be.visible');
+      // close filter device
+      cy.get('#report_form_period', timeout).click();
     });
 
     it('Filter Indicator', () => {
       cy.wait(3000);
-      cy.get('#report_form_device', timeout).type('itdri');
-      cy.get('[data-testid="select-ITDRI-Cisarua - Soil Device 1"]', timeout).click();
-      cy.get('.css-yk16xz-control', timeout).click();
-      cy.contains('Intensitas Cahaya', timeout).should('be.visible');
-      cy.contains('Kalium', timeout).should('be.visible');
-      cy.contains('Kelembaban', timeout).should('be.visible');
-      cy.contains('Phospor', timeout).should('be.visible');
-      cy.contains('Soil Natrium', timeout).should('be.visible');
-      cy.contains('Temperatur', timeout).should('be.visible');
+      cy.get('.css-1hwfws3', timeout).click();
+      cy.get('#react-select-2-option-0', timeout).should('be.visible');
+      cy.contains('Energi', timeout).should('not.exist');
+      cy.get('#report_form_device', timeout).click();
+      cy.get('[data-testid="select-MP_01"]', timeout).click();
+      cy.get('.css-1hwfws3', timeout).click();
+      cy.get('#react-select-2-option-0', timeout).should('be.visible');
+      cy.contains('Energi', timeout).should('be.visible');
     });
   });
 });
