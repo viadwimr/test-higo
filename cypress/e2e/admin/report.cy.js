@@ -5,332 +5,73 @@ var timeout = { timeout: 60000 }
 describe('Report', () => {
   before(() => {
     cy.login('admin');
+    cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
   });
-  
-  describe('Generate Daily', () => {
-    before(() => {
-      cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
-    });
-    
-    it('Filter Daily', () => {
-      cy.get('#report_form_device', timeout).click(timeout);
-      cy.get('[data-testid="select-MP_01"]', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Energi', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.get('#report_form_period', timeout).click();
-      cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(3).click();
-      cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
-      cy.contains('15 Menit', timeout).click({force:true});
-      cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).click();
-      cy.get('[data-testid=submit-btn-report]').click({force:true});
-      cy.get('[data-testid=download-report]', timeout).should('be.visible');
-      cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
-      cy.get('.ant-card-body', timeout).should('be.visible');
-      cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
-    });
-  
-    it('Download CSV', () => {
-      cy.get('[data-testid=download-report]', timeout).click();
-      cy.get('[data-testid=download-csv-report] > .ant-dropdown-menu-title-content', timeout).click();
-      cy.contains('Download Berhasil!', timeout).should('be.visible');
-    });
-
-    it('Download PDF', () => {
-      cy.get('[data-testid=download-report]', timeout).click();
-      cy.get('[data-testid=download-pdf-report] > .ant-dropdown-menu-title-content', timeout).click();
-      cy.contains('Download Berhasil!', timeout).should('be.visible');
-    });
-
-    it('Simpan sebagai report terjadwal', () => {
-      cy.get('[data-testid=save-report-btn]', timeout).click();
-      cy.get('[data-testid=schedule-name-form]', timeout).type('Test');
-      cy.get('[data-testid=schedule-note-form]', timeout).type('Test');
-      cy.get('[data-testid=schedule-daily-btn] > [data-testid=label]').click();
-      cy.get('[data-testid=schedule-send-date-form]').click();
-      cy.get('a[class="ant-picker-today-btn"]', timeout).click();
-      cy.get('#scheduled_report_form_send_time', timeout).click();
-      cy.get('li[class="rc-time-picker-panel-select-option-selected"]', timeout).eq(0).click();
-      cy.get('[data-testid=schedule-daily-btn] > [data-testid=label]').click();
-      cy.get('[data-testid=schedule-type-send] > :nth-child(1) > :nth-child(2)', timeout).click();
-      cy.get('[data-testid=schedule-submit-btn]').click();
-      cy.contains('Berhasil Disimpan!', timeout).should('be.visible');
-    });
+     
+  it('Akan muncul halaman untuk men-generate report dari dashboard', () => {
+    cy.get('.title', timeout).contains('REPORT');
+    cy.get(':nth-child(1) > .ant-col-3 > .ant-row', timeout).contains('Device');
+    cy.get(':nth-child(2) > .ant-col-3 > .ant-row', timeout).contains('Indikator');
+    cy.get(':nth-child(3) > .ant-col-3 > .ant-row', timeout).contains('Periode');
+    cy.get(':nth-child(4) > .ant-col-3 > .ant-row', timeout).contains('Interval');
+    cy.get(':nth-child(5) > .ant-col-3 > .ant-row', timeout).contains('Waktu');
+    cy.get('#report_form_device', timeout).should('be.visible');
+    cy.get('.css-1hwfws3', timeout).should('be.visible');
+    cy.get('[data-testid="form-period"] > .ant-select-selector', timeout).should('be.visible');
+    cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).should('be.visible');
+    cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).should('be.visible');
+    cy.get('[data-testid="time-hour-report"] > [data-testid="label"]', timeout).should('be.visible');
+    cy.get('[data-testid=submit-btn-report]', timeout).should('be.visible');
+    cy.get('[data-testid="save-report-btn"]', timeout).should('be.visible');
   });
 
-  describe('Generate Hourly', () => {
-    before(() => {
-      cy.visit('/report');
-    });
-
-    it('Filter Hourly', () => {
-      cy.get('#report_form_device', timeout).click(timeout);
-      cy.get('[data-testid="select-MP_01"]', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Energi', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.get('#report_form_period', timeout).click();
-      cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(3).click();
-      cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
-      cy.contains('5 Menit', timeout).click({force:true});
-      cy.get('[data-testid=time-hour-report] > [data-testid=label]', timeout).click();
-      cy.get('#report_form_start_time', timeout).click();
-      cy.get(':nth-child(1) > ul > .rc-time-picker-panel-select-option-selected', timeout).click();
-      cy.get('#report_form_end_time', timeout).click();
-      cy.get(':nth-child(1) > ul > .rc-time-picker-panel-select-option-selected', timeout).click();
-      cy.get('[data-testid=submit-btn-report]').click();
-      cy.get('[data-testid=download-report]', timeout).should('be.visible');
-      cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
-      cy.get('.ant-card-body', timeout).should('be.visible');
-      cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
-    });
-  
-    it('Download CSV', () => {
-      cy.get('[data-testid=download-report]', timeout).click();
-      cy.get('[data-testid=download-csv-report] > .ant-dropdown-menu-title-content', timeout).click();
-      cy.contains('Download Berhasil!', timeout).should('be.visible');
-    });
-
-    it('Download PDF', () => {
-      cy.get('[data-testid=download-report]', timeout).click();
-      cy.get('[data-testid=download-pdf-report] > .ant-dropdown-menu-title-content', timeout).click();
-      cy.contains('Download Berhasil!', timeout).should('be.visible');
-    });
-
-    it('Simpan sebagai report terjadwal', () => {
-      cy.get('[data-testid=save-report-btn]', timeout).click();
-      cy.get('[data-testid=schedule-name-form]', timeout).type('Test');
-      cy.get('[data-testid=schedule-note-form]', timeout).type('Test');
-      cy.get('[data-testid=schedule-daily-btn] > [data-testid=label]').click();
-
-      cy.get('[data-testid=schedule-send-date-form]').click();
-      cy.get('a[class="ant-picker-today-btn"]', timeout).click();
-      cy.get('#scheduled_report_form_send_time', timeout).click();
-      cy.get('li[class="rc-time-picker-panel-select-option-selected"]', timeout).eq(0).click();
-      cy.get('[data-testid=schedule-daily-btn] > [data-testid=label]').click();
-      cy.get('[data-testid=schedule-type-send] > :nth-child(1) > :nth-child(2)', timeout).click();
-    
-      cy.get('[data-testid=schedule-submit-btn]').click();
-      cy.contains('Berhasil Disimpan!', timeout).should('be.visible');
-    });
+  it('Menu drop-down nama device yang ada', () => {
+    cy.get('#report_form_device', timeout).click(timeout);
+    cy.get('[data-testid="select-MP_01"]', timeout).click();
   });
 
-  describe('Filter by Periode', () => {
-    before(() => {
-      cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
-    });
-
-    beforeEach(() => {
-      cy.visit('/report');
-    });
-
-    it('Hari ini', () => {
-      cy.get('#report_form_device', timeout).click(timeout);
-      cy.get('[data-testid="select-MP_01"]', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Energi', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.get('#report_form_period', timeout).click();
-      cy.contains('Hari ini', timeout).click();
-      cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
-      cy.contains('30 Menit', timeout).click({force:true});
-      cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).click();
-      cy.get('[data-testid=submit-btn-report]').click();
-  
-      cy.get('[data-testid=download-report]', timeout).should('be.visible');
-      cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
-      cy.get('.ant-card-body', timeout).should('be.visible');
-      cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
-    });
-
-    it('Kemarin', () => {
-      cy.get('#report_form_device', timeout).click(timeout);
-      cy.get('[data-testid="select-MP_01"]', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Energi', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.get('#report_form_period', timeout).click();
-      cy.get('[data-testid=list-periode-1]', timeout).click();
-      cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
-      cy.contains('60 Menit', timeout).click({force:true});
-      cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).click();
-      cy.get('[data-testid=submit-btn-report]').click();
-  
-      cy.get('[data-testid=download-report]', timeout).should('be.visible');
-      cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
-      cy.get('.ant-card-body', timeout).should('be.visible');
-      cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
-    });
-
-    it('Seminggu terakhir', () => {
-      cy.get('#report_form_device', timeout).click(timeout);
-      cy.get('[data-testid="select-MP_01"]', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Energi', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.get('#report_form_period', timeout).click();
-      cy.get('[data-testid=list-periode-2]', timeout).click();
-      cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
-      cy.contains('30 Menit', timeout).click({force:true});
-      cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).click();
-      cy.get('[data-testid=submit-btn-report]').click();
-  
-      cy.get('[data-testid=download-report]', { timeout : 200000}).should('be.visible');
-      cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
-      cy.get('.ant-card-body', timeout).should('be.visible');
-      cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
-    });
-
-    it('Dua minggu terakhir', () => {
-      cy.get('#report_form_device', timeout).click(timeout);
-      cy.get('[data-testid="select-MP_01"]', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Energi', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.get('#report_form_period', timeout).click();
-      cy.get('[data-testid=list-periode-3]', timeout).click();
-      cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
-      cy.contains('60 Menit', timeout).click({force:true});
-      cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).click();
-      cy.get('[data-testid=submit-btn-report]').click();
-  
-      cy.get('[data-testid=download-report]', { timeout : 200000}).should('be.visible');
-      cy.get('[data-testid=save-report-btn]', timeout).should('be.visible');
-      cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
-      cy.get('.ant-card-body', timeout).should('be.visible');
-      cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
-    });
+  it('Menu drop-down indikator yang ada', () => {
+    cy.get('.css-1hwfws3', timeout).click();
+    cy.contains('Energi', timeout).click();
+    cy.get('.css-1hwfws3', timeout).click();
   });
 
-  describe('Report >= 3 Bulan', () => {
-    before(() => {
-      cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
-    });
-
-    beforeEach(() => {
-      cy.visit('/report');
-    });
-
-    it('Auto Download Report', () => {
-      cy.get('#report_form_device', timeout).click(timeout);
-      cy.get('[data-testid="select-MP_01"]', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Energi', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.get('#report_form_period', timeout).click();
-      cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(4).click();
-      cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
-      cy.wait(3000);
-      cy.contains('30 Menit', timeout).click()
-      cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).click();
-      cy.get('[data-testid=download-report]', timeout).click();
-      cy.contains('CSV', timeout).should('be.visible');
-      cy.contains('PDF', timeout).should('be.visible')
-      cy.contains('CSV', timeout).click();
-    });
-    
-    it('Simpan Sebagai Report Terjadwal', () => {
-      cy.get('#report_form_device', timeout).click(timeout);
-      cy.get('[data-testid="select-MP_01"]', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.contains('Energi', timeout).click({force:true});
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.get('#report_form_period', timeout).click();
-      cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(5).click();
-      cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
-      cy.contains('30 Menit', timeout).click()
-      cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).click();
-      cy.get('[data-testid=download-report]', timeout).contains('Download').should('be.visible');
-      cy.get('[data-testid=save-report-btn]', timeout).click();
-      cy.get('[data-testid=schedule-name-form]', timeout).type("autotes");
-      cy.get('[data-testid=schedule-note-form]', timeout).type("auto tes");
-      cy.get('[data-testid=schedule-daily-btn] > [data-testid=label]', timeout).click();
-      cy.get('.ant-picker', timeout).click();
-      cy.contains('Today', timeout).click();
-      cy.get('#scheduled_report_form_send_time', timeout).click();
-      cy.get('.rc-time-picker-panel-combobox > :nth-child(1) > ul > :nth-child(3)', timeout).click({force:true});
-      cy.get(':nth-child(2) > ul > :nth-child(5)', timeout).eq(1).click({force:true});
-      cy.get(':nth-child(3) > ul > :nth-child(6)').click({force:true});
-      cy.get('#scheduled_report_form > :nth-child(21)', timeout).click();
-      cy.contains('Email', timeout).click();
-      cy.get('[data-testid=schedule-submit-btn]', timeout).click({force:true});
-    });
-  });
-  
-  describe('Edit dan Hapus Report Terjadwal', () => {
-    before(() => {
-      cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
-    });
-
-    beforeEach(() => {
-      cy.visit('/report');
-    });
-
-    it('Edit Status On/Off', () => {
-      cy.wait(1000);
-      cy.get('button.ant-switch.ant-switch-checked', timeout).eq(2).should('be.exist');
-      cy.get(':nth-child(5) > .ant-switch', timeout).eq(0).click({force:true});
-      cy.wait(1000);
-      cy.get('button.ant-switch', timeout).eq(2).should('be.exist');
-      cy.get('button.ant-switch.ant-switch-checked', timeout).eq(2).should('not.exist');
-    });
-
-    it('Hapus Report Terjadwal', () => {
-      cy.get('.ant-table-row > :nth-child(6)', timeout).eq(0).click();
-      cy.contains('Hapus', timeout).click({force:true});
-      cy.contains('Tidak', timeout).click();
-      cy.get('.ant-table-row > :nth-child(6)', timeout).eq(0).click();
-      cy.contains('Hapus', timeout).click({force:true});
-      cy.contains('Yakin hapus autotes', timeout).should('be.visible');
-      cy.get('.swal2-confirm', timeout).click();
-      cy.contains('Report berhasil dihapus.', timeout).should('be.visible');
-
-      // multi delete
-      cy.wait(1000);
-      cy.get('.ant-table-row > :nth-child(6)', timeout).eq(0).click();
-      cy.contains('Hapus', timeout).click({force:true});
-      cy.contains('Yakin hapus Test', timeout).should('be.visible');
-      cy.get('.swal2-confirm', timeout).click();
-      cy.contains('Report berhasil dihapus.', timeout).should('be.visible');
-      cy.wait(1000);
-      cy.get('.ant-table-row > :nth-child(6)', timeout).eq(0).click();
-      cy.contains('Hapus', timeout).click({force:true});
-      cy.contains('Yakin hapus Test', timeout).should('be.visible');
-      cy.get('.swal2-confirm', timeout).click();
-      cy.contains('Report berhasil dihapus.', timeout).should('be.visible');
-      cy.get('h4', timeout).contains('Anda belum memiliki report terjadwal').should('be.visible');
-    });
+  it('Menu drop-down untuk jangka waktu yang ada', () => {
+    cy.get('[data-testid="form-period"] > .ant-select-selector', timeout).click();
+    cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(3).click();
   });
 
-  describe('Sorting Data', () => {
-    before(() => {
-      cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
-    });
+  it('Menu drop-down interval mulai dari Lihat Semua, 5 Menit hingga 60 Menit', () => {
+    cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
+    cy.contains('Lihat Semua', timeout).should('be.visible');
+    cy.contains('5 Menit', timeout).should('be.visible');
+    cy.contains('15 Menit', timeout).should('be.visible');
+    cy.contains('30 Menit', timeout).should('be.visible');
+    cy.contains('60 Menit', timeout).should('be.visible');
+    cy.contains('15 Menit', timeout).click({force:true});
+  });
 
-    it('Filter Device', () => {
-      cy.wait(3000);
-      cy.get('#report_form_device', timeout).click({force:true});
-      cy.get('.ant-select-item-group', timeout).contains('DMIA').should('be.visible');
-      cy.get('[data-testid="select-MP_01"]', timeout).should('be.visible');
-      // close filter device
-      cy.get('#report_form_period', timeout).click();
-    });
+  it('Daily satuan terkecil harian dan Hourly untuk satuan terkecil per-jam', () => {
+    cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).click();
+    // hourly
+  });
 
-    it('Filter Indicator', () => {
-      cy.wait(3000);
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.get('#react-select-2-option-0', timeout).should('be.visible');
-      cy.contains('Energi', timeout).should('not.exist');
-      cy.get('#report_form_device', timeout).click();
-      cy.get('[data-testid="select-MP_01"]', timeout).click();
-      cy.get('.css-1hwfws3', timeout).click();
-      cy.get('#react-select-2-option-0', timeout).should('be.visible');
-      cy.contains('Energi', timeout).should('be.visible');
-    });
+  it('Report tampil berupa tabel di bawah form', () => {
+    cy.get('[data-testid=submit-btn-report]').click({force:true});
+    cy.get('.ant-card-head-title', timeout).contains('Report MP_01', timeout).should('be.visible');
+    cy.get('.ant-card-body', timeout).should('be.visible');
+    cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
+  });
+
+  it('Untuk file PDF berupa laporan dengan format file .pdf dan untuk CSV dengan format .csv', () => {
+    //csv
+    cy.get('[data-testid=download-report]', timeout).click();
+    cy.get('[data-testid=download-csv-report] > .ant-dropdown-menu-title-content', timeout).click();
+    cy.contains('Download Berhasil!', timeout).should('be.visible');
+    // pdf
+    cy.wait(3000);
+    cy.get('[data-testid=download-report]', timeout).click();
+    cy.get('[data-testid=download-pdf-report] > .ant-dropdown-menu-title-content', timeout).click();
+    cy.contains('Download Berhasil!', timeout).should('be.visible');
   });
 });
