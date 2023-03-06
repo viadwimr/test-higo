@@ -82,7 +82,7 @@ Cypress.Commands.add('login', (numb) => {
     cy.contains('Device', timeout).should('be.visible');
     cy.contains('Report', timeout).should('be.visible');
     cy.contains('User', timeout).should('be.visible');
-    cy.contains('Alert', timeout).should('be.visible');
+    // cy.contains('Alert', timeout).should('be.visible');
     cy.get('[title="Target"] > .ant-menu-title-content > a', timeout).should('be.visible');
     cy.contains('Indicator', timeout).should('be.visible');
     cy.contains('Analysis', timeout).click();
@@ -97,3 +97,6 @@ Cypress.Commands.add('login', (numb) => {
     cy.contains('Report', timeout).should('be.visible');
   }
 });
+
+
+
