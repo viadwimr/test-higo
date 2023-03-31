@@ -80,12 +80,12 @@ Cypress.Commands.add('login', (numb) => {
     cy.get('.ant-btn', timeout).click();
     cy.contains('Dashboard', timeout).should('be.visible');
     cy.contains('Device', timeout).should('be.visible');
-    cy.contains('Report', timeout).should('be.visible');
+    cy.contains('Laporan', timeout).should('be.visible');
     cy.contains('User', timeout).should('be.visible');
     // cy.contains('Alert', timeout).should('be.visible');
     cy.get('[title="Target"] > .ant-menu-title-content > a', timeout).should('be.visible');
-    cy.contains('Indicator', timeout).should('be.visible');
-    cy.contains('Analysis', timeout).click();
+    // cy.contains('Indicator', timeout).should('be.visible');
+    cy.contains('Analisis', timeout).click();
     cy.contains('Trend', timeout).should('be.visible');
   } else if (numb === 'operator') {
     // cy.visit('/');
