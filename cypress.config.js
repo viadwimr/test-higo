@@ -9,7 +9,7 @@ module.exports = defineConfig({
       AllureWriter(on, config);
       return require('./cypress/plugins/index.js')(on, config);
     },
-    baseUrl: 'http://server-denso.tailb26b2.ts.net:8085/',
+    baseUrl: 'http://100.71.187.75:8085/',
     video: true,
     screenshotOnRunFailure: true,
     trashAssetsBeforeRuns: true,
