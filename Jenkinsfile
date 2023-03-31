@@ -20,7 +20,7 @@ pipeline {
             if(JOB_NAME == 'EMS_Admin_Alert') {
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/alert.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'EMS_Denso' && now.format("yyMMdd.HHmm", TimeZone.getTimeZone('UTC')) == '230331.0725') {
+            if(JOB_NAME == 'EMS_Denso' && now.format("yyMMdd.HHmm", TimeZone.getTimeZone('UTC')) == '230331.0735') {
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/dashboard.cy.js' --env allure=true"
             }
             if(JOB_NAME == 'EMS_Admin_Device') {
