@@ -16,9 +16,6 @@ pipeline {
         script {
           def now = new Date()
           try {
-            when {
-              expression { cron '25 4 * * 5' } // jalankan setiap jumat pada tengah hari WIB
-            }
             if(JOB_NAME == 'EMS_Admin_Alert') {
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/alert.cy.js' --env allure=true"
             }
