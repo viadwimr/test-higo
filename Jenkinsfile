@@ -15,12 +15,12 @@ pipeline {
       steps {
         script {
           def now = new Date()
-          println now.format("yyMMdd.HHmm", TimeZone.getTimeZone('UTC'))
+          println now.format("yyMMdd.HH", TimeZone.getTimeZone('UTC'))
           try {
             if(JOB_NAME == 'EMS_Admin_Alert') {
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/alert.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'EMS_Denso' && now.format("yyMMdd.HHmm", TimeZone.getTimeZone('UTC')) == '230331.0738') {
+            if(JOB_NAME == 'EMS_Denso' && now.format("yyMMdd.HH", TimeZone.getTimeZone('UTC')) == '230331.07') {
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/dashboard.cy.js' --env allure=true"
             }
             if(JOB_NAME == 'EMS_Admin_Device') {
