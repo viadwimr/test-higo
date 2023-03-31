@@ -15,10 +15,13 @@ pipeline {
       steps {
         script {
           try {
+            when {
+              expression { cron '0 5 * * 5' } // jalankan setiap jumat pada tengah hari WIB
+            }
             if(JOB_NAME == 'EMS_Admin_Alert') {
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/alert.cy.js' --env allure=true"
             }
-            if(JOB_NAME == 'EMS_Admin_Dashboard') {
+            if(JOB_NAME == 'EMS_Denso') {
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/dashboard.cy.js' --env allure=true"
             }
             if(JOB_NAME == 'EMS_Admin_Device') {
@@ -87,7 +90,7 @@ pipeline {
       footer: "EVOMO", 
       showChangeset: true, 
       thumbnail: discordStatus, 
-      webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
+      webhookURL: "https://discord.com/api/webhooks/1069835490976608307/uz9TsKgGLFHeZgkup4gy2DjgI9I3wgEpiuQcs31hIkKdoScRYlaqDTqQVxX311LvrUlZ"
     }
     failure {
       allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
@@ -100,7 +103,7 @@ pipeline {
       footer: "EVOMO", 
       showChangeset: true, 
       thumbnail: discordStatus, 
-      webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
+      webhookURL: "https://discord.com/api/webhooks/1069835490976608307/uz9TsKgGLFHeZgkup4gy2DjgI9I3wgEpiuQcs31hIkKdoScRYlaqDTqQVxX311LvrUlZ"
     }
   }
 }
