@@ -17,47 +17,8 @@ pipeline {
           def now = new Date()
           println now.format("yyMMdd.HH", TimeZone.getTimeZone('UTC'))
           try {
-            if(JOB_NAME == 'EMS_Admin_Alert') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/alert.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Denso' && now.format("yyMMdd.HH", TimeZone.getTimeZone('UTC')) == '230331.08') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/dashboard.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Admin_Device') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/device.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Admin_Indicator') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/indicator.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Admin_Login') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/login.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Admin_Report') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/report.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Admin_Threshold') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/threshold.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Admin_UserProfile') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/user-profile.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Admin_User') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/user.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Operator_Dashboard') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/dashboard.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Operator_Device') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/device.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Operator_Login') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/login.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Operator_Report') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/report.cy.js' --env allure=true"
-            }
-            if(JOB_NAME == 'EMS_Operator_UserProfile') {
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/operator/shift.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_Denso') {
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/data-accumulation.cy.js' --env allure=true"
             }
           } catch(Exception e) {
             currentBuild.result = 'FAILURE'
@@ -86,7 +47,7 @@ pipeline {
       link: "${env.BUILD_URL}/allure", 
       description: "Running on jenkins ${NODE_LABELS}", 
       result: currentBuild.currentResult, 
-      footer: "EVOMO", 
+      footer: "DATA AKUMULASI", 
       showChangeset: true, 
       thumbnail: discordStatus, 
       webhookURL: "https://discord.com/api/webhooks/1069835490976608307/uz9TsKgGLFHeZgkup4gy2DjgI9I3wgEpiuQcs31hIkKdoScRYlaqDTqQVxX311LvrUlZ"
@@ -100,7 +61,7 @@ pipeline {
       link: "${env.BUILD_URL}/allure", 
       description: "Running on jenkins ${NODE_LABELS}", 
       result: currentBuild.currentResult, 
-      footer: "EVOMO", 
+      footer: "DATA AKUMULASI", 
       showChangeset: true, 
       thumbnail: discordStatus, 
       webhookURL: "https://discord.com/api/webhooks/1069835490976608307/uz9TsKgGLFHeZgkup4gy2DjgI9I3wgEpiuQcs31hIkKdoScRYlaqDTqQVxX311LvrUlZ"
