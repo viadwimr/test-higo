@@ -50,8 +50,7 @@ pipeline {
       footer: "DATA AKUMULASI", 
       showChangeset: true, 
       thumbnail: discordStatus, 
-      webhookURL: "https://discord.com/api/webhooks/1069835490976608307/uz9TsKgGLFHeZgkup4gy2DjgI9I3wgEpiuQcs31hIkKdoScRYlaqDTqQVxX311LvrUlZ"
-      deleteDir()
+      webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
     }
     failure {
       allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
@@ -64,8 +63,7 @@ pipeline {
       footer: "DATA AKUMULASI", 
       showChangeset: true, 
       thumbnail: discordStatus, 
-      webhookURL: "https://discord.com/api/webhooks/1069835490976608307/uz9TsKgGLFHeZgkup4gy2DjgI9I3wgEpiuQcs31hIkKdoScRYlaqDTqQVxX311LvrUlZ"
-      deleteDir()
+      webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
     }
   }
 }
