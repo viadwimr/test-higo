@@ -19,4 +19,20 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+
+  // data will be stored here
+  const data = {};
+
+  // configuring tasks
+  on('task', {
+    setValue: (params) => {
+      var { key, value } = params;
+      data[key] = value;
+      return value;
+    },
+    getValue: (params) => {
+      var { key } = params;
+      return data[key] || null;
+    }
+  })
 }
