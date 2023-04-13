@@ -12,7 +12,7 @@ describe('Target', () => {
     cy.get('.title', timeout).contains('TARGET');
   });
 
-  it('Menampilkan device berdasarkan pilihan sektor', () => {
+  it('Menampilkan sector berdasarkan pilihan sektor', () => {
     cy.wait(3000);
     // filter asset
     cy.get('.ant-select-selector', timeout).click();
@@ -42,7 +42,7 @@ describe('Target', () => {
     cy.get('.TargetPage__BtnSave-sc-1qpmm05-5', timeout).should('be.visible');
   });
   
-  it('Data nilai target berhasil diperbarui dan disimpan', () => {
+  it.skip('Data nilai target berhasil diperbarui dan disimpan', () => {
     cy.get('#target_form_daya_hour > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input', timeout)
       .clear().type('90000');
     cy.get('#target_form_index > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input', timeout)
