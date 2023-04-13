@@ -50,7 +50,7 @@ pipeline {
             } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 8) {
               filename = "User Profile"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/user-profile.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 1) {
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 9) {
               filename = "User"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/user.cy.js' --env allure=true"
             }
