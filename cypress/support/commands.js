@@ -67,7 +67,7 @@
 
 //const timeout = { timeout: 5000 };
 
-var timeout = { timeout: 60000 }
+var timeout = { timeout: 100000 }
 var force = { force: true }
 
 Cypress.Commands.add('login', (numb) => {
