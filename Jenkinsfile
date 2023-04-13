@@ -1,4 +1,5 @@
 def discordStatus = ""
+def filename = ""
 pipeline {
   agent { label 'qa-node' }
   tools {
@@ -14,11 +15,44 @@ pipeline {
     stage('Testing') {
       steps {
         script {
-          def now = new Date()
-          println now.format("yyMMdd.HH", TimeZone.getTimeZone('UTC'))
           try {
-            if(JOB_NAME == 'EMS_Denso') {
+            def now = new Date()
+            def hour = now.getHours()
+            def day = now.getDay()
+            println hour
+            if(JOB_NAME == 'EMS_Denso' && hour == 10) {
+              filename = "DATA AKUMULASI"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/data-accumulation.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 0) {
+              filename = "Dashboard"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/dashboard.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 1) {
+              filename = "Device"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/device.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 2) {
+              filename = "Forgot Password"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/forgot-password.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 3) {
+              filename = "Forgot Username"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/forgot-username.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 4) {
+              filename = "Login"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/login.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 5) {
+              filename = "Report"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/report.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 6) {
+              filename = "Sign Out"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/sign-out.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 7) {
+              filename = "Target"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/target.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 8) {
+              filename = "User Profile"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/user-profile.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_Denso' && day == 6 && hour == 1) {
+              filename = "User"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/user.cy.js' --env allure=true"
             }
           } catch(Exception e) {
             currentBuild.result = 'FAILURE'
@@ -47,7 +81,7 @@ pipeline {
       link: "${env.BUILD_URL}/allure", 
       description: "Running on jenkins ${NODE_LABELS}", 
       result: currentBuild.currentResult, 
-      footer: "DATA AKUMULASI", 
+      footer: "${filename}",  
       showChangeset: true, 
       thumbnail: discordStatus, 
       webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
@@ -60,7 +94,7 @@ pipeline {
       link: "${env.BUILD_URL}/allure", 
       description: "Running on jenkins ${NODE_LABELS}", 
       result: currentBuild.currentResult, 
-      footer: "DATA AKUMULASI", 
+      footer: "${filename}",  
       showChangeset: true, 
       thumbnail: discordStatus, 
       webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
