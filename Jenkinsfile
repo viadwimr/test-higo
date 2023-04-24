@@ -62,10 +62,14 @@ pipeline {
       post {
         always {
           script {
-            if(currentBuild.result == 'FAILURE') {
-              discordStatus = 'https://storage.googleapis.com/success_bug_icon/failed.png'
-            } else if (currentBuild.currentResult == 'SUCCESS'){
-              discordStatus = 'https://storage.googleapis.com/success_bug_icon/passed.png'
+            if(filename=="") {
+              currentBuild.result = 'ABORTED'
+            } else {
+              if(currentBuild.result == 'FAILURE') {
+                discordStatus = 'https://storage.googleapis.com/success_bug_icon/failed.png'
+              } else if (currentBuild.currentResult == 'SUCCESS'){
+                discordStatus = 'https://storage.googleapis.com/success_bug_icon/passed.png'
+              }
             }
           }
         }
