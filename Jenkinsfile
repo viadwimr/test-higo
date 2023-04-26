@@ -89,6 +89,7 @@ pipeline {
       showChangeset: true, 
       thumbnail: discordStatus, 
       webhookURL: "https://discord.com/api/webhooks/1063045911778971678/oG7QZGG0hG9yHmC02UqyUYnk6v-F8SiG9vVJhEB5Z0wj6rNJzW0zTDU5iAdg1XQj_EDc"
+      deleteDir()
     }
     failure {
       allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
@@ -102,6 +103,7 @@ pipeline {
       showChangeset: true, 
       thumbnail: discordStatus, 
       webhookURL: "https://discord.com/api/webhooks/1063045911778971678/oG7QZGG0hG9yHmC02UqyUYnk6v-F8SiG9vVJhEB5Z0wj6rNJzW0zTDU5iAdg1XQj_EDc"
+      deleteDir()
     }
   }
 }
