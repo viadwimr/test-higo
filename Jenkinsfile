@@ -88,7 +88,7 @@ pipeline {
       footer: "${filename}",  
       showChangeset: true, 
       thumbnail: discordStatus, 
-      webhookURL: "https://discord.com/api/webhooks/1063045911778971678/oG7QZGG0hG9yHmC02UqyUYnk6v-F8SiG9vVJhEB5Z0wj6rNJzW0zTDU5iAdg1XQj_EDc"
+      webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
       deleteDir()
     }
     failure {
@@ -102,7 +102,7 @@ pipeline {
       footer: "${filename}",  
       showChangeset: true, 
       thumbnail: discordStatus, 
-      webhookURL: "https://discord.com/api/webhooks/1063045911778971678/oG7QZGG0hG9yHmC02UqyUYnk6v-F8SiG9vVJhEB5Z0wj6rNJzW0zTDU5iAdg1XQj_EDc"
+      webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
       deleteDir()
     }
   }
