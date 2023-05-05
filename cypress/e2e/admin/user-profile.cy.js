@@ -25,10 +25,11 @@ describe('User Profile dan Logout', () => {
     cy.reload();
     cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
-    cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'muhamad.bahri.a3@ap.denso.com');
+    // cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'muhamad.bahri.a3@ap.denso.com');
+    cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'qaevomotelkom@gmail.com');
     cy.get('#profile_form > :nth-child(10)', timeout).should('have.contain', '09876543210');
     cy.get(':nth-child(8) > .menu-content__btn-edit', timeout).click();
-    cy.get('#email', timeout).clear().type('test@denso.com');
+    cy.get('#email', timeout).clear().type('test.qa_telkom@denso.com');
     cy.get('.ant-btn', timeout).click();
     cy.contains('Berhasil disimpan', timeout).should('be.visible');
     cy.reload();
@@ -44,7 +45,7 @@ describe('User Profile dan Logout', () => {
   it('Edit Informasi Akun', () => {
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
     cy.get('#profile_form > :nth-child(2)', timeout).should('have.contain', 'Test');
-    cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'test@denso');
+    cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'test.qa_telkom@denso.com');
     cy.get('#profile_form > :nth-child(10)', timeout).should('have.contain', '01234567890');
     cy.get(':nth-child(2) > .menu-content__btn-edit', timeout).click();
     cy.get('#profile_form_firstName', timeout).clear().type('Admin');
@@ -54,7 +55,8 @@ describe('User Profile dan Logout', () => {
     cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
     cy.get(':nth-child(8) > .menu-content__btn-edit', timeout).click();
-    cy.get('#email', timeout).clear().type('muhamad.bahri.a3@ap.denso.com');
+    // cy.get('#email', timeout).clear().type('muhamad.bahri.a3@ap.denso.com');
+    cy.get('#email', timeout).clear().type('qaevomotelkom@gmail.com');
     cy.get('.ant-btn', timeout).click();
     cy.contains('Berhasil disimpan', timeout).should('be.visible');
     cy.reload();
