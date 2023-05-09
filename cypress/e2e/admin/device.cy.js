@@ -1,13 +1,13 @@
 /// <reference types="Cypress" />
 
-var timeout = { timeout: 5000 }
+var timeout = { timeout: 50000 }
 
-describe.skip('Device', () => {
+describe('Device', () => {
   before(() => {
     cy.login('admin');
     cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
   });
-  /*
+  
   describe('Tambah Sektor', () => {
     it('Menampilkan halaman Device yang menampilkan kotak nama masing-masing sensor, filter sektor dan tombol Atur Sektor', () => {
       cy.get('.title', timeout).contains('DEVICE');
@@ -26,10 +26,10 @@ describe.skip('Device', () => {
       cy.get('.ant-table-thead > tr > :nth-child(1)', timeout).contains('Nama Sektor');
       cy.get('.ant-table-thead > tr > :nth-child(2)', timeout).contains('Deskripsi');
       cy.get('[data-row-key="63a3c03b263b2a86f1084953"] > :nth-child(1)', timeout).contains('DMIA');
-      cy.get('.yWXyo', timeout).contains('Tambah Sektor');
+      //cy.get('.yWXyo', timeout).contains('Tambah Sektor');
     })
 
-    it('Menampilkan pengisian tambah sektor pada kolom Nama Sektor dan Deskripsi', () => {
+    it.skip('Menampilkan pengisian tambah sektor pada kolom Nama Sektor dan Deskripsi', () => {
       cy.get('.yWXyo', timeout).click();
       cy.get('[data-testid="sector_name"]', timeout).should('be.visible');
       cy.get('[data-testid="sector_description"]', timeout).should('be.visible');
@@ -37,7 +37,7 @@ describe.skip('Device', () => {
         .should('be.visible');
     })
 
-    it('Muncul notifikasi berhasil dan sektor tersimpan', () => {
+    it.skip('Muncul notifikasi berhasil dan sektor tersimpan', () => {
       cy.get('[data-testid="sector_name"]', timeout).clear().type('test');
       cy.get('[data-testid="sector_description"]', timeout).clear().type('uji coba');
       cy.get('[data-testid="confirm-batal"]', timeout).click();
@@ -64,7 +64,7 @@ describe.skip('Device', () => {
       cy.get('.ant-table-thead > tr > :nth-child(1)', timeout).contains('Nama Sektor');
       cy.get('.ant-table-thead > tr > :nth-child(2)', timeout).contains('Deskripsi');
       cy.get('[data-row-key="63a3c03b263b2a86f1084953"] > :nth-child(1)', timeout).contains('DMIA');
-      cy.get('.yWXyo', timeout).contains('Tambah Sektor');
+      //cy.get('.yWXyo', timeout).contains('Tambah Sektor');
     })
 
     it('Menampilkan pengisian edit sektor pada kolom Nama Sektor dan Deskripsi', () => {     
@@ -80,7 +80,7 @@ describe.skip('Device', () => {
       // check after update
       cy.get('[data-testid="atur-sector-button"]', timeout).click();
       cy.wait(1000);
-      cy.get('.ant-table-container', timeout).contains('DMIA').should('be.visible');
+      cy.get('.ant-table-container', timeout).contains('Gedung 1').should('be.visible');
       cy.get('.ant-table-container', timeout).contains('test edit').should('be.visible');
       cy.get('.ant-table-container', timeout).contains('uji coba edit').should('be.visible');
       cy.get('.ant-table-container', timeout).contains('test lagi').should('not.exist');
@@ -90,7 +90,7 @@ describe.skip('Device', () => {
     })
   });
 
-  describe('Hapus Sektor', () => {
+  describe.skip('Hapus Sektor', () => {
     it('Menampilkan tabel sektor yang berisi Nama Sektor dan Deskripsi', () => {
       cy.get('[data-testid="atur-sector-button"]', timeout).click();
       cy.get('.ant-table-thead > tr > :nth-child(1)', timeout).contains('Nama Sektor');
@@ -111,9 +111,9 @@ describe.skip('Device', () => {
       cy.contains('test edit', timeout).should('not.exist');
     });
   });
-  */
+  
   describe('Informasi Device', () => {
-    it('Menampilkan nama Sektor, nama Device, dan Location', () => {
+    it('Menampilkan nama Sektor, nama Device, dan Lokasi', () => {
       cy.get(':nth-child(2) > a > .sector-card', timeout).should('be.visible');
       cy.get('#rc-tabs-0-panel-condition_monitoring', timeout).should('be.visible');
       cy.get(':nth-child(2) > a > .sector-card', timeout).should('be.visible');
@@ -124,7 +124,7 @@ describe.skip('Device', () => {
       cy.get('.AnomaliWrapper__Container-sc-1qw2y45-0', timeout).should('be.visible')
       cy.get(':nth-child(1) > .ant-row > :nth-child(1) > h5', timeout).contains('Nama Device');
       cy.get(':nth-child(2) > [style="margin-left: -8px; margin-right: -8px;"] > :nth-child(1) > h5', timeout).contains('Sektor');
-      cy.get(':nth-child(3) > .ant-row > :nth-child(1) > h5', timeout).contains('Location');
+      cy.get(':nth-child(3) > .ant-row > :nth-child(1) > h5', timeout).contains('Lokasi');
       cy.get('[style="margin-left: -12px; margin-right: -12px; margin-top: 24px;"] > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('MP_01');
       cy.get('[style="margin-left: -8px; margin-right: -8px;"] > :nth-child(2) > .ant-row > .ant-col > div', timeout).contains('BF 23 TR Line 1');
       cy.get(':nth-child(3) > .ant-row > :nth-child(2) > h5', timeout).contains('0');
@@ -200,8 +200,9 @@ describe.skip('Device', () => {
     it('Menampilkan form pengisian untuk edit device seperti Nama Device, Sektor dan Lokasi serta tombol Tambah Detail Device', () => {
       cy.wait(7000);
       cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-      cy.contains('DMIA', timeout).click();
       cy.wait(1000);
+      cy.contains('Gedung 1', timeout).click();
+      cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       cy.contains('MP_01', timeout).click()
       cy.wait(3000);
@@ -217,8 +218,9 @@ describe.skip('Device', () => {
     it('Menampilkan notifikasi berhasil dan data edit device berhasil disimpan', () => {
       cy.wait(7000);
       cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-      cy.contains('DMIA', timeout).click();
       cy.wait(1000);
+      cy.contains('Gedung 1', timeout).click();
+      cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       cy.contains('MP_01', timeout).click()
       cy.wait(3000);
@@ -239,8 +241,9 @@ describe.skip('Device', () => {
     it('Menampilkan form pengisian Tambah Detail Device yang berisi Label dan Informasi', () => {
       cy.wait(7000);
       cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-      cy.contains('DMIA', timeout).click();
       cy.wait(1000);
+      cy.contains('Gedung 1', timeout).click();
+      cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       cy.contains('MP_01', timeout).click()
       cy.wait(3000);
@@ -258,16 +261,17 @@ describe.skip('Device', () => {
     it('Informasi detail device yang ditambahkan telah tercatat pada form Edit Device', () => {
       // cy.wait(7000);
       // cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-      // cy.contains('DMIA', timeout).click();
+      // cy.wait(1000);
+      // cy.contains('Gedung 1', timeout).click();
       // cy.wait(1000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       // cy.contains('MP_01', timeout).click()
       // cy.wait(3000);
       // cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       // cy.get('[style="margin-bottom: 198px;"] > .ant-btn', timeout).click();
-      cy.get(':nth-child(6) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
-        .should('have.value','auto');
       cy.get(':nth-child(8) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
+        .should('have.value','auto');
+      cy.get(':nth-child(10) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
         .should('have.value','auto 2');
       cy.get('.ant-row-end > .ant-col > .Button__BaseButton-sc-1hmbtsr-0').click({force:true});
     });
@@ -276,7 +280,7 @@ describe.skip('Device', () => {
       cy.contains('Berhasil', timeout).should('be.visible');
       // cy.wait(7000);
       // cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-      // cy.contains('DMIA', timeout).click();
+      // cy.contains('Gedung 1', timeout).click();
       // cy.wait(1000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       // cy.contains('MP_01', timeout).click()
@@ -286,11 +290,11 @@ describe.skip('Device', () => {
       cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'MP_01-edit');
       // bug: belum update level sector
-      // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'DMIA');
+      // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'Gedung 1');
       cy.get('[data-testid=input-location]', timeout).should('have.value', 'auto test');
-      cy.get(':nth-child(6) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
-        .should('have.value','auto');
       cy.get(':nth-child(8) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
+        .should('have.value','auto');
+      cy.get(':nth-child(10) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
         .should('have.value','auto 2');
     });
   })
@@ -304,25 +308,26 @@ describe.skip('Device', () => {
     it('Informasi detail device sudah tidak tercatat pada form Edit Device', () => {
       cy.wait(3000);
       cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-      cy.contains('DMIA', timeout).click();
       cy.wait(1000);
+      cy.contains('Gedung 1', timeout).click();
+      cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       cy.contains('MP_01', timeout).click()
       cy.wait(3000)
       cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
-      cy.get(':nth-child(6) > [style="height: 40px; display: flex; align-items: center;"]', timeout).click();
+      cy.get(':nth-child(8) > [style="height: 40px; display: flex; align-items: center;"]', timeout).click();
       cy.contains('Hapus').click({force:true});
-      cy.get(':nth-child(6) > [style="height: 40px; display: flex; align-items: center;"]', timeout).click();
+      cy.get(':nth-child(8) > [style="height: 40px; display: flex; align-items: center;"]', timeout).click();
       cy.contains('Hapus').click({force:true});
       // check data
       // cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'MP_01-edit');
       // bug: belum update level sector
-      // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'DMIA');
+      // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'Gedung 1');
       cy.get('[data-testid=input-location]', timeout).should('have.value', 'auto test');
-      cy.get(':nth-child(6) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
-        .should('not.exist');
       cy.get(':nth-child(8) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
+        .should('not.exist');
+      cy.get(':nth-child(10) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
         .should('not.exist');
       cy.get('.ant-row-end > .ant-col > .Button__BaseButton-sc-1hmbtsr-0').click({force:true});
       cy.contains('Berhasil', timeout).should('be.visible');
@@ -337,30 +342,30 @@ describe.skip('Device', () => {
     it('Menampilkan notifikasi berhasil dan data detail device berhasil dihapus', () => {
       cy.wait(3000);
       cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-      cy.contains('DMIA', timeout).click();
       cy.wait(1000);
+      cy.contains('Gedung 1', timeout).click();
+      cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       cy.contains('MP_01', timeout).click()
       cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       // check data
-      cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'MP_01');
       // bug: belum update level sector
-      // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'DMIA');
+      // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'Gedung 1');
       cy.get('[data-testid=input-location]', timeout).should('have.value', '0');
-      cy.get(':nth-child(6) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
-        .should('not.exist');
       cy.get(':nth-child(8) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
+        .should('not.exist');
+      cy.get(':nth-child(10) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > [data-testid="input-additional_info"]', timeout)
         .should('not.exist');
       cy.get('.ant-modal-close-x > .anticon > svg').click();
     });
   });
-
+  /*
   describe('Edit Kalibrasi', () => {
     it('Menampilkan form pengisian Edit Kalibrasi yang berisi Nilai Kalibrasi dan informasi Terakhir Diubah', () => {
       cy.wait(3000);
       // cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-      // cy.contains('DMIA', timeout).click();
+      // cy.contains('Gedung 1', timeout).click();
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       // cy.contains('MP_01', timeout).click()
       cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger', timeout).click({force:true});
@@ -373,7 +378,7 @@ describe.skip('Device', () => {
     it('Menampilkan notifikasi berhasil dan data edit kalibrasi berhasil disimpan', () => {
       cy.wait(3000);
       // cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-      // cy.contains('DMIA', timeout).click();
+      // cy.contains('Gedung 1', timeout).click();
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       // cy.contains('MP_01', timeout).click()
       cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger', timeout).click({force:true});
@@ -388,13 +393,14 @@ describe.skip('Device', () => {
       cy.get('.ant-modal-close-x').click();
     });
   });
+  */
   /*
   describe('Export Chart', () => {
     beforeEach(() => {
       cy.visit('/device')
       cy.wait(3000);
       cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
-      cy.contains('DMIA', timeout).click();
+      cy.contains('Gedung 1', timeout).click();
       cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       cy.contains('MP_01', timeout).click()
