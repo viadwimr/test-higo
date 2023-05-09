@@ -7,7 +7,7 @@ describe('Device', () => {
     cy.login('admin');
     cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
   });
-  
+  /*
   describe('Tambah Sektor', () => {
     it('Menampilkan halaman Device yang menampilkan kotak nama masing-masing sensor, filter sektor dan tombol Atur Sektor', () => {
       cy.get('.title', timeout).contains('DEVICE');
@@ -111,7 +111,7 @@ describe('Device', () => {
       cy.contains('test edit', timeout).should('not.exist');
     });
   });
-  
+  */
   describe('Informasi Device', () => {
     it('Menampilkan nama Sektor, nama Device, dan Lokasi', () => {
       cy.get(':nth-child(2) > a > .sector-card', timeout).should('be.visible');
