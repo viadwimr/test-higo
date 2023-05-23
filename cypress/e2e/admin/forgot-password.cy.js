@@ -33,7 +33,7 @@ describe('Forgot Password', () => {
       cy.get('#check_account_email_help > .ant-form-item-explain-error > .alert-container > [data-testid="message"]', timeout)
         .contains('Email Tidak Tepat')
       cy.get('#check_account_email', timeout).clear().type('test.qa_12-12@gmail.com');
-      cy.get('#check_account_no_hp', timeout).clear().type('09876543210');
+      cy.get('#check_account_no_hp', timeout).clear().type('1');
       cy.get('.ant-btn-primary', timeout).click();
       cy.contains('Gagal', timeout).should('be.visible');
       cy.get('.swal2-confirm', timeout).click();
@@ -63,7 +63,7 @@ describe('Forgot Password', () => {
 
     it('Tombol Kirim akan aktif setelah memasukkan email dan no HP', () => {
       cy.get('#check_account_email', timeout).type('qaevomotelkom@gmail.com');
-      cy.get('#check_account_no_hp', timeout).type('09876543210');
+      cy.get('#check_account_no_hp', timeout).type('1');
       cy.get('.ant-btn-primary', timeout).click();
     })
 
@@ -80,7 +80,7 @@ describe('Forgot Password', () => {
       // check login
       cy.visit('/');
       cy.wait(1000);
-      cy.get('#username', timeout).clear().type('admindenso');
+      cy.get('#username', timeout).clear().type('tes-admin');
       cy.get('#password', timeout).clear().type('T123!@#$%^&*()_+');
       cy.get('.ant-btn', timeout).click();
       cy.get('.logo > img', timeout).should('be.visible');
@@ -105,7 +105,7 @@ describe('Forgot Password', () => {
       cy.wait(2000);
       cy.get(':nth-child(2) > a', timeout).click();
       cy.get('#check_account_email', timeout).type('qaevomotelkom@gmail.com');
-      cy.get('#check_account_no_hp', timeout).type('09876543210');
+      cy.get('#check_account_no_hp', timeout).type('1');
       cy.get('.ant-btn-primary', timeout).click();
       cy.contains('Berhasil', timeout).should('be.visible');
       cy.wait(3000);
@@ -118,7 +118,7 @@ describe('Forgot Password', () => {
       // check login
       cy.visit('/');
       cy.wait(1000);
-      cy.get('#username', timeout).clear().type('admindenso');
+      cy.get('#username', timeout).clear().type('tes-admin');
       cy.get('#password', timeout).clear().type('T123!@#$%^&*()_+');
       cy.get('.ant-btn', timeout).click();
       cy.contains('Gagal', timeout).should('be.visible');
@@ -131,7 +131,7 @@ describe('Forgot Password', () => {
       cy.wait(1000);
       cy.get(':nth-child(2) > a', timeout).click();
       cy.get('#check_account_email', timeout).type('qaevomotelkom@gmail.com');
-      cy.get('#check_account_no_hp', timeout).type('09876543210');
+      cy.get('#check_account_no_hp', timeout).type('1');
       cy.get('.ant-btn-primary', timeout).click();
       cy.contains('Berhasil', timeout).should('be.visible');
       cy.wait(3000);
@@ -182,7 +182,7 @@ describe('Forgot Password', () => {
       cy.wait(1000);
       cy.get(':nth-child(2) > a', timeout).click();
       cy.get('#check_account_email', timeout).type('qaevomotelkom@gmail.com');
-      cy.get('#check_account_no_hp', timeout).type('09876543210');
+      cy.get('#check_account_no_hp', timeout).type('1');
       cy.get('.ant-btn-primary', timeout).click();
       cy.contains('Berhasil', timeout).should('be.visible');
       cy.wait(3000);

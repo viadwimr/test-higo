@@ -27,7 +27,7 @@ describe('User Profile dan Logout', () => {
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
     // cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'muhamad.bahri.a3@ap.denso.com');
     cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'qaevomotelkom@gmail.com');
-    cy.get('#profile_form > :nth-child(10)', timeout).should('have.contain', '09876543210');
+    cy.get('#profile_form > :nth-child(10)', timeout).should('have.contain', '1');
     cy.get(':nth-child(8) > .menu-content__btn-edit', timeout).click();
     cy.get('#email', timeout).clear().type('test.qa_telkom@denso.com');
     cy.get('.ant-btn', timeout).click();
@@ -45,7 +45,7 @@ describe('User Profile dan Logout', () => {
   it('Edit Informasi Akun', () => {
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
     cy.get('#profile_form > :nth-child(2)', timeout).should('have.contain', 'Test');
-    cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'test.qa_telkom@denso.com');
+    cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'test.qa_telkom@paragon.com');
     cy.get('#profile_form > :nth-child(10)', timeout).should('have.contain', '01234567890');
     cy.get(':nth-child(2) > .menu-content__btn-edit', timeout).click();
     cy.get('#profile_form_firstName', timeout).clear().type('Admin');
@@ -63,7 +63,7 @@ describe('User Profile dan Logout', () => {
     cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();;
     cy.get(':nth-child(10) > .menu-content__btn-edit', timeout).click();
-    cy.get('#phone', timeout).clear().type('09876543210');
+    cy.get('#phone', timeout).clear().type('1');
     cy.get('.ant-btn', timeout).click();
     cy.contains('Berhasil disimpan', timeout).should('be.visible');
 
@@ -74,7 +74,7 @@ describe('User Profile dan Logout', () => {
   it('Edit Password', () => {
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
     cy.get('.menu-item', timeout).click();
-    cy.get('#change_password_form_old_password', timeout).clear().type('Jeager123');
+    cy.get('#change_password_form_old_password', timeout).clear().type('password');
     cy.get('#change_password_form_new_password', timeout).type('password-test');
     cy.get('#change_password_form_confirm_password', timeout).type('password-test.');
     cy.get('.ant-show-help-item-appear', timeout).contains('Password tidak tepat!')
@@ -88,7 +88,7 @@ describe('User Profile dan Logout', () => {
     cy.contains('Logout', timeout).click();
 
     // Re-login
-    cy.get('#username', timeout).type('admindenso');
+    cy.get('#username', timeout).type('tes-admin');
     cy.get('#password', timeout).type('password-test');
     cy.get('.ant-btn', timeout).click();
 
@@ -97,8 +97,8 @@ describe('User Profile dan Logout', () => {
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
     cy.get('.menu-item', timeout).click();
     cy.get('#change_password_form_old_password', timeout).type('password-test');
-    cy.get('#change_password_form_new_password', timeout).type('Jeager123');
-    cy.get('#change_password_form_confirm_password', timeout).type('Jeager123');
+    cy.get('#change_password_form_new_password', timeout).type('password');
+    cy.get('#change_password_form_confirm_password', timeout).type('password');
     cy.get('.ant-btn', timeout).click();
     cy.get('.swal2-confirm', timeout).click();
 

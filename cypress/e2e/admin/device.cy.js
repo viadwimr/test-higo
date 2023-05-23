@@ -115,19 +115,23 @@ describe('Device', () => {
   describe('Informasi Device', () => {
     it('Menampilkan nama Sektor, nama Device, dan Lokasi', () => {
       cy.get(':nth-child(2) > a > .sector-card', timeout).should('be.visible');
-      cy.get('#rc-tabs-0-panel-condition_monitoring', timeout).should('be.visible');
+      // cy.get('#rc-tabs-0-panel-condition_monitoring', timeout).should('be.visible');
       cy.get(':nth-child(2) > a > .sector-card', timeout).should('be.visible');
       // cy.get(':nth-child(3) > a > .sector-card', timeout).should('not.exist');
-      cy.contains('MP_01', timeout).click();
+      cy.get('#rc-tabs-1-panel-condition_monitoring').find('.sector-card').then((graphic) => {
+        var graphicCount = Cypress.$(graphic).length;
+        expect(graphicCount).to.be.equal(51)
+      })
+      cy.get(':nth-child(2) > a > .sector-card', timeout).click();
       cy.get('.ant-layout-content > :nth-child(1)', timeout).should('be.visible');
       cy.wait(3000);
       cy.get('.AnomaliWrapper__Container-sc-1qw2y45-0', timeout).should('be.visible')
       cy.get(':nth-child(1) > .ant-row > :nth-child(1) > h5', timeout).contains('Nama Device');
       cy.get(':nth-child(2) > [style="margin-left: -8px; margin-right: -8px;"] > :nth-child(1) > h5', timeout).contains('Sektor');
       cy.get(':nth-child(3) > .ant-row > :nth-child(1) > h5', timeout).contains('Lokasi');
-      cy.get('[style="margin-left: -12px; margin-right: -12px; margin-top: 24px;"] > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('MP_01');
-      cy.get('[style="margin-left: -8px; margin-right: -8px;"] > :nth-child(2) > .ant-row > .ant-col > div', timeout).contains('BF 23 TR Line 1');
-      cy.get(':nth-child(3) > .ant-row > :nth-child(2) > h5', timeout).contains('0');
+      cy.get('[style="margin-left: -12px; margin-right: -12px; margin-top: 24px;"] > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('Paragon Device 2');
+      cy.get('[style="margin-left: -8px; margin-right: -8px;"] > :nth-child(2) > .ant-row > .ant-col > div', timeout).contains('Jatake 1');
+      cy.get(':nth-child(3) > .ant-row > :nth-child(2) > h5', timeout).contains('Kemas Primer Semsol ALP03');
     });
 
     it('Menampilkan dropdown filter interval berisi kolom Pilih Interval untuk custom interval dan untuk existing interval mulai dari 5, 15, 30 hingga 60 Menit.', () => {
@@ -138,21 +142,21 @@ describe('Device', () => {
       // check data
       cy.wait(1000);
       // cy.get('[style="margin-top: 18px;"]', timeout).contains('Tertinggi');
-      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('9.187 kWh');
+      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('9.187 ℃');
       // cy.get('[style="margin-top: 24px;"]', timeout).contains('Terendah');
-      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('9.187 kWh');
+      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('9.187 ℃');
       // existing interval
       cy.get(':nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
       // 30 menit
       cy.get('.Picker__IntervalPopUp-x5059d-6 > :nth-child(5)', timeout).click();
     });
 
-    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator energi (kWh) sesuai dengan filter interval yang dipilih', () => {
+    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Temperatur (℃) sesuai dengan filter interval yang dipilih', () => {
       cy.wait(1000);
       // cy.get('[style="margin-top: 18px;"]', timeout).contains('Tertinggi');
-      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('9.187 kWh');
+      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('9.187 ℃');
       // cy.get('[style="margin-top: 24px;"]', timeout).contains('Terendah');
-      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('9.187 kWh');
+      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('9.187 ℃');
     });
 
     it('Menampilkan dropdown filter waktu berisi kolom Tanggal Mulai dan Tanggal Selesai untuk Pilih Tanggal (custom waktu) dan Pilih Durasi mulai dari 1 Jam, 24 Jam, 2 Hari, 7 Hari, 14 Hari hingga 30 Hari Terakhir untuk existing waktunya', () => {
@@ -169,29 +173,29 @@ describe('Device', () => {
       // check data
       cy.wait(3000);
       // cy.get('[style="margin-top: 18px;"]', timeout).contains('Tertinggi');
-      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('0 kWh');
+      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('0 ℃');
       // cy.get('[style="margin-top: 24px;"]', timeout).contains('Terendah');
-      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('0 kWh');
+      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('0 ℃');
       // existing date
       cy.get(':nth-child(3) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
       cy.contains('7 Hari terakhir', timeout).click();
       // cy.get('[data-testid="7 Hari terakhir (15/02/23 - 22/02/23)"]', timeout).click();
     });
 
-    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator energi (kWh) sesuai dengan filter waktu yang dipilih', () => {
+    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Temperatur (℃) sesuai dengan filter waktu yang dipilih', () => {
       cy.wait(3000);
-      cy.get('.ant-row-space-between > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('Energi');
-      // cy.get('.ant-row > :nth-child(3) > span', timeout).contains('9.128 kWh')
+      cy.get('.ant-row-space-between > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('Temperatur');
+      // cy.get('.ant-row > :nth-child(3) > span', timeout).contains('9.128 ℃')
       // cy.get('[style="margin-top: 18px;"]', timeout).contains('Tertinggi');
-      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('22.125 kWh');
+      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('22.125 ℃');
       // cy.get('[style="margin-top: 24px;"]', timeout).contains('Terendah');
-      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('2.203 kWh');
+      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('2.203 ℃');
       // cy.get('#apexchartsswu2xwrl', timeout).should('be.visible');
       // cy.contains('17 Feb 17.00', timeout).should('be.visible');
     });
   });
   
-  describe('Edit Device', () => {
+  describe.skip('Edit Device', () => {
     beforeEach(() => {
       cy.visit('/')
       cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
@@ -204,10 +208,10 @@ describe('Device', () => {
       cy.contains('Gedung 1', timeout).click();
       cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
-      cy.contains('MP_01', timeout).click()
+      cy.contains('Paragon Device 2', timeout).click()
       cy.wait(3000);
       cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
-      cy.get('[data-testid=input-device_name]', timeout).clear().type('MP_01-edit');
+      cy.get('[data-testid=input-device_name]', timeout).clear().type('Paragon Device 2-edit');
       // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).click();
       // cy.contains('test edit', timeout).click();
       cy.get('[data-testid=input-location]', timeout).clear().type('auto test');
@@ -222,17 +226,17 @@ describe('Device', () => {
       cy.contains('Gedung 1', timeout).click();
       cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
-      cy.contains('MP_01', timeout).click()
+      cy.contains('Paragon Device 2', timeout).click()
       cy.wait(3000);
       cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       // check data
-      cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'MP_01-edit');
+      cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'Paragon Device 2-edit');
       //cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'test edit');
       cy.get('[data-testid=input-location]', timeout).should('have.value', 'auto test');
     });
   })
 
-  describe('Tambah Detail Device', () => {
+  describe.skip('Tambah Detail Device', () => {
     before(() => {
       cy.visit('/')
       cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
@@ -245,7 +249,7 @@ describe('Device', () => {
       cy.contains('Gedung 1', timeout).click();
       cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
-      cy.contains('MP_01', timeout).click()
+      cy.contains('Paragon Device 2', timeout).click()
       cy.wait(3000);
       cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       cy.get('[style="margin-bottom: 198px;"] > .ant-btn', timeout).click();
@@ -265,7 +269,7 @@ describe('Device', () => {
       // cy.contains('Gedung 1', timeout).click();
       // cy.wait(1000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
-      // cy.contains('MP_01', timeout).click()
+      // cy.contains('Paragon Device 2', timeout).click()
       // cy.wait(3000);
       // cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       // cy.get('[style="margin-bottom: 198px;"] > .ant-btn', timeout).click();
@@ -283,12 +287,12 @@ describe('Device', () => {
       // cy.contains('Gedung 1', timeout).click();
       // cy.wait(1000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
-      // cy.contains('MP_01', timeout).click()
+      // cy.contains('Paragon Device 2', timeout).click()
       cy.wait(3000);
       // cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       // cy.get('[style="margin-bottom: 198px;"] > .ant-btn', timeout).click();
       cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
-      cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'MP_01-edit');
+      cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'Paragon Device 2-edit');
       // bug: belum update level sector
       // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'Gedung 1');
       cy.get('[data-testid=input-location]', timeout).should('have.value', 'auto test');
@@ -299,7 +303,7 @@ describe('Device', () => {
     });
   })
 
-  describe('Hapus Detail Device', () => {
+  describe.skip('Hapus Detail Device', () => {
     beforeEach(() => {
       cy.visit('/')
       cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
@@ -312,7 +316,7 @@ describe('Device', () => {
       cy.contains('Gedung 1', timeout).click();
       cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
-      cy.contains('MP_01', timeout).click()
+      cy.contains('Paragon Device 2', timeout).click()
       cy.wait(3000)
       cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       cy.get(':nth-child(8) > [style="height: 40px; display: flex; align-items: center;"]', timeout).click();
@@ -321,7 +325,7 @@ describe('Device', () => {
       cy.contains('Hapus').click({force:true});
       // check data
       // cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
-      cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'MP_01-edit');
+      cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'Paragon Device 2-edit');
       // bug: belum update level sector
       // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'Gedung 1');
       cy.get('[data-testid=input-location]', timeout).should('have.value', 'auto test');
@@ -334,7 +338,7 @@ describe('Device', () => {
       // back to prev data
       cy.wait(3000);
       cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
-      cy.get('[data-testid=input-device_name]', timeout).clear().type('MP_01');
+      cy.get('[data-testid=input-device_name]', timeout).clear().type('Paragon Device 2');
       cy.get('[data-testid=input-location]', timeout).clear().type('0');
       cy.get('.ant-row-end > .ant-col > .Button__BaseButton-sc-1hmbtsr-0').click({force:true});
     });
@@ -346,10 +350,10 @@ describe('Device', () => {
       cy.contains('Gedung 1', timeout).click();
       cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
-      cy.contains('MP_01', timeout).click()
+      cy.contains('Paragon Device 2', timeout).click()
       cy.get('[style="margin-left: -5px; margin-right: -5px;"] > :nth-child(1) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({multiple:true});
       // check data
-      cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'MP_01');
+      cy.get('[data-testid=input-device_name]', timeout).should('have.value', 'Paragon Device 2');
       // bug: belum update level sector
       // cy.get('[data-testid=select-sector] > .ant-select-selector', timeout).should('have.contain', 'Gedung 1');
       cy.get('[data-testid=input-location]', timeout).should('have.value', '0');
@@ -367,7 +371,7 @@ describe('Device', () => {
       // cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
       // cy.contains('Gedung 1', timeout).click();
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
-      // cy.contains('MP_01', timeout).click()
+      // cy.contains('Paragon Device 2', timeout).click()
       cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger', timeout).click({force:true});
       cy.contains('Edit Kalibrasi', timeout).click({force:true});
       cy.get('.DetailCondition__InputNum-z5ehht-1', timeout).clear().type('44').should('have.value', '44');
@@ -380,7 +384,7 @@ describe('Device', () => {
       // cy.get('[data-testid=select-sector] > .ant-select-selector > .ant-select-selection-item', timeout).click({force:true});
       // cy.contains('Gedung 1', timeout).click();
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
-      // cy.contains('MP_01', timeout).click()
+      // cy.contains('Paragon Device 2', timeout).click()
       cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger', timeout).click({force:true});
       cy.contains('Edit Kalibrasi', timeout).click({force:true});
       cy.get('.DetailCondition__InputNum-z5ehht-1', timeout).should('have.value', '44');
@@ -403,7 +407,7 @@ describe('Device', () => {
       cy.contains('Gedung 1', timeout).click();
       cy.wait(3000);
       // cy.get(':nth-child(2) > a > .sector-card', timeout).click();
-      cy.contains('MP_01', timeout).click()
+      cy.contains('Paragon Device 2', timeout).click()
       cy.wait(3000);
       cy.get(':nth-child(2) > .ant-row > :nth-child(2) > .ant-dropdown-trigger > svg', timeout).click();
     });

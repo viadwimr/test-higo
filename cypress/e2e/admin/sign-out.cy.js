@@ -14,6 +14,7 @@ describe('Signout', () => {
     cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.wait(1000);
     cy.contains('Logout', timeout).click();
+    cy.get('.swal2-confirm', timeout).click();
     cy.wait(7000);
     cy.get('#username', timeout).should('be.visible');
     cy.get('#password', timeout).should('be.visible');

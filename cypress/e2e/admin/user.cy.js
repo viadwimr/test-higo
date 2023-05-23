@@ -31,7 +31,7 @@ describe('User', () => {
     });
 
     it('Menampilkan Form Tambah User bagian ID', () => {
-      cy.get('#users_form_step2_username', timeout).clear().type('autotes');
+      cy.get('#users_form_step2_username', timeout).clear().type('aautotes');
       cy.get('#users_form_step2_password', timeout).type('{selectAll}password');
       cy.get('#users_form_step2_confirm_password', timeout).type('{selectAll}password');
       cy.get('.ant-space > :nth-child(2) > .Button__BaseButton-sc-1hmbtsr-0', timeout)
@@ -44,7 +44,7 @@ describe('User', () => {
       cy.wait(3000);
       cy.get(':nth-child(2)', timeout).eq(1).contains('Aauto test');
       cy.contains('Username', timeout).click();
-      cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'autotes');
+      cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'aautotes');
       cy.contains('Username', timeout).click();
       cy.wait(1000);
       cy.contains('Username', timeout).click();
@@ -66,7 +66,7 @@ describe('User', () => {
       cy.get('#update_user_form_firstName', timeout).clear().type('aauto tes update');
       cy.get('#update_user_form_email', timeout).clear().type('tes_@update.com');
       cy.get('#update_user_form_no_hp', timeout).clear().type('1234567890');
-      cy.get('#update_user_form_username', timeout).clear().type('autotes 2');
+      cy.get('#update_user_form_username', timeout).clear().type('aautotes 2');
       cy.get('#update_user_form > .ant-row-space-between > :nth-child(2) > .Button__BaseButton-sc-1hmbtsr-0', timeout).click({force:true});
     });
 
@@ -74,9 +74,9 @@ describe('User', () => {
       cy.contains('Berhasil', timeout).should('be.visible');
       // check after edit
       cy.wait(3000);
-      cy.get(':nth-child(2)', timeout).eq(1).contains('autotes 2');
+      cy.get(':nth-child(2)', timeout).eq(1).contains('aautotes 2');
       cy.contains('Username', timeout).click();
-      cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'autotes 2');
+      cy.get('.ant-table-column-sort', timeout).eq(1).should('have.contain', 'aautotes 2');
       cy.contains('Username', timeout).click();
       cy.wait(1000);
       cy.contains('Username', timeout).click();
@@ -103,7 +103,7 @@ describe('User', () => {
       cy.contains('Tidak', timeout).click();
       cy.get(':nth-child(6) > .ant-space > .ant-space-item > .ant-dropdown-trigger', timeout).eq(0).click({force:true});
       cy.contains('Hapus', timeout).click({force:true});
-      cy.contains('Anda yakin ingin menghapus user autotes 2?', timeout).should('be.visible');
+      cy.contains('Anda yakin ingin menghapus user aautotes 2?', timeout).should('be.visible');
       cy.get('.swal2-confirm', timeout).click();
     });
 

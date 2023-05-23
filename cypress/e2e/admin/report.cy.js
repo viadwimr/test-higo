@@ -5,7 +5,7 @@ var timeout = { timeout: 60000 }
 describe('Report', () => {
   before(() => {
     cy.login('admin');
-    cy.get('[title="Laporan"] > .ant-menu-title-content > a', timeout).click();
+    cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
   });
      
   it('Akan muncul halaman untuk men-generate report dari dashboard', () => {
@@ -27,12 +27,13 @@ describe('Report', () => {
 
   it('Menu drop-down nama device yang ada', () => {
     cy.get('#report_form_device', timeout).click(timeout);
-    cy.get('[data-testid="select-DP GS34 L4"]', timeout).click();
+    cy.wait(1000);
+    cy.get('[data-testid="select-Paragon Device 2 - Kemas Primer Semsol"]', timeout).click();
   });
 
   it('Menu drop-down indikator yang ada', () => {
     cy.get('.css-1hwfws3', timeout).click();
-    cy.contains('Energi', timeout).click();
+    cy.contains('Kelembapan', timeout).click();
     cy.get('.css-1hwfws3', timeout).click();
   });
 
@@ -74,7 +75,7 @@ describe('Report', () => {
 
   it('Report tampil berupa tabel di bawah form', () => {
     cy.get('[data-testid=submit-btn-report]').click({force:true});
-    cy.get('.ant-card-head-title', timeout).contains('Report DP GS34 L4', timeout).should('be.visible');
+    cy.get('.ant-card-head-title', timeout).contains('Report Paragon Device 2 - Kemas Primer Semsol', timeout).should('be.visible');
     cy.get('.ant-card-body', timeout).should('be.visible');
     cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
   });
@@ -113,7 +114,7 @@ describe('Report', () => {
       
       cy.get('[data-testid=submit-btn-report]').click({force:true});
       cy.wait(5000);
-      cy.get('.ant-card-head-title', timeout).contains('Report DP GS34 L4', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report Paragon Device 2 - Kemas Primer Semsol', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
       // check result
@@ -151,7 +152,7 @@ describe('Report', () => {
          
       cy.get('[data-testid=submit-btn-report]').click({force:true});
       cy.wait(5000);
-      cy.get('.ant-card-head-title', timeout).contains('Report DP GS34 L4', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report Paragon Device 2 - Kemas Primer Semsol', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
       cy.contains('08-05-2023 08:00:00', timeout).should('be.visible');
@@ -172,29 +173,31 @@ describe('Report', () => {
       cy.get('[data-testid="schedule-name-form"]', timeout).type('automate test');
       cy.get('[data-testid="schedule-select-period"] > .ant-select-selector', timeout).click();
       cy.wait(1000);
-      cy.contains('Hari ini', timeout).click();
+      cy.get('[data-testid="schedule-select-period-0-form"]', timeout).click();
+      // cy.contains('Hari ini', timeout).click();
       // cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(3).click();
       cy.wait(1000);
       cy.get('[data-testid="schedule-send-date-form"]', timeout).click();
-      cy.get('[data-testid="schedule-send-date-form"]', timeout).type('2023-05-08{enter}');
+      cy.wait(1000);
+      cy.contains('Today', timeout).click();
+      // cy.get('[data-testid="schedule-send-date-form"]', timeout).type('2023-05-08{enter}');
       cy.get('#scheduled_report_form_send_time', timeout).click();
       cy.wait(1000);
       cy.get('.rc-time-picker-panel-input', timeout).type('07:00:00{enter}');
       // cy.contains('Email', timeout).click();
       cy.get('[data-testid="schedule-submit-btn"]', timeout).click();
       cy.wait(1000);
-      
       cy.get('[data-testid="schedule-type-send"] > :nth-child(1)', timeout).click();
+      cy.get('[data-testid="schedule-input-email"]', timeout).type('qaevomotelkom@gmail.com');
+      cy.wait(1000);
       cy.get('[data-testid="schedule-submit-btn"]', timeout).click();
       cy.contains('Berhasil', timeout).should('be.visible');
       cy.reload();
       cy.contains('automate test', timeout).should('be.visible');
-      cy.get('.ant-table-row > :nth-child(6)', timeout).click();
-      cy.contains('Hapus', timeout).click();
+      cy.get('.ant-table-row > :nth-child(6)', timeout).eq(0).click();
       cy.contains('Yakin hapus automate test ?', timeout).should('be.visible');
       cy.contains('Tidak', timeout).click();
-      cy.get('.ant-table-row > :nth-child(6)', timeout).click();
-      cy.contains('Hapus', timeout).click();
+      cy.get('.ant-table-row > :nth-child(6)', timeout).eq(0).click();
       cy.contains('Yakin hapus automate test ?', timeout).should('be.visible');
       cy.get('.swal2-confirm', timeout).click();
       cy.contains('Report berhasil dihapus.', timeout).should('be.visible');
