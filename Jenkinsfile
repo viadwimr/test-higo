@@ -20,45 +20,30 @@ pipeline {
             def hour = now.getHours()
             def day = now.getDay()
             println hour
-            if(JOB_NAME == 'EMS_Paragon' && day == 1 && hour == 6) {
-              filename = "Alert"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/alert.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 1 && hour == 18) {
-              filename = "Dashboard"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/dashboard.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 2 && hour == 6) {
-              filename = "Device"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/device.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 2 && hour == 18) {
-              filename = "Forgot Password"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/forgot-password.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 3 && hour == 6) {
-              filename = "Forgot Username"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/forgot-username.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 3 && hour == 18) {
-              filename = "Login"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/login.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 4 && hour == 6) {
-              filename = "Report"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/report.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 4 && hour == 18) {
-              filename = "Sign Out"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/sign-out.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 5 && hour == 6) {
-              filename = "Threshold"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/threshold.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 5 && hour == 18) {
-              filename = "User Profile"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/user-profile.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 6 && hour == 6) {
-              filename = "User"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/user.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 6 && hour == 18) {
-              filename = "Indicator"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/indicator.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_Paragon' && day == 0 && hour == 6) {
-              filename = "Trend"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/admin/trend.cy.js' --env allure=true"
+            if(JOB_NAME == 'EMS_TelkomIoT' && day == 1 && hour == 10) {
+              filename = "Dashboard (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/dashboard.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 1 && hour == 22) {
+              filename = "Device (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/device.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 2 && hour == 10) {
+              filename = "Report (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/report.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 2 && hour == 22) {
+              filename = "User Profile (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/user-profile.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 3 && hour == 10) {
+              filename = "Forgot Password (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/forgot-password.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 3 && hour == 22) {
+              filename = "Forgot Username (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/forgot-username.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 4 && hour == 10) {
+              filename = "Login (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/login.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 4 && hour == 22) {
+              filename = "Sign out (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/sign-out.cy.js' --env allure=true"
             }
           } catch(Exception e) {
             currentBuild.result = 'FAILURE'

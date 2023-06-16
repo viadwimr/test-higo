@@ -89,9 +89,9 @@ Cypress.Commands.add('login', (numb) => {
     cy.contains('Indicator', timeout).should('be.visible');
     cy.contains('Analysis', timeout).click();
     cy.contains('Trend', timeout).should('be.visible');
-  } else if (numb === 'operator') {
+  } else if (numb === 'reviewer') {
     // cy.visit('/');
-    cy.get('#username', timeout).type('tes-operator');
+    cy.get('#username', timeout).type('tes-reviewer');
     cy.get('#password', timeout).type('password');
     cy.get('.ant-btn', timeout).click();
     cy.contains('Dashboard', timeout).should('be.visible');

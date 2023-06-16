@@ -4,7 +4,7 @@ var timeout = { timeout: 50000 }
 
 describe('Device', () => {
   before(() => {
-    cy.login('admin');
+    cy.login('reviewer');
     cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
   });
   /*

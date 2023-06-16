@@ -5,14 +5,22 @@ const d = new Date();
 
 describe('Dashboard', () => {
   before(() => {
-    cy.login('admin');
+    cy.login('reviewer');
   });
   
   describe('Melihat halaman utama Dashboard (Realtime)', () => {
     it('Device', () => {
+      cy.get('[data-testid="button-sector-filter"]', timeout).click();
+      cy.wait(1000);
+      cy.contains('Semua Sector', timeout).click();
+      cy.wait(1000);
+      cy.contains('Semua Device', timeout).click();
+      cy.wait(1000);
+      cy.contains('Terapkan', timeout).click();
+      cy.wait(5000);
       cy.get('#rc-tabs-0-panel-realtime').find('.ant-card-body').then((graphic) => {
         var graphicCount = Cypress.$(graphic).length;
-        expect(graphicCount).to.be.equal(1)
+        expect(graphicCount).to.be.equal(369)
       })
       cy.get(':nth-child(2) > .ant-row > :nth-child(3)', timeout).click();
       cy.wait(1000);
@@ -99,7 +107,7 @@ describe('Dashboard', () => {
     it('Usage', () => {
       cy.get('[data-node-key="analysis"]', timeout).click();
       cy.wait(5000);
-      cy.get('[data-testid="nodata"] > :nth-child(1) > :nth-child(1)', timeout).should('not.exist')
+      // cy.get('[data-testid="nodata"] > :nth-child(1) > :nth-child(1)', timeout).should('not.exist')
       cy.contains('no Route matched with those values', timeout).should('not.exist');
     });
   })

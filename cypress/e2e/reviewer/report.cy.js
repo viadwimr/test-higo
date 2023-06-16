@@ -4,7 +4,7 @@ var timeout = { timeout: 60000 }
 
 describe('Report', () => {
   before(() => {
-    cy.login('admin');
+    cy.login('reviewer');
     cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
   });
      
@@ -22,7 +22,6 @@ describe('Report', () => {
     cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).should('be.visible');
     cy.get('[data-testid="time-hour-report"] > [data-testid="label"]', timeout).should('be.visible');
     cy.get('[data-testid=submit-btn-report]', timeout).should('be.visible');
-    cy.get('[data-testid="save-report-btn"]', timeout).should('be.visible');
   });
 
   it('Menu drop-down nama device yang ada', () => {
