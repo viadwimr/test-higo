@@ -120,16 +120,29 @@ describe('Device', () => {
       // cy.get(':nth-child(3) > a > .sector-card', timeout).should('not.exist');
       cy.get('#rc-tabs-1-panel-condition_monitoring').find('.sector-card').then((graphic) => {
         var graphicCount = Cypress.$(graphic).length;
-        expect(graphicCount).to.be.equal(295)
+        expect(graphicCount).to.be.equal(297)
       })
-      cy.get(':nth-child(2) > a > .sector-card', timeout).click();
+      cy.contains('Arus Agitator Ball 2', timeout).should('be.visible');
+      cy.contains(`Waspada`, timeout).should('be.visible');
+      cy.contains(`Bahaya`, timeout).should('be.visible');
+      cy.contains('Good', timeout).should('be.visible');
+      cy.contains('Offline', timeout).should('be.visible');
+
+      // Detail Device
+      cy.get(':nth-child(5) > a > .sector-card', timeout).click();
       cy.get('.ant-layout-content > :nth-child(1)', timeout).should('be.visible');
-      cy.wait(3000);
+      cy.wait(5000);
+      cy.get("body").then((body) => {
+        if (body.find(`[data-testid="reload-error"]`).length > 0) {
+          cy.get('[data-testid="reload-error"]', timeout).click();
+        }
+      })
+      cy.wait(5000)
       cy.get('.AnomaliWrapper__Container-sc-1qw2y45-0', timeout).should('be.visible')
       cy.get(':nth-child(1) > .ant-row > :nth-child(1) > h5', timeout).contains('Nama Device');
       cy.get(':nth-child(2) > [style="margin-left: -8px; margin-right: -8px;"] > :nth-child(1) > h5', timeout).contains('Sektor');
       cy.get(':nth-child(3) > .ant-row > :nth-child(1) > h5', timeout).contains('Lokasi');
-      cy.get('[style="margin-left: -12px; margin-right: -12px; margin-top: 24px;"] > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('ac Produksi Recipe Per Detik');
+      cy.get('[style="margin-left: -12px; margin-right: -12px; margin-top: 24px;"] > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('air blower c');
       cy.get('[style="margin-left: -8px; margin-right: -8px;"] > :nth-child(2) > .ant-row > .ant-col > div', timeout).contains('Sector D');
       // cy.get(':nth-child(3) > .ant-row > :nth-child(2) > h5', timeout).contains('Kemas Primer Semsol ALP03');
     });
@@ -141,26 +154,84 @@ describe('Device', () => {
       cy.get('[style="display: flex; gap: 0.5rem; justify-content: space-between;"] > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
       // check data
       cy.wait(1000);
-      // cy.get('[style="margin-top: 18px;"]', timeout).contains('Tertinggi');
-      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('9.187 menit');
-      // cy.get('[style="margin-top: 24px;"]', timeout).contains('Terendah');
-      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('9.187 menit');
+      cy.contains(`Nama Device`, timeout).should('be.visible');
+      cy.contains(`Sektor`, timeout).should('be.visible');
+      cy.contains(`Lokasi`, timeout).should('be.visible');
+      cy.contains('Kecepatan Angin', timeout).should('be.visible');
+      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Tertinggi', timeout).should('be.visible');
+      cy.contains('Terendah', timeout).should('be.visible');
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestValue = parseFloat(text.replace(' m/s',''))
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestValue = parseFloat(text.replace(' m/s',''))
+          expect(lowestValue).to.be.not.equal(highestValue)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestValueDate = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestValueDate = text
+          expect(lowestValueDate).to.be.not.equal(highestValueDate)
+        })
+      })
       // existing interval
       cy.get(':nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
       // 30 menit
       cy.get('.Picker__IntervalPopUp-x5059d-6 > :nth-child(5)', timeout).click();
+      cy.wait(1000);
+      cy.contains(`Nama Device`, timeout).should('be.visible');
+      cy.contains(`Sektor`, timeout).should('be.visible');
+      cy.contains(`Lokasi`, timeout).should('be.visible');
+      cy.contains('Kecepatan Angin', timeout).should('be.visible');
+      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Tertinggi', timeout).should('be.visible');
+      cy.contains('Terendah', timeout).should('be.visible');
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestValue = parseFloat(text.replace(' m/s',''))
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestValue = parseFloat(text.replace(' m/s',''))
+          expect(lowestValue).to.be.not.equal(highestValue)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestValueDate = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestValueDate = text
+          expect(lowestValueDate).to.be.not.equal(highestValueDate)
+        })
+      })
     });
 
-    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Time (menit) sesuai dengan filter interval yang dipilih', () => {
+    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Kecepatan Angin (m/s) sesuai dengan filter interval yang dipilih', () => {
       cy.wait(1000);
-      // cy.get('[style="margin-top: 18px;"]', timeout).contains('Tertinggi');
-      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('9.187 menit');
-      // cy.get('[style="margin-top: 24px;"]', timeout).contains('Terendah');
-      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('9.187 menit');
+      cy.contains(`Nama Device`, timeout).should('be.visible');
+      cy.contains(`Sektor`, timeout).should('be.visible');
+      cy.contains(`Lokasi`, timeout).should('be.visible');
+      cy.contains('Kecepatan Angin', timeout).should('be.visible');
+      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Tertinggi', timeout).should('be.visible');
+      cy.contains('Terendah', timeout).should('be.visible');
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestValue = parseFloat(text.replace(' m/s',''))
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestValue = parseFloat(text.replace(' m/s',''))
+          expect(lowestValue).to.be.not.equal(highestValue)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestValueDate = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestValueDate = text
+          expect(lowestValueDate).to.be.not.equal(highestValueDate)
+        })
+      })
+      cy.get('#download-Kecepatan Angin > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
+        .should('be.visible');
     });
 
     it('Menampilkan dropdown filter waktu berisi kolom Tanggal Mulai dan Tanggal Selesai untuk Pilih Tanggal (custom waktu) dan Pilih Durasi mulai dari 1 Jam, 24 Jam, 2 Hari, 7 Hari, 14 Hari hingga 30 Hari Terakhir untuk existing waktunya', () => {
-      cy.get(':nth-child(3) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
+      cy.get(':nth-child(4) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
       // custom date
       cy.get(':nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker', timeout)
         .type('2023-02-21 00:00:00')
@@ -172,26 +243,78 @@ describe('Device', () => {
       // cy.contains('OK', timeout).click();
       // check data
       cy.wait(3000);
-      // cy.get('[style="margin-top: 18px;"]', timeout).contains('Tertinggi');
-      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('0 menit');
-      // cy.get('[style="margin-top: 24px;"]', timeout).contains('Terendah');
-      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('0 menit');
+      cy.contains(`Nama Device`, timeout).should('be.visible');
+      cy.contains(`Sektor`, timeout).should('be.visible');
+      cy.contains(`Lokasi`, timeout).should('be.visible');
+      cy.contains('Kecepatan Angin', timeout).should('be.visible');
+      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Tertinggi', timeout).should('be.visible');
+      cy.contains('Terendah', timeout).should('be.visible');
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestValue = parseFloat(text.replace(' m/s',''))
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestValue = parseFloat(text.replace(' m/s',''))
+          expect(lowestValue).to.be.not.equal(highestValue)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestValueDate = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestValueDate = text
+          expect(lowestValueDate).to.be.not.equal(highestValueDate)
+        })
+      })
       // existing date
-      cy.get(':nth-child(3) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
+      cy.get(':nth-child(4) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
       cy.contains('7 Hari terakhir', timeout).click();
       // cy.get('[data-testid="7 Hari terakhir (15/02/23 - 22/02/23)"]', timeout).click();
+      cy.contains(`Nama Device`, timeout).should('be.visible');
+      cy.contains(`Sektor`, timeout).should('be.visible');
+      cy.contains(`Lokasi`, timeout).should('be.visible');
+      cy.contains('Kecepatan Angin', timeout).should('be.visible');
+      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Tertinggi', timeout).should('be.visible');
+      cy.contains('Terendah', timeout).should('be.visible');
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestValue = parseFloat(text.replace(' m/s',''))
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestValue = parseFloat(text.replace(' m/s',''))
+          expect(lowestValue).to.be.not.equal(highestValue)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestValueDate = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestValueDate = text
+          expect(lowestValueDate).to.be.not.equal(highestValueDate)
+        })
+      })
     });
 
-    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Time (menit) sesuai dengan filter waktu yang dipilih', () => {
+    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Kecepatan Angin (m/s) sesuai dengan filter waktu yang dipilih', () => {
       cy.wait(3000);
-      cy.get('.ant-row-space-between > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('Time');
-      // cy.get('.ant-row > :nth-child(3) > span', timeout).contains('9.128 menit')
-      // cy.get('[style="margin-top: 18px;"]', timeout).contains('Tertinggi');
-      // cy.get('.ant-col-md-3 > :nth-child(2)', timeout).contains('22.125 menit');
-      // cy.get('[style="margin-top: 24px;"]', timeout).contains('Terendah');
-      // cy.get('.ant-col-md-3 > :nth-child(5)', timeout).contains('2.203 menit');
-      // cy.get('#apexchartsswu2xwrl', timeout).should('be.visible');
-      // cy.contains('17 Feb 17.00', timeout).should('be.visible');
+      cy.get('.ant-row-space-between > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('Kecepatan Angin');
+      cy.contains(`Nama Device`, timeout).should('be.visible');
+      cy.contains(`Sektor`, timeout).should('be.visible');
+      cy.contains(`Lokasi`, timeout).should('be.visible');
+      cy.contains('Kecepatan Angin', timeout).should('be.visible');
+      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Tertinggi', timeout).should('be.visible');
+      cy.contains('Terendah', timeout).should('be.visible');
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestValue = parseFloat(text.replace(' m/s',''))
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestValue = parseFloat(text.replace(' m/s',''))
+          expect(lowestValue).to.be.not.equal(highestValue)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestValueDate = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestValueDate = text
+          expect(lowestValueDate).to.be.not.equal(highestValueDate)
+        })
+      })
     });
   });
   

@@ -31,14 +31,24 @@ describe('Dashboard', () => {
       cy.contains('Terapkan', timeout).click();
       cy.wait(5000);
       cy.contains('Arus Agitator Ball 2', timeout).should('be.visible');
-      const d = new Date()
+      var d = new Date();
+      var date = d.getDate();
+      var dateLength = date.toString().length
+      if (dateLength == 1) {
+        date = `0${date}`
+      }
       var month = d.getMonth()+1
       var monthLength = month.toString().length
       if (monthLength == 1) {
         month = `0${month}`
       }
       var year = d.getFullYear().toString()
-      const today = `${d.getDate()}/${month}/${year.slice(2,4)} - ${d.getHours()}`
+      var hour = d.getHours();
+      var hourLength = hour.toString().length
+      if (hourLength == 1) {
+        hour = `0${hour}`
+      }
+      const today = `${date}/${month}/${year.slice(2,4)} - ${hour}`
       cy.contains(`Last Update`, timeout).should('be.visible');
       cy.contains(`${today}`, timeout).should('be.visible');
       cy.contains('Temperatur', timeout).should('be.visible');
@@ -48,20 +58,36 @@ describe('Dashboard', () => {
     });
 
     it('Detail Device', () => {
-      cy.get(':nth-child(1) > .ant-card > .ant-card-body', timeout).click();
+      cy.get(':nth-child(10) > .ant-card > .ant-card-body', timeout).click();
       cy.wait(5000)
+      cy.get("body").then((body) => {
+        if (body.find(`[data-testid="reload-error"]`).length > 0) {
+          cy.get('[data-testid="reload-error"]', timeout).click();
+        }
+      })
+      cy.wait(5000);
       cy.contains(`Nama Device`, timeout).should('be.visible');
       cy.contains(`Sektor`, timeout).should('be.visible');
       cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Temperatur', timeout).should('be.visible');
-      cy.contains('Kelembaban', timeout).should('be.visible');
-      cy.contains('%', timeout).should('be.visible');
-      cy.contains('℃', timeout).should('be.visible');
+      cy.contains('Kecepatan Angin', timeout).should('be.visible');
+      cy.contains('m/s', timeout).should('be.visible');
       cy.contains('Tertinggi', timeout).should('be.visible');
       cy.contains('Terendah', timeout).should('be.visible');
-      cy.get('#download-Temperatur > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
-        .should('be.visible');
-      cy.get('#download-Voltage > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21 > [style="min-height: 236px;"]', timeout)
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestValue = parseFloat(text.replace(' m/s',''))
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestValue = parseFloat(text.replace(' m/s',''))
+          expect(lowestValue).to.be.not.equal(highestValue)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestValueDate = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestValueDate = text
+          expect(lowestValueDate).to.be.not.equal(highestValueDate)
+        })
+      })
+      cy.get('#download-Kecepatan Angin > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
         .should('be.visible');
     })
   })
