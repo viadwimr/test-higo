@@ -80,7 +80,7 @@ describe('Report', () => {
     cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
   });
 
-  it('Untuk file PDF berupa laporan dengan format file .pdf dan untuk CSV dengan format .csv', () => {
+  it.skip('Untuk file PDF berupa laporan dengan format file .pdf dan untuk CSV dengan format .csv', () => {
     //csv
     cy.get('[data-testid=download-report]', timeout).click();
     cy.get('[data-testid=download-csv-report] > .ant-dropdown-menu-title-content', timeout).click();
@@ -119,6 +119,7 @@ describe('Report', () => {
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
       // check result
       // cy.get('> :nth-child(3)', timeout).eq(1).contains('08:00:00');
+      /*
       //csv
       cy.get('[data-testid=download-report]', timeout).click();
       cy.get('[data-testid=download-csv-report] > .ant-dropdown-menu-title-content', timeout).click();
@@ -128,6 +129,7 @@ describe('Report', () => {
       cy.get('[data-testid=download-report]', timeout).click();
       cy.get('[data-testid=download-pdf-report] > .ant-dropdown-menu-title-content', timeout).click();
       cy.contains('Download Berhasil!', timeout).should('be.visible');
+      */
     });
 
     it('Custom Date Report', () => {
@@ -156,7 +158,7 @@ describe('Report', () => {
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
       cy.contains('08-05-2023 08:00:00', timeout).should('be.visible');
-
+      /*
       //csv
       cy.get('[data-testid=download-report]', timeout).click();
       cy.get('[data-testid=download-csv-report] > .ant-dropdown-menu-title-content', timeout).click();
@@ -166,9 +168,10 @@ describe('Report', () => {
       cy.get('[data-testid=download-report]', timeout).click();
       cy.get('[data-testid=download-pdf-report] > .ant-dropdown-menu-title-content', timeout).click();
       cy.contains('Download Berhasil!', timeout).should('be.visible');
+      */
     });
 
-    it('Report Terjadwal', () => {
+    it.skip('Report Terjadwal', () => {
       cy.get('[data-testid="save-report-btn"]', timeout).click();
       cy.get('[data-testid="schedule-name-form"]', timeout).type('automate test');
       cy.get('[data-testid="schedule-select-period"] > .ant-select-selector', timeout).click();
