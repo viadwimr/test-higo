@@ -73,18 +73,49 @@ describe('Dashboard', () => {
       cy.contains('m/s', timeout).should('be.visible');
       cy.contains('Tertinggi', timeout).should('be.visible');
       cy.contains('Terendah', timeout).should('be.visible');
+      //filter statistic
+      cy.get('.ant-select-selector', timeout).click();
+      cy.wait(1000);
+      cy.contains('Max', timeout).click();
+      cy.wait(5000);
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
-        const highestValue = parseFloat(text.replace(' m/s',''))
+        const highestMaxValue1 = text
+        cy.task('setValue', { key: 'highestMaxValue1', value: highestMaxValue1 })
         cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
-          const lowestValue = parseFloat(text.replace(' m/s',''))
-          expect(lowestValue).to.be.not.equal(highestValue)
+          const lowestMaxValue1 = text
+          expect(lowestMaxValue1).to.be.not.equal(highestMaxValue1)
+          cy.task('setValue', { key: 'lowestMaxValue1', value: lowestMaxValue1 })
         })
       })
       cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
-        const highestValueDate = text
         cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
-          const lowestValueDate = text
-          expect(lowestValueDate).to.be.not.equal(highestValueDate)
+          const lowestMaxValueDate2 = text
+        })
+      })
+      cy.get('.ant-select-selector', timeout).click();
+      cy.wait(1000);
+      cy.contains('Min', timeout).click();
+      cy.wait(5000);
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestMinValue1 = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestMinValue1 = text
+          expect(lowestMinValue1).to.be.not.equal(highestMinValue1)
+          // Max vs Min Lowest 1
+          cy.task('getValue', { key: 'lowestMaxValue1' }).then((value) => {
+            expect(value).to.be.not.equal(lowestMinValue1)
+          })
+        })
+        // Max vs Min Highest 1
+        cy.task('getValue', { key: 'highestMaxValue1' }).then((value) => {
+          expect(value).to.be.not.equal(highestMinValue1)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestMinValueDate2 = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestMinValueDate2 = text
+          expect(lowestMinValueDate2).to.be.not.equal(highestMinValueDate2)
         })
       })
       cy.get('#download-Kecepatan Angin > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
