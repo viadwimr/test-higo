@@ -12,17 +12,17 @@ describe('Forgot Password', () => {
   describe('Forgot Password Validation', () => {
     it('Empty Input', () => {
       cy.get(':nth-child(2) > a', timeout).click();
-      cy.get('#check_account_email', timeout).type('qaevomotelkom.test@gmail.com').clear();
+      cy.get('#check_account_email', timeout).type('mviadwi@gmail.com').clear();
       cy.contains('Email tidak boleh kosong', timeout).should('be.visible');
-      cy.get('#check_account_no_hp', timeout).type('098765432101').clear();
+      cy.get('#check_account_no_hp', timeout).type('095221971010').clear();
       cy.contains('Nomor tidak boleh kosong', timeout).should('be.visible');
       cy.wait(1000)
       cy.get('.ant-btn-primary', timeout).should('be.disabled')
     })
 
     it('Wrong Email & No Hp', () => {
-      cy.get('#check_account_email', timeout).type('qaevomotelkom.test@gmail.com');
-      cy.get('#check_account_no_hp', timeout).type('098765432101');
+      cy.get('#check_account_email', timeout).type('mviadwi.test@gmail.com');
+      cy.get('#check_account_no_hp', timeout).type('1');
       cy.get('.ant-btn-primary', timeout).click();
       cy.contains('Failure', timeout).should('be.visible');
       cy.get('.swal2-confirm', timeout).click();
@@ -33,14 +33,14 @@ describe('Forgot Password', () => {
       cy.get('#check_account_email_help > .ant-form-item-explain-error > .alert-container > [data-testid="message"]', timeout)
         .contains('Email Tidak Tepat')
       cy.get('#check_account_email', timeout).clear().type('test.qa_12-12@gmail.com');
-      cy.get('#check_account_no_hp', timeout).clear().type('1');
+      cy.get('#check_account_no_hp', timeout).clear().type('085221971010');
       cy.get('.ant-btn-primary', timeout).click();
       cy.contains('Failure', timeout).should('be.visible');
       cy.get('.swal2-confirm', timeout).click();
     })
 
     it('Wrong No Hp', () => {
-      cy.get('#check_account_email', timeout).clear().type('qaevomotelkom@gmail.com');
+      cy.get('#check_account_email', timeout).clear().type('mviadwi@gmail.com');
       cy.get('#check_account_no_hp', timeout).clear().type('108734662829020003000');
       cy.get('#check_account_no_hp_help > .ant-form-item-explain-error > .alert-container > [data-testid="message"]', timeout)
         .contains('Harus berupa nomor, max 15 digit')
@@ -62,8 +62,8 @@ describe('Forgot Password', () => {
     })
 
     it('Tombol Kirim akan aktif setelah memasukkan email dan no HP', () => {
-      cy.get('#check_account_email', timeout).type('qaevomotelkom@gmail.com');
-      cy.get('#check_account_no_hp', timeout).type('1');
+      cy.get('#check_account_email', timeout).type('mviadwi@gmail.com');
+      cy.get('#check_account_no_hp', timeout).type('085221971010');
       cy.get('.ant-btn-primary', timeout).click();
     })
 
@@ -80,7 +80,7 @@ describe('Forgot Password', () => {
       // check login
       cy.visit('/');
       cy.wait(1000);
-      cy.get('#username', timeout).clear().type('tes-reviewer');
+      cy.get('#username', timeout).clear().type('reviewer-wapres');
       cy.get('#password', timeout).clear().type('T123!@#$%^&*()_+');
       cy.get('.ant-btn', timeout).click();
       cy.get('.logo > img', timeout).should('be.visible');
@@ -104,8 +104,8 @@ describe('Forgot Password', () => {
       // back to prev data
       cy.wait(2000);
       cy.get(':nth-child(2) > a', timeout).click();
-      cy.get('#check_account_email', timeout).type('qaevomotelkom@gmail.com');
-      cy.get('#check_account_no_hp', timeout).type('1');
+      cy.get('#check_account_email', timeout).type('mviadwi@gmail.com');
+      cy.get('#check_account_no_hp', timeout).type('085221971010');
       cy.get('.ant-btn-primary', timeout).click();
       cy.contains('Success', timeout).should('be.visible');
       cy.wait(3000);
@@ -118,7 +118,7 @@ describe('Forgot Password', () => {
       // check login
       cy.visit('/');
       cy.wait(1000);
-      cy.get('#username', timeout).clear().type('tes-reviewer');
+      cy.get('#username', timeout).clear().type('reviewer-wapres');
       cy.get('#password', timeout).clear().type('T123!@#$%^&*()_+');
       cy.get('.ant-btn', timeout).click();
       cy.contains('Failure', timeout).should('be.visible');
@@ -130,8 +130,8 @@ describe('Forgot Password', () => {
       cy.visit('/');
       cy.wait(1000);
       cy.get(':nth-child(2) > a', timeout).click();
-      cy.get('#check_account_email', timeout).type('qaevomotelkom@gmail.com');
-      cy.get('#check_account_no_hp', timeout).type('1');
+      cy.get('#check_account_email', timeout).type('mviadwi@gmail.com');
+      cy.get('#check_account_no_hp', timeout).type('085221971010');
       cy.get('.ant-btn-primary', timeout).click();
       cy.contains('Success', timeout).should('be.visible');
       cy.wait(3000);
@@ -174,15 +174,15 @@ describe('Forgot Password', () => {
 
       // back to login page
       cy.get('.ant-btn-link', timeout).click();
-      cy.get('h1', timeout).contains('Energy Monitoring System Denso Manufacturing Indonesia');
+      cy.get('h1', timeout).contains('Dashboard');
     })
 
     it('Long Password', () => {
       cy.visit('/');
       cy.wait(1000);
       cy.get(':nth-child(2) > a', timeout).click();
-      cy.get('#check_account_email', timeout).type('qaevomotelkom@gmail.com');
-      cy.get('#check_account_no_hp', timeout).type('1');
+      cy.get('#check_account_email', timeout).type('mviadwi@gmail.com');
+      cy.get('#check_account_no_hp', timeout).type('085221971010');
       cy.get('.ant-btn-primary', timeout).click();
       cy.contains('Success', timeout).should('be.visible');
       cy.wait(3000);

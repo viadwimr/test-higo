@@ -7,7 +7,7 @@ describe('Signout', () => {
   before(() => {
     cy.clearCookies();
     cy.clearLocalStorage();
-    cy.login('reviewer');
+    cy.login('reviewer-wapres');
   });
 
   it('Keluar Aplikasi', () => {
@@ -19,5 +19,10 @@ describe('Signout', () => {
     cy.get('#username', timeout).should('be.visible');
     cy.get('#password', timeout).should('be.visible');
     cy.get('.ant-btn', timeout).should('be.visible');
+    // cy.get("body").then((body) => {
+    //   body.find(
+    //     'img'
+    //   ).length > 0
+    // })
   });
 });

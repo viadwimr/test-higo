@@ -6,7 +6,7 @@ const force = { force: true };
 
 describe('User Profile dan Logout', () => {
   before(() => {
-    cy.login('reviewer');
+    cy.login('reviewer-wapres');
   });
   
   beforeEach(() => {
@@ -17,8 +17,8 @@ describe('User Profile dan Logout', () => {
 
   it('Informasi Akun', () => {
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
-    cy.get('#profile_form > :nth-child(2)', timeout).should('have.contain', 'Reviewer Evomo');
-    cy.get('#profile_form > :nth-child(4)', timeout).should('have.text','@tes-reviewer');
+    cy.get('#profile_form > :nth-child(2)', timeout).should('have.contain', 'Reviewer Wapres TelkomIoT');
+    cy.get('#profile_form > :nth-child(4)', timeout).should('have.text','@reviewer-wapres');
     cy.get('[style="text-transform: capitalize;"]', timeout).should('have.text','reviewer');
     cy.get(':nth-child(2) > .menu-content__btn-edit', timeout).click();
     cy.get('#profile_form_firstName', timeout).clear().type('Test');
@@ -28,7 +28,7 @@ describe('User Profile dan Logout', () => {
     cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
     // cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'muhamad.bahri.a3@ap.denso.com');
-    cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'qaevomotelkom@gmail.com');
+    cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'mviadwi@gmail.com');
     cy.get('#profile_form > :nth-child(10)', timeout).should('have.contain', '085221971010');
     cy.get(':nth-child(8) > .menu-content__btn-edit', timeout).click();
     cy.get('#email', timeout).clear().type('test.qa_telkom@denso.com');
@@ -50,7 +50,7 @@ describe('User Profile dan Logout', () => {
     cy.get('#profile_form > :nth-child(8)', timeout).should('have.contain', 'test.qa_telkom@denso.com');
     cy.get('#profile_form > :nth-child(10)', timeout).should('have.contain', '01234567890');
     cy.get(':nth-child(2) > .menu-content__btn-edit', timeout).click();
-    cy.get('#profile_form_firstName', timeout).clear().type('Reviewer Evomo');
+    cy.get('#profile_form_firstName', timeout).clear().type('Reviewer Wapres TelkomIoT');
     cy.get('.ant-btn', timeout).click();
     cy.contains('Berhasil disimpan', timeout).should('be.visible');
     cy.reload();
@@ -58,7 +58,7 @@ describe('User Profile dan Logout', () => {
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
     cy.get(':nth-child(8) > .menu-content__btn-edit', timeout).click();
     // cy.get('#email', timeout).clear().type('muhamad.bahri.a3@ap.denso.com');
-    cy.get('#email', timeout).clear().type('qaevomotelkom@gmail.com');
+    cy.get('#email', timeout).clear().type('mviadwi@gmail.com');
     cy.get('.ant-btn', timeout).click();
     cy.contains('Berhasil disimpan', timeout).should('be.visible');
     cy.reload();
@@ -91,7 +91,7 @@ describe('User Profile dan Logout', () => {
     cy.get('.swal2-confirm', timeout).click();
 
     // Re-login
-    cy.get('#username', timeout).type('tes-reviewer');
+    cy.get('#username', timeout).type('reviewer-wapres');
     cy.get('#password', timeout).type('password-test');
     cy.get('.ant-btn', timeout).click();
 

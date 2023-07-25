@@ -17,7 +17,7 @@ describe('Login', () => {
 
   it('Jika username dan password yang di-entry tidak valid maka web menampilkan notifikasi', () => {
     // wrong password
-    cy.get('#username', timeout).type('tes-reviewer');
+    cy.get('#username', timeout).type('reviewer-wapres');
     cy.get('#password', timeout).type('12334345');
     cy.get('.ant-btn', timeout).click();
     cy.contains('User Not Found, username or password is incorrect', timeout).should('be.visible');
@@ -46,7 +46,7 @@ describe('Login', () => {
   });
 
   it('Jika username dan password yang di-entry valid maka web akan menampilkan Halaman Home / halaman sebelum melakukan login', () => {
-    cy.get('#username', timeout).clear().type('tes-reviewer');
+    cy.get('#username', timeout).clear().type('reviewer-wapres');
     cy.get('#password', timeout).clear().type('password');
     cy.get('.ant-btn', timeout).click();
     cy.get('.logo > img', timeout).should('be.visible');

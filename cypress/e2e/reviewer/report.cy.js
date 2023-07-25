@@ -4,7 +4,7 @@ var timeout = { timeout: 60000 }
 
 describe('Report', () => {
   before(() => {
-    cy.login('reviewer');
+    cy.login('reviewer-wapres');
     cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
   });
      
@@ -26,14 +26,14 @@ describe('Report', () => {
 
   it('Menu drop-down nama device yang ada', () => {
     cy.get('#report_form_device', timeout).click(timeout);
-    cy.get('#report_form_device', timeout).type('arus agitator')
+    cy.get('#report_form_device', timeout).type('kolam')
     cy.wait(1000);
-    cy.get('[data-testid="select-Arus Agitator Ball 2', timeout).click();
+    cy.get('[data-testid="select-Tinggi Air Kolam', timeout).click();
   });
 
   it('Menu drop-down indikator yang ada', () => {
     cy.get('.css-1hwfws3', timeout).click();
-    cy.contains('Arus Listrik', timeout).click();
+    cy.contains('Distance', timeout).click();
     cy.get('.css-1hwfws3', timeout).click();
   });
 
@@ -75,7 +75,7 @@ describe('Report', () => {
 
   it('Report tampil berupa tabel di bawah form', () => {
     cy.get('[data-testid=submit-btn-report]').click({force:true});
-    cy.get('.ant-card-head-title', timeout).contains('Report Arus Agitator Ball 2', timeout).should('be.visible');
+    cy.get('.ant-card-head-title', timeout).contains('Report Tinggi Air Kolam', timeout).should('be.visible');
     cy.get('.ant-card-body', timeout).should('be.visible');
     cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
   });
@@ -114,7 +114,7 @@ describe('Report', () => {
       
       cy.get('[data-testid=submit-btn-report]').click({force:true});
       cy.wait(5000);
-      cy.get('.ant-card-head-title', timeout).contains('Report Arus Agitator Ball 2', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report Tinggi Air Kolam', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
       // check result
@@ -154,7 +154,7 @@ describe('Report', () => {
          
       cy.get('[data-testid=submit-btn-report]').click({force:true});
       cy.wait(5000);
-      cy.get('.ant-card-head-title', timeout).contains('Report Arus Agitator Ball 2', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report Tinggi Air Kolam', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
       cy.contains('08-05-2023 08:00:00', timeout).should('be.visible');

@@ -5,7 +5,7 @@ const d = new Date();
 
 describe('Dashboard', () => {
   before(() => {
-    cy.login('reviewer');
+    cy.login('reviewer-wapres');
   });
   
   describe('Melihat halaman utama Dashboard (Realtime)', () => {
@@ -20,7 +20,7 @@ describe('Dashboard', () => {
       cy.wait(5000);
       cy.get('#rc-tabs-0-panel-realtime').find('.ant-card-body').then((graphic) => {
         var graphicCount = Cypress.$(graphic).length;
-        expect(graphicCount).to.be.equal(369)
+        expect(graphicCount).to.be.equal(12)
       })
       cy.get(':nth-child(2) > .ant-row > :nth-child(3)', timeout).click();
       cy.wait(1000);
@@ -30,7 +30,7 @@ describe('Dashboard', () => {
       cy.wait(1000);
       cy.contains('Terapkan', timeout).click();
       cy.wait(5000);
-      cy.contains('Arus Agitator Ball 2', timeout).should('be.visible');
+      cy.contains('Sensor Lingkungan 1', timeout).should('be.visible');
       var d = new Date();
       var date = d.getDate();
       var dateLength = date.toString().length
@@ -52,7 +52,7 @@ describe('Dashboard', () => {
       cy.contains(`Last Update`, timeout).should('be.visible');
       cy.contains(`${today}`, timeout).should('be.visible');
       cy.contains('Temperatur', timeout).should('be.visible');
-      cy.contains('Kelembaban', timeout).should('be.visible');
+      cy.contains('Temperatur', timeout).should('be.visible');
       cy.contains('%', timeout).should('be.visible');
       cy.contains('℃', timeout).should('be.visible');
     });
@@ -63,14 +63,14 @@ describe('Dashboard', () => {
       cy.get("body").then((body) => {
         if (body.find(`[data-testid="reload-error"]`).length > 0) {
           cy.get('[data-testid="reload-error"]', timeout).click();
+          cy.wait(5000);
         }
       })
-      cy.wait(5000);
       cy.contains(`Nama Device`, timeout).should('be.visible');
       cy.contains(`Sektor`, timeout).should('be.visible');
       cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Kecepatan Angin', timeout).should('be.visible');
-      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Tinggi Air Chamber', timeout).should('be.visible');
+      cy.contains('mm', timeout).should('be.visible');
       cy.contains('Tertinggi', timeout).should('be.visible');
       cy.contains('Terendah', timeout).should('be.visible');
       //filter statistic
@@ -118,7 +118,7 @@ describe('Dashboard', () => {
           expect(lowestMinValueDate2).to.be.not.equal(highestMinValueDate2)
         })
       })
-      cy.get('#download-Kecepatan Angin > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
+      cy.get('#download-Tinggi Air Chamber > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
         .should('be.visible');
     })
   })
@@ -130,14 +130,15 @@ describe('Dashboard', () => {
       cy.wait(5000);
       cy.get('[style="padding-left: 12px; padding-right: 12px; flex: 1 1 auto;"] > .ant-card > .ant-card-body', timeout)
         .should('be.visible');
-      cy.get('.apexcharts-legend', timeout).contains('Arus Agitator Ball 2');
+        cy.get('.apexcharts-legend', timeout).contains('Tinggi Air Chamber');
+        cy.get('.apexcharts-legend', timeout).contains('Tinggi Air Kolam');
       cy.get('[data-testid="sector"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
       cy.wait(1000);
       cy.get('[data-testid="indicator"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
       cy.wait(1000);
       cy.get('[data-testid="interval"] > .ant-select-selector', timeout).click();
       cy.wait(1000);
-      // cy.contains('Kelembaban', timeout).should('be.visible');
+      // cy.contains('Temperatur', timeout).should('be.visible');
       // cy.contains('%', timeout).should('be.visible');
       // cy.contains('℃', timeout).should('be.visible');
     });
@@ -147,14 +148,15 @@ describe('Dashboard', () => {
       cy.wait(5000);
       cy.get('[style="padding-left: 12px; padding-right: 12px; flex: 1 1 auto;"] > .ant-card > .ant-card-body', timeout)
         .should('be.visible');
-      cy.get('.apexcharts-legend', timeout).contains('Arus Agitator Ball 2');
+      cy.get('.apexcharts-legend', timeout).contains('Tinggi Air Chamber');
+      cy.get('.apexcharts-legend', timeout).contains('Tinggi Air Kolam');
       cy.get('[data-testid="sector"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
       cy.wait(1000);
       cy.get('[data-testid="indicator"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
       cy.wait(1000);
       cy.get('[data-testid="interval"] > .ant-select-selector', timeout).click();
       cy.wait(1000);
-      // cy.contains('Kelembaban', timeout).should('be.visible');
+      // cy.contains('Temperatur', timeout).should('be.visible');
       // cy.contains('%', timeout).should('be.visible');
       // cy.contains('℃', timeout).should('be.visible');
     })

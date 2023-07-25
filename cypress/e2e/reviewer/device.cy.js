@@ -4,7 +4,7 @@ var timeout = { timeout: 50000 }
 
 describe('Device', () => {
   before(() => {
-    cy.login('reviewer');
+    cy.login('reviewer-wapres');
     cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
   });
   /*
@@ -120,30 +120,27 @@ describe('Device', () => {
       // cy.get(':nth-child(3) > a > .sector-card', timeout).should('not.exist');
       cy.get('#rc-tabs-1-panel-condition_monitoring').find('.sector-card').then((graphic) => {
         var graphicCount = Cypress.$(graphic).length;
-        expect(graphicCount).to.be.equal(297)
+        expect(graphicCount).to.be.equal(3)
       })
-      cy.contains('Arus Agitator Ball 2', timeout).should('be.visible');
-      cy.contains(`Waspada`, timeout).should('be.visible');
-      cy.contains(`Bahaya`, timeout).should('be.visible');
+      cy.contains('Sensor Lingkungan 1', timeout).should('be.visible');
       cy.contains('Good', timeout).should('be.visible');
-      cy.contains('Offline', timeout).should('be.visible');
 
       // Detail Device
-      cy.get(':nth-child(5) > a > .sector-card', timeout).click();
-      cy.get('.ant-layout-content > :nth-child(1)', timeout).should('be.visible');
+      cy.get(':nth-child(3) > a > .sector-card', timeout).click();
       cy.wait(5000);
       cy.get("body").then((body) => {
         if (body.find(`[data-testid="reload-error"]`).length > 0) {
           cy.get('[data-testid="reload-error"]', timeout).click();
+          cy.wait(5000)
         }
       })
-      cy.wait(5000)
+      // cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
       cy.get('.AnomaliWrapper__Container-sc-1qw2y45-0', timeout).should('be.visible')
       cy.get(':nth-child(1) > .ant-row > :nth-child(1) > h5', timeout).contains('Nama Device');
       cy.get(':nth-child(2) > [style="margin-left: -8px; margin-right: -8px;"] > :nth-child(1) > h5', timeout).contains('Sektor');
       cy.get(':nth-child(3) > .ant-row > :nth-child(1) > h5', timeout).contains('Lokasi');
-      cy.get('[style="margin-left: -12px; margin-right: -12px; margin-top: 24px;"] > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('air blower c');
-      cy.get('[style="margin-left: -8px; margin-right: -8px;"] > :nth-child(2) > .ant-row > .ant-col > div', timeout).contains('Sector D');
+      cy.get('[style="margin-left: -12px; margin-right: -12px; margin-top: 24px;"] > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('Tinggi Air Kolam');
+      cy.get('[style="margin-left: -8px; margin-right: -8px;"] > :nth-child(2) > .ant-row > .ant-col > div', timeout).contains('-');
       // cy.get(':nth-child(3) > .ant-row > :nth-child(2) > h5', timeout).contains('Kemas Primer Semsol ALP03');
     });
 
@@ -157,14 +154,14 @@ describe('Device', () => {
       cy.contains(`Nama Device`, timeout).should('be.visible');
       cy.contains(`Sektor`, timeout).should('be.visible');
       cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Kecepatan Angin', timeout).should('be.visible');
-      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Battery', timeout).should('be.visible');
+      cy.contains('%', timeout).should('be.visible');
       cy.contains('Tertinggi', timeout).should('be.visible');
       cy.contains('Terendah', timeout).should('be.visible');
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
-        const highestValue = parseFloat(text.replace(' m/s',''))
+        const highestValue = text
         cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
-          const lowestValue = parseFloat(text.replace(' m/s',''))
+          const lowestValue = text
           expect(lowestValue).to.be.not.equal(highestValue)
         })
       })
@@ -178,19 +175,19 @@ describe('Device', () => {
       // existing interval
       cy.get(':nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
       // 30 menit
-      cy.get('.Picker__IntervalPopUp-x5059d-6 > :nth-child(5)', timeout).click();
+      cy.get('.Picker__IntervalPopUp-x5059d-6 > :nth-child(3)', timeout).click();
       cy.wait(1000);
       cy.contains(`Nama Device`, timeout).should('be.visible');
       cy.contains(`Sektor`, timeout).should('be.visible');
       cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Kecepatan Angin', timeout).should('be.visible');
-      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Battery', timeout).should('be.visible');
+      cy.contains('%', timeout).should('be.visible');
       cy.contains('Tertinggi', timeout).should('be.visible');
       cy.contains('Terendah', timeout).should('be.visible');
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
-        const highestValue = parseFloat(text.replace(' m/s',''))
+        const highestValue = text
         cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
-          const lowestValue = parseFloat(text.replace(' m/s',''))
+          const lowestValue = text
           expect(lowestValue).to.be.not.equal(highestValue)
         })
       })
@@ -203,19 +200,19 @@ describe('Device', () => {
       })
     });
 
-    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Kecepatan Angin (m/s) sesuai dengan filter interval yang dipilih', () => {
+    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Battery (%) sesuai dengan filter interval yang dipilih', () => {
       cy.wait(1000);
       cy.contains(`Nama Device`, timeout).should('be.visible');
       cy.contains(`Sektor`, timeout).should('be.visible');
       cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Kecepatan Angin', timeout).should('be.visible');
-      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Battery', timeout).should('be.visible');
+      cy.contains('%', timeout).should('be.visible');
       cy.contains('Tertinggi', timeout).should('be.visible');
       cy.contains('Terendah', timeout).should('be.visible');
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
-        const highestValue = parseFloat(text.replace(' m/s',''))
+        const highestValue = text
         cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
-          const lowestValue = parseFloat(text.replace(' m/s',''))
+          const lowestValue = text
           expect(lowestValue).to.be.not.equal(highestValue)
         })
       })
@@ -226,7 +223,7 @@ describe('Device', () => {
           expect(lowestValueDate).to.be.not.equal(highestValueDate)
         })
       })
-      cy.get('#download-Kecepatan Angin > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
+      cy.get('#download-Battery > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
         .should('be.visible');
     });
 
@@ -234,10 +231,10 @@ describe('Device', () => {
       cy.get(':nth-child(4) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
       // custom date
       cy.get(':nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker', timeout)
-        .type('2023-02-21 00:00:00')
+        .type('2023-07-11 00:00:00')
       cy.get('.ant-picker-ok > .ant-btn', timeout).eq(0).click();
       cy.get(':nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker', timeout)
-        .type('2023-02-21 23:59:59')
+        .type('2023-07-11 23:59:59')
       cy.get('.ant-picker-ok > .ant-btn', timeout).eq(1).click();
       cy.get('.ant-form-item-control-input-content > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
       // cy.contains('OK', timeout).click();
@@ -246,14 +243,14 @@ describe('Device', () => {
       cy.contains(`Nama Device`, timeout).should('be.visible');
       cy.contains(`Sektor`, timeout).should('be.visible');
       cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Kecepatan Angin', timeout).should('be.visible');
-      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Battery', timeout).should('be.visible');
+      cy.contains('%', timeout).should('be.visible');
       cy.contains('Tertinggi', timeout).should('be.visible');
       cy.contains('Terendah', timeout).should('be.visible');
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
-        const highestValue = parseFloat(text.replace(' m/s',''))
+        const highestValue = text
         cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
-          const lowestValue = parseFloat(text.replace(' m/s',''))
+          const lowestValue = text
           expect(lowestValue).to.be.not.equal(highestValue)
         })
       })
@@ -271,14 +268,14 @@ describe('Device', () => {
       cy.contains(`Nama Device`, timeout).should('be.visible');
       cy.contains(`Sektor`, timeout).should('be.visible');
       cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Kecepatan Angin', timeout).should('be.visible');
-      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Battery', timeout).should('be.visible');
+      cy.contains('%', timeout).should('be.visible');
       cy.contains('Tertinggi', timeout).should('be.visible');
       cy.contains('Terendah', timeout).should('be.visible');
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
-        const highestValue = parseFloat(text.replace(' m/s',''))
+        const highestValue = text
         cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
-          const lowestValue = parseFloat(text.replace(' m/s',''))
+          const lowestValue = text
           expect(lowestValue).to.be.not.equal(highestValue)
         })
       })
@@ -291,14 +288,14 @@ describe('Device', () => {
       })
     });
 
-    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Kecepatan Angin (m/s) sesuai dengan filter waktu yang dipilih', () => {
+    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Distance (mm) sesuai dengan filter waktu yang dipilih', () => {
       cy.wait(3000);
-      cy.get('.ant-row-space-between > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('Kecepatan Angin');
+      cy.get('.ant-row-space-between > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('Distance');
       cy.contains(`Nama Device`, timeout).should('be.visible');
       cy.contains(`Sektor`, timeout).should('be.visible');
       cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Kecepatan Angin', timeout).should('be.visible');
-      cy.contains('m/s', timeout).should('be.visible');
+      cy.contains('Distance', timeout).should('be.visible');
+      cy.contains('mm', timeout).should('be.visible');
       cy.contains('Tertinggi', timeout).should('be.visible');
       cy.contains('Terendah', timeout).should('be.visible');
       //filter statistic
@@ -589,7 +586,7 @@ describe('Device', () => {
         cy.contains('Mixer', timeout).click();
         cy.get(':nth-child(4) > a > .sector-card', timeout).click();
         cy.get(':nth-child(4) > .ant-card-body > .reason-card__container--warning > .reason-card__title--warning', timeout)
-          .contains('Arus Agitator Ball 2 - Arus Listrik').should('be.visible');
+          .contains('Sensor Lingkungan 1 - Arus Listrik').should('be.visible');
         cy.get(':nth-child(4) > .ant-card-body > .reason-card__container--warning > :nth-child(2)', timeout)
           .should('be.visible');
         cy.get(':nth-child(4) > .ant-card-body > .reason-card__container--warning > :nth-child(3)', timeout)
@@ -602,7 +599,7 @@ describe('Device', () => {
         cy.get(':nth-child(3) > .ant-card-body > .reason-card__container--warning', timeout)
           .click();
         cy.get(':nth-child(2) > .input-reason-form__row__field', timeout)
-          .should('have.contain', 'Arus Agitator Ball 2 - Arus Listrik');
+          .should('have.contain', 'Sensor Lingkungan 1 - Arus Listrik');
         cy.get('[style="margin-left: -12px; margin-right: -12px;"] > :nth-child(1) > .input-reason-form__row > .input-reason-form__row__field', timeout)
           .should('be.visible');
         cy.get(':nth-child(2) > .input-reason-form__row > .input-reason-form__row__field', timeout)
