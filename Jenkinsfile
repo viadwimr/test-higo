@@ -22,28 +22,40 @@ pipeline {
             println hour
             if(JOB_NAME == 'EMS_TelkomIoT' && day == 1 && hour == 10) {
               filename = "Dashboard (Reviewer)"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/dashboard.cy.js' --env allure=true"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/dashboard.cy.js' --env allure=true"
             } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 1 && hour == 22) {
               filename = "Device (Reviewer)"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/device.cy.js' --env allure=true"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/device.cy.js' --env allure=true"
             } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 2 && hour == 10) {
               filename = "Report (Reviewer)"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/report.cy.js' --env allure=true"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/report.cy.js' --env allure=true"
             } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 2 && hour == 22) {
               filename = "User Profile (Reviewer)"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/user-profile.cy.js' --env allure=true"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/user-profile.cy.js' --env allure=true"
             } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 3 && hour == 10) {
               filename = "Forgot Password (Reviewer)"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/forgot-password.cy.js' --env allure=true"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/forgot-password.cy.js' --env allure=true"
             } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 3 && hour == 22) {
               filename = "Forgot Username (Reviewer)"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/forgot-username.cy.js' --env allure=true"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/forgot-username.cy.js' --env allure=true"
             } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 4 && hour == 10) {
               filename = "Login (Reviewer)"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/login.cy.js' --env allure=true"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/login.cy.js' --env allure=true"
             } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 4 && hour == 22) {
               filename = "Sign out (Reviewer)"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/sign-out.cy.js' --env allure=true"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/sign-out.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 5 && hour == 10) {
+              filename = "Alert (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/alert.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 5 && hour == 22) {
+              filename = "Indicator (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/indicator.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 6 && hour == 10) {
+              filename = "Threshold (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/threshold.cy.js' --env allure=true"
+            } else if(JOB_NAME == 'EMS_TelkomIoT' && day == 6 && hour == 22) {
+              filename = "Trend (Reviewer)"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer-wapres/trend.cy.js' --env allure=true"
             }
           } catch(Exception e) {
             currentBuild.result = 'FAILURE'
