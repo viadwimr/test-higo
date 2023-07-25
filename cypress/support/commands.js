@@ -75,8 +75,6 @@ Cypress.Commands.add('login', (numb) => {
   cy.clearLocalStorage();
   cy.visit('/');
   if(numb === 'admin') {
-    // cy.get('#username', timeout).type('eko.bsatriyo@pti-cosmetics.com');
-    // cy.get('#password', timeout).type('paragon123');
     cy.get('#username', timeout).type('tes-admin');
     cy.get('#password', timeout).type('password');
     cy.get('.ant-btn', timeout).click();
@@ -90,8 +88,14 @@ Cypress.Commands.add('login', (numb) => {
     cy.contains('Analysis', timeout).click();
     cy.contains('Trend', timeout).should('be.visible');
   } else if (numb === 'reviewer') {
-    // cy.visit('/');
     cy.get('#username', timeout).type('tes-reviewer');
+    cy.get('#password', timeout).type('password');
+    cy.get('.ant-btn', timeout).click();
+    cy.contains('Dashboard', timeout).should('be.visible');
+    cy.contains('Device', timeout).should('be.visible');
+    cy.contains('Report', timeout).should('be.visible');
+  } else if (numb === 'reviewer-wapres') {
+    cy.get('#username', timeout).type('reviewer-wapres');
     cy.get('#password', timeout).type('password');
     cy.get('.ant-btn', timeout).click();
     cy.contains('Dashboard', timeout).should('be.visible');
