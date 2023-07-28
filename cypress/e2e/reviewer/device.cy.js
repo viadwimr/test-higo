@@ -4,7 +4,7 @@ var timeout = { timeout: 50000 }
 
 describe('Device', () => {
   before(() => {
-    cy.login('reviewer-wapres');
+    cy.login('reviewer');
     cy.get('[title="Device"] > .ant-menu-title-content > a', timeout).click();
   });
   /*
@@ -120,9 +120,9 @@ describe('Device', () => {
       // cy.get(':nth-child(3) > a > .sector-card', timeout).should('not.exist');
       cy.get('#rc-tabs-1-panel-condition_monitoring').find('.sector-card').then((graphic) => {
         var graphicCount = Cypress.$(graphic).length;
-        expect(graphicCount).to.be.equal(3)
+        expect(graphicCount).to.be.equal(64)
       })
-      cy.contains('Sensor Lingkungan 1', timeout).should('be.visible');
+      cy.contains('AERATOR', timeout).should('be.visible');
       cy.contains('Good', timeout).should('be.visible');
 
       // Detail Device
@@ -136,12 +136,28 @@ describe('Device', () => {
       })
       // cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
       cy.get('.AnomaliWrapper__Container-sc-1qw2y45-0', timeout).should('be.visible')
-      cy.get(':nth-child(1) > .ant-row > :nth-child(1) > h5', timeout).contains('Nama Device');
-      cy.get(':nth-child(2) > [style="margin-left: -8px; margin-right: -8px;"] > :nth-child(1) > h5', timeout).contains('Sektor');
-      cy.get(':nth-child(3) > .ant-row > :nth-child(1) > h5', timeout).contains('Lokasi');
-      cy.get('[style="margin-left: -12px; margin-right: -12px; margin-top: 24px;"] > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('Tinggi Air Kolam');
-      cy.get('[style="margin-left: -8px; margin-right: -8px;"] > :nth-child(2) > .ant-row > .ant-col > div', timeout).contains('-');
-      // cy.get(':nth-child(3) > .ant-row > :nth-child(2) > h5', timeout).contains('Kemas Primer Semsol ALP03');
+      cy.get(':nth-child(1) > .ant-row > :nth-child(1) > h5', timeout).contains('Device Name');
+      cy.get(':nth-child(2) > [style="margin-left: -8px; margin-right: -8px;"] > :nth-child(1) > h5', timeout).contains('Sector');
+      cy.get(':nth-child(3) > .ant-row > :nth-child(1) > h5', timeout).contains('Location');
+      cy.get('[style="margin-left: -12px; margin-right: -12px; margin-top: 24px;"] > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('APPLIKON MC#7');
+      cy.get('[style="margin-left: -8px; margin-right: -8px;"] > :nth-child(2) > .ant-row > .ant-col > div', timeout).contains('SPINNING MC#7');
+      // device
+      cy.contains(`Device Name`, timeout).should('be.visible');
+      cy.contains(`Sector`, timeout).should('be.visible');
+      cy.contains(`Location`, timeout).should('be.visible');
+      cy.contains('Temperature', timeout).should('be.visible');
+      cy.contains('Humidity', timeout).should('be.visible');
+      cy.contains('Battery', timeout).should('be.visible');
+      cy.contains('℃', timeout).should('be.visible');
+      cy.contains('%', timeout).should('be.visible');
+      cy.contains('Highest', timeout).should('be.visible');
+      cy.contains('Lowest', timeout).should('be.visible');
+      cy.get('#download-Temperature > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
+      .should('be.visible');
+      cy.get('#download-Humidity > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
+      .should('be.visible');
+      cy.get('#download-Battery > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
+      .should('be.visible');
     });
 
     it('Menampilkan dropdown filter interval berisi kolom Pilih Interval untuk custom interval dan untuk existing interval mulai dari 5, 15, 30 hingga 60 Menit.', () => {
@@ -151,13 +167,6 @@ describe('Device', () => {
       cy.get('[style="display: flex; gap: 0.5rem; justify-content: space-between;"] > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
       // check data
       cy.wait(1000);
-      cy.contains(`Nama Device`, timeout).should('be.visible');
-      cy.contains(`Sektor`, timeout).should('be.visible');
-      cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Battery', timeout).should('be.visible');
-      cy.contains('%', timeout).should('be.visible');
-      cy.contains('Tertinggi', timeout).should('be.visible');
-      cy.contains('Terendah', timeout).should('be.visible');
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
         const highestValue = text
         cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
@@ -172,18 +181,55 @@ describe('Device', () => {
           expect(lowestValueDate).to.be.not.equal(highestValueDate)
         })
       })
+      cy.request({
+        url: 'https://evomoapi.evomo.id/login',
+        method: 'POST',
+        body: {
+          password:	'password',
+          username:	'reviewer-ibr',
+        },
+      }).then((response) => {
+        var bearerToken = response.body.data.access_token
+        return cy.task('setValue', { key: 'bearerToken', value: bearerToken })
+      })
+      
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        cy.request({
+          url: 'https://evomoapi.evomo.id/sensors/sensor_data?latest=false&device_id=24E124136D057050&timezone=Asia/Jakarta&interval_data=5&statistic=MEAN&stream_time_limit_in_hour=1',
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'reviewer',
+            'x-authenticated-userid': '6499219756ae08171d10f6da',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => {  
+          // kelembapan       
+          const dataCount1 = response.body.data[0].sensor[0].data.length
+          var i=0
+          while (i < dataCount1) {
+            var dataValue1 = response.body.data[0].sensor[0].data[i].value
+            expect(dataValue1).to.not.equal(0)
+            i++
+          }
+          expect(dataCount1).to.equal(12)
+          // temperatur
+          const dataCount2 = response.body.data[0].sensor[1].data.length
+          var i=0
+          while (i < dataCount2) {
+            var dataValue2 = response.body.data[0].sensor[1].data[i].value
+            expect(dataValue2).to.not.equal(0)
+            i++
+          }
+          expect(dataCount2).to.equal(12)
+        })
+      })
+
       // existing interval
       cy.get(':nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
       // 30 menit
-      cy.get('.Picker__IntervalPopUp-x5059d-6 > :nth-child(3)', timeout).click();
+      cy.get('.Picker__IntervalPopUp-x5059d-6 > :nth-child(5)', timeout).click();
       cy.wait(1000);
-      cy.contains(`Nama Device`, timeout).should('be.visible');
-      cy.contains(`Sektor`, timeout).should('be.visible');
-      cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Battery', timeout).should('be.visible');
-      cy.contains('%', timeout).should('be.visible');
-      cy.contains('Tertinggi', timeout).should('be.visible');
-      cy.contains('Terendah', timeout).should('be.visible');
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
         const highestValue = text
         cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
@@ -198,106 +244,41 @@ describe('Device', () => {
           expect(lowestValueDate).to.be.not.equal(highestValueDate)
         })
       })
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        cy.request({
+          url: 'https://evomoapi.evomo.id/sensors/sensor_data?latest=false&device_id=24E124136D057050&timezone=Asia/Jakarta&interval_data=30&statistic=MEAN&stream_time_limit_in_hour=1',
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'reviewer',
+            'x-authenticated-userid': '6499219756ae08171d10f6da',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => {  
+          // kelembapan       
+          const dataCount1 = response.body.data[0].sensor[0].data.length
+          var i=0
+          while (i < dataCount1) {
+            var dataValue1 = response.body.data[0].sensor[0].data[i].value
+            expect(dataValue1).to.not.equal(0)
+            i++
+          }
+          expect(dataCount1).to.equal(2)
+          // temperatur
+          const dataCount2 = response.body.data[0].sensor[1].data.length
+          var i=0
+          while (i < dataCount2) {
+            var dataValue2 = response.body.data[0].sensor[1].data[i].value
+            expect(dataValue2).to.not.equal(0)
+            i++
+          }
+          expect(dataCount2).to.equal(2)
+        })
+      })
     });
 
-    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Battery (%) sesuai dengan filter interval yang dipilih', () => {
+    it('Menampilkan nilai saat ini, grafik garis, nilai Highest, dan nilai Lowest untuk indikator Temperature, Humidity, dan Battery sesuai dengan filter interval yang dipilih', () => {
       cy.wait(1000);
-      cy.contains(`Nama Device`, timeout).should('be.visible');
-      cy.contains(`Sektor`, timeout).should('be.visible');
-      cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Battery', timeout).should('be.visible');
-      cy.contains('%', timeout).should('be.visible');
-      cy.contains('Tertinggi', timeout).should('be.visible');
-      cy.contains('Terendah', timeout).should('be.visible');
-      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
-        const highestValue = text
-        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
-          const lowestValue = text
-          expect(lowestValue).to.be.not.equal(highestValue)
-        })
-      })
-      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
-        const highestValueDate = text
-        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
-          const lowestValueDate = text
-          expect(lowestValueDate).to.be.not.equal(highestValueDate)
-        })
-      })
-      cy.get('#download-Battery > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
-        .should('be.visible');
-    });
-
-    it('Menampilkan dropdown filter waktu berisi kolom Tanggal Mulai dan Tanggal Selesai untuk Pilih Tanggal (custom waktu) dan Pilih Durasi mulai dari 1 Jam, 24 Jam, 2 Hari, 7 Hari, 14 Hari hingga 30 Hari Terakhir untuk existing waktunya', () => {
-      cy.get(':nth-child(4) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
-      // custom date
-      cy.get(':nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker', timeout)
-        .type('2023-07-11 00:00:00')
-      cy.get('.ant-picker-ok > .ant-btn', timeout).eq(0).click();
-      cy.get(':nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker', timeout)
-        .type('2023-07-11 23:59:59')
-      cy.get('.ant-picker-ok > .ant-btn', timeout).eq(1).click();
-      cy.get('.ant-form-item-control-input-content > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
-      // cy.contains('OK', timeout).click();
-      // check data
-      cy.wait(3000);
-      cy.contains(`Nama Device`, timeout).should('be.visible');
-      cy.contains(`Sektor`, timeout).should('be.visible');
-      cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Battery', timeout).should('be.visible');
-      cy.contains('%', timeout).should('be.visible');
-      cy.contains('Tertinggi', timeout).should('be.visible');
-      cy.contains('Terendah', timeout).should('be.visible');
-      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
-        const highestValue = text
-        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
-          const lowestValue = text
-          expect(lowestValue).to.be.not.equal(highestValue)
-        })
-      })
-      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
-        const highestValueDate = text
-        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
-          const lowestValueDate = text
-          expect(lowestValueDate).to.be.not.equal(highestValueDate)
-        })
-      })
-      // existing date
-      cy.get(':nth-child(4) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
-      cy.contains('7 Hari terakhir', timeout).click();
-      // cy.get('[data-testid="7 Hari terakhir (15/02/23 - 22/02/23)"]', timeout).click();
-      cy.contains(`Nama Device`, timeout).should('be.visible');
-      cy.contains(`Sektor`, timeout).should('be.visible');
-      cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Battery', timeout).should('be.visible');
-      cy.contains('%', timeout).should('be.visible');
-      cy.contains('Tertinggi', timeout).should('be.visible');
-      cy.contains('Terendah', timeout).should('be.visible');
-      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
-        const highestValue = text
-        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
-          const lowestValue = text
-          expect(lowestValue).to.be.not.equal(highestValue)
-        })
-      })
-      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
-        const highestValueDate = text
-        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
-          const lowestValueDate = text
-          expect(lowestValueDate).to.be.not.equal(highestValueDate)
-        })
-      })
-    });
-
-    it('Menampilkan nilai saat ini, grafik garis, nilai tertinggi, dan nilai terendah untuk indikator Distance (mm) sesuai dengan filter waktu yang dipilih', () => {
-      cy.wait(3000);
-      cy.get('.ant-row-space-between > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('Distance');
-      cy.contains(`Nama Device`, timeout).should('be.visible');
-      cy.contains(`Sektor`, timeout).should('be.visible');
-      cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Distance', timeout).should('be.visible');
-      cy.contains('mm', timeout).should('be.visible');
-      cy.contains('Tertinggi', timeout).should('be.visible');
-      cy.contains('Terendah', timeout).should('be.visible');
       //filter statistic
       cy.get('.ant-select-selector', timeout).click();
       cy.wait(1000);
@@ -341,6 +322,222 @@ describe('Device', () => {
         cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
           const lowestMinValueDate2 = text
           expect(lowestMinValueDate2).to.be.not.equal(highestMinValueDate2)
+        })
+      })
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        cy.request({
+          url: 'https://evomoapi.evomo.id/sensors/sensor_data?latest=false&device_id=24E124136D057050&timezone=Asia/Jakarta&interval_data=4&statistic=MEAN&stream_time_limit_in_hour=1',
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'reviewer',
+            'x-authenticated-userid': '6499219756ae08171d10f6da',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => {  
+          // kelembapan       
+          const dataCount1 = response.body.data[0].sensor[0].data.length
+          var i=0
+          while (i < dataCount1) {
+            var dataValue1 = response.body.data[0].sensor[0].data[i].value
+            expect(dataValue1).to.not.equal(0)
+            i++
+          }
+          expect(dataCount1).to.equal(20)
+          // temperatur
+          const dataCount2 = response.body.data[0].sensor[1].data.length
+          var i=0
+          while (i < dataCount2) {
+            var dataValue2 = response.body.data[0].sensor[1].data[i].value
+            expect(dataValue2).to.not.equal(0)
+            i++
+          }
+          expect(dataCount2).to.equal(20)
+        })
+      })
+    });
+
+    it('Menampilkan dropdown filter waktu berisi kolom Tanggal Mulai dan Tanggal Selesai untuk Pilih Tanggal (custom waktu) dan Pilih Durasi mulai dari 1 Jam, 24 Jam, 2 Hari, 7 Hari, 14 Hari hingga 30 Hari Terakhir untuk existing waktunya', () => {
+      cy.get(':nth-child(4) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
+      // custom date
+      cy.get(':nth-child(1) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker', timeout)
+        .type('2023-07-20 00:00:00')
+      cy.get('.ant-picker-ok > .ant-btn', timeout).eq(0).click();
+      cy.get(':nth-child(2) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-picker', timeout)
+        .type('2023-07-20 23:59:59')
+      cy.get('.ant-picker-ok > .ant-btn', timeout).eq(1).click();
+      cy.get('.ant-form-item-control-input-content > .Button__BaseButton-sc-1hmbtsr-0', timeout).click();
+      // cy.contains('OK', timeout).click();
+      // check data
+      cy.wait(3000);
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestValue = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestValue = text
+          expect(lowestValue).to.be.not.equal(highestValue)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestValueDate = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestValueDate = text
+          expect(lowestValueDate).to.be.not.equal(highestValueDate)
+        })
+      })
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        cy.request({
+          url: 'https://evomoapi.evomo.id/sensors/sensor_data?latest=false&device_id=24E124136D057050&timezone=Asia/Jakarta&interval_data=60&statistic=MEAN&date_start=2023-07-19T17:00:00.000Z&date_end=2023-07-20T16:59:59.000Z',
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'reviewer',
+            'x-authenticated-userid': '6499219756ae08171d10f6da',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => {  
+          // kelembapan       
+          const dataCount1 = response.body.data[0].sensor[0].data.length
+          var i=0
+          while (i < dataCount1) {
+            var dataValue1 = response.body.data[0].sensor[0].data[i].value
+            expect(dataValue1).to.not.equal(0)
+            i++
+          }
+          expect(dataCount1).to.equal(24)
+          // temperatur
+          const dataCount2 = response.body.data[0].sensor[1].data.length
+          var i=0
+          while (i < dataCount2) {
+            var dataValue2 = response.body.data[0].sensor[1].data[i].value
+            expect(dataValue2).to.not.equal(0)
+            i++
+          }
+          expect(dataCount2).to.equal(24)
+        })
+      })
+      // existing date
+      cy.get(':nth-child(4) > .ant-form-item > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
+      cy.contains('Last 7 Days', timeout).click();
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestValue = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestValue = text
+          expect(lowestValue).to.be.not.equal(highestValue)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestValueDate = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestValueDate = text
+          expect(lowestValueDate).to.be.not.equal(highestValueDate)
+        })
+      })
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        cy.request({
+          url: 'https://evomoapi.evomo.id/sensors/sensor_data?latest=false&device_id=24E124136D057050&timezone=Asia/Jakarta&interval_data=360&statistic=MEAN&stream_time_limit_in_hour=168',
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'reviewer',
+            'x-authenticated-userid': '6499219756ae08171d10f6da',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => {  
+          // kelembapan       
+          const dataCount1 = response.body.data[0].sensor[0].data.length
+          var i=0
+          while (i < dataCount1) {
+            var dataValue1 = response.body.data[0].sensor[0].data[i].value
+            expect(dataValue1).to.not.equal(0)
+            i++
+          }
+          expect(dataCount1).to.equal(28)
+          // temperatur
+          const dataCount2 = response.body.data[0].sensor[1].data.length
+          var i=0
+          while (i < dataCount2) {
+            var dataValue2 = response.body.data[0].sensor[1].data[i].value
+            expect(dataValue2).to.not.equal(0)
+            i++
+          }
+          expect(dataCount2).to.equal(28)
+        })
+      })
+      //filter statistic
+      cy.get('.ant-select-selector', timeout).click();
+      cy.wait(1000);
+      cy.contains('Max', timeout).click();
+      cy.wait(5000);
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestMaxValue1 = text
+        cy.task('setValue', { key: 'highestMaxValue1', value: highestMaxValue1 })
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestMaxValue1 = text
+          expect(lowestMaxValue1).to.be.not.equal(highestMaxValue1)
+          cy.task('setValue', { key: 'lowestMaxValue1', value: lowestMaxValue1 })
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestMaxValueDate2 = text
+        })
+      })
+      cy.get('.ant-select-selector', timeout).click();
+      cy.wait(1000);
+      cy.contains('Min', timeout).click();
+      cy.wait(5000);
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
+        const highestMinValue1 = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(5)`).invoke('text').then((text) => {
+          const lowestMinValue1 = text
+          expect(lowestMinValue1).to.be.not.equal(highestMinValue1)
+          // Max vs Min Lowest 1
+          cy.task('getValue', { key: 'lowestMaxValue1' }).then((value) => {
+            expect(value).to.be.not.equal(lowestMinValue1)
+          })
+        })
+        // Max vs Min Highest 1
+        cy.task('getValue', { key: 'highestMaxValue1' }).then((value) => {
+          expect(value).to.be.not.equal(highestMinValue1)
+        })
+      })
+      cy.get('body').find(`.ant-col-md-3 > :nth-child(3)`).invoke('text').then((text) => {
+        const highestMinValueDate2 = text
+        cy.get('body').find(`.ant-col-md-3 > :nth-child(6)`).invoke('text').then((text) => {
+          const lowestMinValueDate2 = text
+          expect(lowestMinValueDate2).to.be.not.equal(highestMinValueDate2)
+        })
+      })
+      // last 30 days
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        cy.request({
+          url: 'https://evomoapi.evomo.id/sensors/sensor_data?latest=false&device_id=24E124136D057050&timezone=Asia/Jakarta&interval_data=1440&statistic=MEAN&stream_time_limit_in_hour=720',
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'reviewer',
+            'x-authenticated-userid': '6499219756ae08171d10f6da',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => {  
+          // kelembapan       
+          const dataCount1 = response.body.data[0].sensor[0].data.length
+          var i=0
+          while (i < dataCount1) {
+            var dataValue1 = response.body.data[0].sensor[0].data[i].value
+            expect(dataValue1).to.not.equal(0)
+            i++
+          }
+          expect(dataCount1).to.equal(30)
+          // temperatur
+          const dataCount2 = response.body.data[0].sensor[1].data.length
+          var i=0
+          while (i < dataCount2) {
+            var dataValue2 = response.body.data[0].sensor[1].data[i].value
+            expect(dataValue2).to.not.equal(0)
+            i++
+          }
+          expect(dataCount2).to.equal(30)
         })
       })
     });

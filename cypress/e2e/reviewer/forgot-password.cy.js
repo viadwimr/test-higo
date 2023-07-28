@@ -13,9 +13,9 @@ describe('Forgot Password', () => {
     it('Empty Input', () => {
       cy.get(':nth-child(2) > a', timeout).click();
       cy.get('#check_account_email', timeout).type('mviadwi@gmail.com').clear();
-      cy.contains('Email tidak boleh kosong', timeout).should('be.visible');
+      cy.contains('Email cannot be empty', timeout).should('be.visible');
       cy.get('#check_account_no_hp', timeout).type('095221971010').clear();
-      cy.contains('Nomor tidak boleh kosong', timeout).should('be.visible');
+      cy.contains('Number cannot be empty', timeout).should('be.visible');
       cy.wait(1000)
       cy.get('.ant-btn-primary', timeout).should('be.disabled')
     })
@@ -31,7 +31,7 @@ describe('Forgot Password', () => {
     it('Wrong Email', () => {
       cy.get('#check_account_email', timeout).clear().type('1.,2/3"][=-op!@#$%^&*()_+|}{":?><x@gmail.com');
       cy.get('#check_account_email_help > .ant-form-item-explain-error > .alert-container > [data-testid="message"]', timeout)
-        .contains('Email Tidak Tepat')
+        .contains('Invalid Email')
       cy.get('#check_account_email', timeout).clear().type('test.qa_12-12@gmail.com');
       cy.get('#check_account_no_hp', timeout).clear().type('085221971010');
       cy.get('.ant-btn-primary', timeout).click();
@@ -43,7 +43,7 @@ describe('Forgot Password', () => {
       cy.get('#check_account_email', timeout).clear().type('mviadwi@gmail.com');
       cy.get('#check_account_no_hp', timeout).clear().type('108734662829020003000');
       cy.get('#check_account_no_hp_help > .ant-form-item-explain-error > .alert-container > [data-testid="message"]', timeout)
-        .contains('Harus berupa nomor, max 15 digit')
+        .contains('Must be a number, max 15 digits')
       cy.get('#check_account_no_hp', timeout).clear().type('1');
       cy.get('.ant-btn-primary', timeout).click();
       cy.contains('Failure', timeout).should('be.visible');
@@ -80,22 +80,25 @@ describe('Forgot Password', () => {
       // check login
       cy.visit('/');
       cy.wait(1000);
-      cy.get('#username', timeout).clear().type('reviewer-wapres');
+      cy.get('#username', timeout).clear().type('reviewer-ibr');
       cy.get('#password', timeout).clear().type('T123!@#$%^&*()_+');
       cy.get('.ant-btn', timeout).click();
       cy.get('.logo > img', timeout).should('be.visible');
       cy.contains('Dashboard', timeout).should('be.visible');
       cy.contains('Device', timeout).should('be.visible');
-      cy.contains('Laporan', timeout).should('be.visible');
+      cy.contains('Report', timeout).should('be.visible');
       cy.contains('User', timeout).should('be.visible');
-      cy.get('[title="Target"] > .ant-menu-title-content > a', timeout).should('be.visible');
-      cy.contains('Analisis', timeout).click();
+      cy.contains('Alert', timeout).should('be.visible');
+      cy.contains('Threshold', timeout).should('be.visible');
+      cy.contains('Indicator', timeout).should('be.visible');
+      cy.contains('Analysis', timeout).click();
       cy.contains('Trend', timeout).should('be.visible');
 
       // logout
       cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
       cy.wait(1000);
       cy.contains('Logout', timeout).click();
+      cy.get('.swal2-confirm', timeout).click();
       cy.wait(7000);
       cy.get('#username', timeout).should('be.visible');
       cy.get('#password', timeout).should('be.visible');
@@ -111,14 +114,14 @@ describe('Forgot Password', () => {
       cy.wait(3000);
       cy.get('.swal2-confirm', timeout).click();
       cy.get(':nth-child(2) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
-        .type('Jeager123')
+        .type('password')
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
-        .type('Jeager123')
+        .type('password')
       cy.get('.ant-btn-primary', timeout).click();
       // check login
       cy.visit('/');
       cy.wait(1000);
-      cy.get('#username', timeout).clear().type('reviewer-wapres');
+      cy.get('#username', timeout).clear().type('reviewer-ibr');
       cy.get('#password', timeout).clear().type('T123!@#$%^&*()_+');
       cy.get('.ant-btn', timeout).click();
       cy.contains('Failure', timeout).should('be.visible');
@@ -139,10 +142,10 @@ describe('Forgot Password', () => {
       cy.wait(1000);
       cy.get(':nth-child(2) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .type('Telkom123!@#$%^&*()_+').clear();
-      cy.contains('Password Baru tidak boleh kosong', timeout).should('be.visible');
+      cy.contains('New Password not be empty', timeout).should('be.visible');
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .type('Telko123!@#$%^&*()_+').clear();
-      cy.contains('Konfirmasi Password Baru tidak boleh kosong', timeout).should('be.visible');
+      cy.contains('Confirm New Password not be empty', timeout).should('be.visible');
       cy.wait(1000);
       cy.get('.ant-btn-primary', timeout).should('be.disabled');
     })
@@ -152,7 +155,7 @@ describe('Forgot Password', () => {
         .clear().type('QATelkom123!@#$%^&*()_+')
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .clear().type('Telko123!@#$%^&*()_+')
-      cy.get('.ant-form-item-explain-error',timeout).contains('Password tidak sama!')
+      cy.get('.ant-form-item-explain-error',timeout).contains('Password is not same!')
       cy.get('.ant-btn-primary', timeout).should('be.disabled');
       cy.get(':nth-child(2) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .clear().type('Telko123!@#$%^&*()_+')
@@ -165,7 +168,7 @@ describe('Forgot Password', () => {
         .clear().type('Telko123!@#$%^&*()_+')
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .clear().type('QATelkom123!@#$%^&*()_+')
-      cy.get('.ant-form-item-explain-error',timeout).contains('Password tidak sama!')
+      cy.get('.ant-form-item-explain-error',timeout).contains('Password is not same!')
       cy.get('.ant-btn-primary', timeout).should('be.disabled');
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .clear().type('Telko123!@#$%^&*()_+')
@@ -193,7 +196,7 @@ describe('Forgot Password', () => {
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .type('QATelkom123!@#$%^&*()_+')
       cy.get('.ant-btn-primary', timeout).click();
-      cy.contains('400 "password" length must be less than or equal to 20 characters long', timeout).should('be.visible');
+      cy.contains('"password" length must be less than or equal to 20 characters long', timeout).should('be.visible');
       cy.get('.swal2-confirm', timeout).click();
       /*
       // improvement

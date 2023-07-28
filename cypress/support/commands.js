@@ -88,19 +88,18 @@ Cypress.Commands.add('login', (numb) => {
     cy.contains('Analysis', timeout).click();
     cy.contains('Trend', timeout).should('be.visible');
   } else if (numb === 'reviewer') {
-    cy.get('#username', timeout).type('tes-reviewer');
+    cy.get('#username', timeout).type('reviewer-ibr');
     cy.get('#password', timeout).type('password');
     cy.get('.ant-btn', timeout).click();
     cy.contains('Dashboard', timeout).should('be.visible');
     cy.contains('Device', timeout).should('be.visible');
     cy.contains('Report', timeout).should('be.visible');
-  } else if (numb === 'reviewer-wapres') {
-    cy.get('#username', timeout).type('reviewer-wapres');
-    cy.get('#password', timeout).type('password');
-    cy.get('.ant-btn', timeout).click();
-    cy.contains('Dashboard', timeout).should('be.visible');
-    cy.contains('Device', timeout).should('be.visible');
-    cy.contains('Report', timeout).should('be.visible');
+    cy.contains('User', timeout).should('be.visible');
+    cy.contains('Alert', timeout).should('be.visible');
+    cy.contains('Threshold', timeout).should('be.visible');
+    cy.contains('Indicator', timeout).should('be.visible');
+    cy.contains('Analysis', timeout).click();
+    cy.contains('Trend', timeout).should('be.visible');
   }
 });
 

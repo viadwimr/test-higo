@@ -9,7 +9,7 @@ module.exports = defineConfig({
       AllureWriter(on, config);
       return require('./cypress/plugins/index.js')(on, config);
     },
-    baseUrl: 'https://telkomiot.evomo.id',
+    baseUrl: 'https://ibr.evomo.id',
     video: true,
     screenshotOnRunFailure: true,
     trashAssetsBeforeRuns: true,

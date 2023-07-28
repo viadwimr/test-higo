@@ -7,7 +7,7 @@ describe('Signout', () => {
   before(() => {
     cy.clearCookies();
     cy.clearLocalStorage();
-    cy.login('reviewer-wapres');
+    cy.login('reviewer');
   });
 
   it('Keluar Aplikasi', () => {

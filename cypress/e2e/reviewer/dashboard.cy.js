@@ -5,32 +5,40 @@ const d = new Date();
 
 describe('Dashboard', () => {
   before(() => {
-    cy.login('reviewer-wapres');
+    cy.login('reviewer');
   });
   
   describe('Melihat halaman utama Dashboard (Realtime)', () => {
     it('Device', () => {
-      cy.get('[data-testid="button-sector-filter"]', timeout).click();
+      cy.get('li > .ant-dropdown-trigger', timeout).click();
+      // cy.get('[data-testid="button-sector-filter"]', timeout).click();
       cy.wait(1000);
-      cy.contains('Semua Sector', timeout).click();
-      cy.wait(1000);
-      cy.contains('Semua Device', timeout).click();
-      cy.wait(1000);
-      cy.contains('Terapkan', timeout).click();
+      cy.contains('All Sector', timeout).click();
+      // cy.wait(1000);
+      // cy.contains('Semua Device', timeout).click();
+      // cy.wait(1000);
+      // cy.contains('Terapkan', timeout).click();
       cy.wait(5000);
-      cy.get('#rc-tabs-0-panel-realtime').find('.ant-card-body').then((graphic) => {
+      cy.get('#rc-tabs-0-panel-realtime').find('.sector-card').then((graphic) => {
         var graphicCount = Cypress.$(graphic).length;
-        expect(graphicCount).to.be.equal(12)
+        expect(graphicCount).to.be.equal(9)
       })
-      cy.get(':nth-child(2) > .ant-row > :nth-child(3)', timeout).click();
+      cy.get(':nth-child(3) > .sector-card > .RealtimeTab__SectorName-sc-1arz2ej-0 > div', timeout).click();
       cy.wait(1000);
-      cy.contains('Semua Sector', timeout).click();
-      cy.wait(1000);
-      cy.contains('Semua Device', timeout).click();
-      cy.wait(1000);
-      cy.contains('Terapkan', timeout).click();
-      cy.wait(5000);
-      cy.contains('Sensor Lingkungan 1', timeout).should('be.visible');
+      cy.get('#rc-tabs-0-panel-realtime').find('.ant-card > .ant-card-body').then((graphic) => {
+        var graphicCount = Cypress.$(graphic).length;
+        expect(graphicCount).to.be.equal(10)
+      })
+      // cy.get('.ant-card > .ant-card-body', timeout).click();
+      // cy.get(':nth-child(2) > .ant-row > :nth-child(3)', timeout).click();
+      // cy.wait(1000);
+      // cy.contains('Semua Sector', timeout).click();
+      // cy.wait(1000);
+      // cy.contains('Semua Device', timeout).click();
+      // cy.wait(1000);
+      // cy.contains('Terapkan', timeout).click();
+      // cy.wait(5000);
+      cy.contains('CEMS ROOM', timeout).should('be.visible');
       var d = new Date();
       var date = d.getDate();
       var dateLength = date.toString().length
@@ -51,8 +59,8 @@ describe('Dashboard', () => {
       const today = `${date}/${month}/${year.slice(2,4)} - ${hour}`
       cy.contains(`Last Update`, timeout).should('be.visible');
       cy.contains(`${today}`, timeout).should('be.visible');
-      cy.contains('Temperatur', timeout).should('be.visible');
-      cy.contains('Temperatur', timeout).should('be.visible');
+      // cy.contains('Temperatur', timeout).should('be.visible');
+      // cy.contains('Temperatur', timeout).should('be.visible');
       cy.contains('%', timeout).should('be.visible');
       cy.contains('℃', timeout).should('be.visible');
     });
@@ -66,13 +74,22 @@ describe('Dashboard', () => {
           cy.wait(5000);
         }
       })
-      cy.contains(`Nama Device`, timeout).should('be.visible');
-      cy.contains(`Sektor`, timeout).should('be.visible');
-      cy.contains(`Lokasi`, timeout).should('be.visible');
-      cy.contains('Tinggi Air Chamber', timeout).should('be.visible');
-      cy.contains('mm', timeout).should('be.visible');
-      cy.contains('Tertinggi', timeout).should('be.visible');
-      cy.contains('Terendah', timeout).should('be.visible');
+      cy.contains(`Device Name`, timeout).should('be.visible');
+      cy.contains(`Sector`, timeout).should('be.visible');
+      cy.contains(`Location`, timeout).should('be.visible');
+      cy.contains('Temperature', timeout).should('be.visible');
+      cy.contains('Humidity', timeout).should('be.visible');
+      cy.contains('Battery', timeout).should('be.visible');
+      cy.contains('℃', timeout).should('be.visible');
+      cy.contains('%', timeout).should('be.visible');
+      cy.contains('Highest', timeout).should('be.visible');
+      cy.contains('Lowest', timeout).should('be.visible');
+      cy.get('#download-Temperature > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
+      .should('be.visible');
+      cy.get('#download-Humidity > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
+      .should('be.visible');
+      cy.get('#download-Battery > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
+      .should('be.visible');
       //filter statistic
       cy.get('.ant-select-selector', timeout).click();
       cy.wait(1000);
@@ -118,56 +135,153 @@ describe('Dashboard', () => {
           expect(lowestMinValueDate2).to.be.not.equal(highestMinValueDate2)
         })
       })
-      cy.get('#download-Tinggi Air Chamber > [style="margin-left: -10px; margin-right: -10px;"] > .ant-col-md-21', timeout)
-        .should('be.visible');
+      cy.request({
+        url: 'https://evomoapi.evomo.id/login',
+        method: 'POST',
+        body: {
+          password:	'password',
+          username:	'reviewer-ibr',
+        },
+      }).then((response) => {
+        var bearerToken = response.body.data.access_token
+        return cy.task('setValue', { key: 'bearerToken', value: bearerToken })
+      })
+      
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        cy.request({
+          url: 'https://evomoapi.evomo.id/sensors/sensor_data?latest=false&device_id=24E124136D057050&timezone=Asia/Jakarta&interval_data=5&statistic=MEAN&stream_time_limit_in_hour=1',
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'reviewer',
+            'x-authenticated-userid': '6499219756ae08171d10f6da',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => {  
+          // kelembapan       
+          const dataCount1 = response.body.data[0].sensor[0].data.length
+          var i=0
+          while (i < dataCount1) {
+            var dataValue1 = response.body.data[0].sensor[0].data[i].value
+            expect(dataValue1).to.not.equal(0)
+            i++
+          }
+          expect(dataCount1).to.equal(12)
+          // temperatur
+          const dataCount2 = response.body.data[0].sensor[1].data.length
+          var i=0
+          while (i < dataCount2) {
+            var dataValue2 = response.body.data[0].sensor[1].data[i].value
+            expect(dataValue2).to.not.equal(0)
+            i++
+          }
+          expect(dataCount2).to.equal(12)
+        })
+      })
     })
-  })
 
-  describe('Melihat halaman utama Dashboard (Overview)', () => {
-    it('Sektor', () => {
-      cy.contains('Dashboard', timeout).click();
-      cy.get('[data-node-key="overview"]', timeout).click();
+    it('Alert', () => {
+      cy.visit('/');
+      cy.wait(3000);
+      cy.get('li > .ant-dropdown-trigger', timeout).click();
+      cy.wait(1000);
+      cy.get(':nth-child(7) > .ant-tree-node-content-wrapper > .ant-tree-title', timeout).click();
       cy.wait(5000);
-      cy.get('[style="padding-left: 12px; padding-right: 12px; flex: 1 1 auto;"] > .ant-card > .ant-card-body', timeout)
-        .should('be.visible');
-        cy.get('.apexcharts-legend', timeout).contains('Tinggi Air Chamber');
-        cy.get('.apexcharts-legend', timeout).contains('Tinggi Air Kolam');
-      cy.get('[data-testid="sector"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      // to close dropdown sector list
+      cy.get(':nth-child(5) > .Devices__SummaryCard-amwub4-2', timeout).click();
       cy.wait(1000);
-      cy.get('[data-testid="indicator"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.get('.alert_toggle', timeout).click();
+      // cy.get('[data-testid="button-sector-filter"]', timeout).click();
       cy.wait(1000);
-      cy.get('[data-testid="interval"] > .ant-select-selector', timeout).click();
+      cy.get('[data-testid="date-root"]', timeout).click();
       cy.wait(1000);
-      // cy.contains('Temperatur', timeout).should('be.visible');
-      // cy.contains('%', timeout).should('be.visible');
-      // cy.contains('℃', timeout).should('be.visible');
+      cy.contains('All Time', timeout).click();
+      cy.wait(5000);
+      cy.contains(`Date`, timeout).should('be.visible');
+      cy.contains(`Time`, timeout).should('be.visible');
+      cy.contains('Sector', timeout).should('be.visible');
+      cy.contains('Device', timeout).should('be.visible');
+      cy.contains('Indicator', timeout).should('be.visible');
+      cy.contains('Avg value', timeout).should('be.visible');
+      cy.contains('26-07-2023', timeout).should('be.visible');
+      cy.contains('01:56:03 - 17:26:02', timeout).should('be.visible');
+      cy.contains('ANCILLIARY', timeout).should('be.visible');
+      cy.contains('DCS WSA', timeout).should('be.visible');
+      cy.contains('Temperature', timeout).should('be.visible');
+      cy.contains('28,24 ℃', timeout).should('be.visible');
     });
+  })
 
-    it('Indikator', () => {
-      cy.get('[data-node-key="overview"]', timeout).click();
+  describe('Melihat halaman utama Dashboard (Chart Dashboard)', () => {
+    it('Chart', () => {
+      cy.get('[data-node-key="chart_dashboard"]', timeout).click();
       cy.wait(5000);
-      cy.get('[style="padding-left: 12px; padding-right: 12px; flex: 1 1 auto;"] > .ant-card > .ant-card-body', timeout)
+      cy.get('canvas', timeout)
         .should('be.visible');
-      cy.get('.apexcharts-legend', timeout).contains('Tinggi Air Chamber');
-      cy.get('.apexcharts-legend', timeout).contains('Tinggi Air Kolam');
-      cy.get('[data-testid="sector"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      // cy.contains('Temperature', timeout).should('be.visible');
+      cy.get('#rc-tabs-0-panel-chart_dashboard > .ant-row-space-between > :nth-child(2) > .ant-row > :nth-child(2) > [data-testid="input-statistic"] > .ant-select-selector', timeout).click();
       cy.wait(1000);
-      cy.get('[data-testid="indicator"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
+      cy.get('#rc-tabs-0-panel-chart_dashboard > .ant-row-space-between > :nth-child(2) > .ant-row > :nth-child(1) > [data-testid="indikator"] > .ant-select-selector > .ant-select-selection-item', timeout).click();
       cy.wait(1000);
-      cy.get('[data-testid="interval"] > .ant-select-selector', timeout).click();
+      cy.get('#rc-tabs-0-panel-chart_dashboard > .ant-row-space-between > :nth-child(2) > .ant-row > :nth-child(3) > .CustomPopup__Container-sc-183k7je-0 > [data-testid="date-root"]', timeout).click();
       cy.wait(1000);
       // cy.contains('Temperatur', timeout).should('be.visible');
       // cy.contains('%', timeout).should('be.visible');
       // cy.contains('℃', timeout).should('be.visible');
-    })
-  })
-
-  describe('Melihat halaman utama Dashboard (Analysis)', () => {
-    it('Usage', () => {
-      cy.get('[data-node-key="analysis"]', timeout).click();
-      cy.wait(5000);
-      // cy.get('[data-testid="nodata"] > :nth-child(1) > :nth-child(1)', timeout).should('not.exist')
-      cy.contains('no Route matched with those values', timeout).should('not.exist');
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        cy.request({
+          url: 'https://evomoapi.evomo.id/sensors/sensor_data?sector_id=64815377b482d800014c0e1a&timezone=Asia/Jakarta&latest=false&interval_data=0&statistic=MEAN&date_start=2023-07-20T07:26:01.690Z&date_end=2023-07-27T09:03:40.621Z',
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'reviewer',
+            'x-authenticated-userid': '6499219756ae08171d10f6da',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => { 
+          // Average
+          // Sector Ancilliary
+          // Weekly
+          // Device 1 
+          // kelembapan       
+          const dataCount11 = response.body.data[0].sensor[0].data.length
+          var i=0
+          while (i < dataCount11) {
+            var dataValue11 = response.body.data[0].sensor[0].data[i].value
+            expect(dataValue11).to.not.equal(0)
+            i++
+          }
+          expect(dataCount11).to.equal(1)
+          // temperatur
+          const dataCount12 = response.body.data[0].sensor[1].data.length
+          var i=0
+          while (i < dataCount12) {
+            var dataValue12 = response.body.data[0].sensor[1].data[i].value
+            expect(dataValue12).to.not.equal(0)
+            i++
+          }
+          expect(dataCount12).to.equal(1)
+          // Device 2
+          // kelembapan       
+          const dataCount21 = response.body.data[1].sensor[0].data.length
+          var i=0
+          while (i < dataCount21) {
+            var dataValue21 = response.body.data[1].sensor[0].data[i].value
+            expect(dataValue21).to.not.equal(0)
+            i++
+          }
+          expect(dataCount21).to.equal(1)
+          // temperatur
+          const dataCount22 = response.body.data[1].sensor[1].data.length
+          var i=0
+          while (i < dataCount22) {
+            var dataValue22 = response.body.data[1].sensor[1].data[i].value
+            expect(dataValue22).to.not.equal(0)
+            i++
+          }
+          expect(dataCount22).to.equal(1)
+        })
+      })
     });
   })
 });

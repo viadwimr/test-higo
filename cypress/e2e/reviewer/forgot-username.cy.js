@@ -36,6 +36,7 @@ describe('Forgot Username', () => {
     cy.get('.ant-btn-primary', timeout).click();
     cy.contains('Failure', timeout).should('be.visible')
     cy.get('.swal2-confirm', timeout).click();
+    cy.wait(3000);
 
     // valid email dan no hp
     cy.get('#lupa_username_email', timeout).clear().type('mviadwi@gmail.com');
