@@ -4,7 +4,7 @@ var timeout = { timeout: 6000 }
 
 describe('Indicator', () => {
   before(() => {
-    cy.login('reviewer-wapres');
+    cy.login('reviewer');
   });
   
   describe.skip('Cek Validasi Nilai Indicator', () => {
@@ -43,13 +43,21 @@ describe('Indicator', () => {
       cy.get('#indikator_form_max_valid', timeout).should('have.value', '100');
     });
 
-    it('Co2', () => {
+    it('Humidity', () => {
       cy.get('form > :nth-child(2) > label', timeout).click({ force: true });
-      cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Co2');
-      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', 'ppm ');
-      cy.get('#indikator_form_min_valid', timeout).should('have.value', '400');
-      cy.get('#indikator_form_max_valid', timeout).should('have.value', '2000');
-    }); 
+      cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Humidity');
+      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', '%');
+      cy.get('#indikator_form_min_valid', timeout).should('have.value', '0');
+      cy.get('#indikator_form_max_valid', timeout).should('have.value', '100');
+    });
+
+    it('Temperature', () => {
+      cy.get('form > :nth-child(3) > label', timeout).click({ force: true });
+      cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Temperature');
+      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', '℃');
+      cy.get('#indikator_form_min_valid', timeout).should('have.value', '0');
+      cy.get('#indikator_form_max_valid', timeout).should('have.value', '100');
+    });
   });
 
   describe.skip('Simpan Nilai Indicator', () => {
@@ -65,7 +73,7 @@ describe('Indicator', () => {
       cy.get('.IndicatorPage__BtnSubmit-sc-1da0oss-7', timeout).click({ force: true });
     });
 
-    it('Co2', () => {
+    it('Humidity', () => {
       cy.get(':nth-child(2) > label', timeout).click({ force: true });
       cy.get('#indikator_form_min_valid', timeout).clear({ force: true }).type('-1', { force: true });
       cy.get('#indikator_form_max_valid', timeout).clear({ force: true }).type('800', { force: true });
@@ -94,10 +102,10 @@ describe('Indicator', () => {
       cy.get('.IndicatorPage__BtnSubmit-sc-1da0oss-7', timeout).click({ force: true });
     });
 
-    it('Co2', () => {
+    it('Humidity', () => {
       cy.get(':nth-child(7) > label', timeout).click({ force: true });
-      cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Co2');
-      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', 'ppm ');
+      cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Humidity');
+      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', '%');
       cy.get('#indikator_form_min_valid', timeout).should('have.value', '-1');
       cy.get('#indikator_form_max_valid', timeout).should('have.value', '800');
 
@@ -118,10 +126,9 @@ describe('Indicator', () => {
     });
 
     it('Sorting List Indicator', () => {
-      cy.contains('1. Battery (%)', timeout).should('be.visible');
-      cy.contains('2. Co2 (ppm )', timeout).should('be.visible');
-      cy.contains('6. Kelembapan (%)', timeout).should('be.visible');
-      cy.contains('9. Temperatur (℃)', timeout).should('be.visible');
+      cy.get('form > :nth-child(1) > label').contains('1. Battery (%)', timeout).should('be.visible');
+      cy.get('form > :nth-child(2) > label').contains('2. Humidity (%)', timeout).should('be.visible');
+      cy.get('form > :nth-child(3) > label').contains('3. Temperature (℃)', timeout).should('be.visible');
       
     });
   });

@@ -4,17 +4,17 @@ var timeout = { timeout: 60000 }
 
 describe('Report', () => {
   before(() => {
-    cy.login('reviewer-wapres');
+    cy.login('reviewer');
     cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
   });
      
   it('Akan muncul halaman untuk men-generate report dari dashboard', () => {
     cy.get('.title', timeout).contains('REPORT');
     cy.get(':nth-child(1) > .ant-col-3 > .ant-row', timeout).contains('Device');
-    cy.get(':nth-child(2) > .ant-col-3 > .ant-row', timeout).contains('Indikator');
-    cy.get(':nth-child(3) > .ant-col-3 > .ant-row', timeout).contains('Periode');
+    cy.get(':nth-child(2) > .ant-col-3 > .ant-row', timeout).contains('Indicator');
+    cy.get(':nth-child(3) > .ant-col-3 > .ant-row', timeout).contains('Period');
     cy.get(':nth-child(4) > .ant-col-3 > .ant-row', timeout).contains('Interval');
-    cy.get(':nth-child(5) > .ant-col-3 > .ant-row', timeout).contains('Waktu');
+    cy.get(':nth-child(5) > .ant-col-3 > .ant-row', timeout).contains('Time');
     cy.get('#report_form_device', timeout).should('be.visible');
     cy.get('.css-1hwfws3', timeout).should('be.visible');
     cy.get('[data-testid="form-period"] > .ant-select-selector', timeout).should('be.visible');
@@ -26,14 +26,14 @@ describe('Report', () => {
 
   it('Menu drop-down nama device yang ada', () => {
     cy.get('#report_form_device', timeout).click(timeout);
-    cy.get('#report_form_device', timeout).type('kolam')
+    cy.get('#report_form_device', timeout).type('app')
     cy.wait(1000);
-    cy.get('[data-testid="select-Tinggi Air Kolam', timeout).click();
+    cy.get('[data-testid="select-APPLIKON MC#56"]', timeout).click();
   });
 
   it('Menu drop-down indikator yang ada', () => {
     cy.get('.css-1hwfws3', timeout).click();
-    cy.contains('Distance', timeout).click();
+    cy.contains('Temperature', timeout).click();
     cy.get('.css-1hwfws3', timeout).click();
   });
 
@@ -44,12 +44,12 @@ describe('Report', () => {
 
   it('Menu drop-down interval mulai dari Lihat Semua, 5 Menit hingga 60 Menit', () => {
     cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
-    cy.contains('Lihat Semua', timeout).should('be.visible');
-    cy.contains('5 Menit', timeout).should('be.visible');
-    cy.contains('15 Menit', timeout).should('be.visible');
-    cy.contains('30 Menit', timeout).should('be.visible');
-    cy.contains('60 Menit', timeout).should('be.visible');
-    cy.contains('15 Menit', timeout).click({force:true});
+    cy.contains('View All', timeout).should('be.visible');
+    cy.contains('5 Minutes', timeout).should('be.visible');
+    cy.contains('15 Minutes', timeout).should('be.visible');
+    cy.contains('30 Minutes', timeout).should('be.visible');
+    cy.contains('60 Minutes', timeout).should('be.visible');
+    cy.contains('15 Minutes', timeout).click({force:true});
   });
 
   it('Daily satuan terkecil harian dan Hourly untuk satuan terkecil per-jam', () => {
@@ -75,7 +75,7 @@ describe('Report', () => {
 
   it('Report tampil berupa tabel di bawah form', () => {
     cy.get('[data-testid=submit-btn-report]').click({force:true});
-    cy.get('.ant-card-head-title', timeout).contains('Report Tinggi Air Kolam', timeout).should('be.visible');
+    cy.get('.ant-card-head-title', timeout).contains('Report APPLIKON MC#56', timeout).should('be.visible');
     cy.get('.ant-card-body', timeout).should('be.visible');
     cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
   });
@@ -96,11 +96,11 @@ describe('Report', () => {
     it('Hourly Report', () => {
       cy.get('.title', timeout).contains('REPORT');
       cy.get(':nth-child(1) > .ant-col-3 > .ant-row', timeout).contains('Device');
-      cy.get(':nth-child(2) > .ant-col-3 > .ant-row', timeout).contains('Indikator');
-      cy.get(':nth-child(3) > .ant-col-3 > .ant-row', timeout).contains('Periode');
+      cy.get(':nth-child(2) > .ant-col-3 > .ant-row', timeout).contains('Indicator');
+      cy.get(':nth-child(3) > .ant-col-3 > .ant-row', timeout).contains('Period');
       cy.get(':nth-child(4) > .ant-col-3 > .ant-row', timeout).contains('Interval');
       cy.get(':nth-child(5) > .ant-col-3 > .ant-row', timeout).contains('Statistic');
-      cy.get(':nth-child(6) > .ant-col-3 > .ant-row', timeout).contains('Waktu');
+      cy.get(':nth-child(6) > .ant-col-3 > .ant-row', timeout).contains('Time');
       // hourly
       cy.get('[data-testid="time-hour-report"] > [data-testid="label"]', timeout).click();
       cy.wait(1000);
@@ -114,7 +114,7 @@ describe('Report', () => {
       
       cy.get('[data-testid=submit-btn-report]').click({force:true});
       cy.wait(5000);
-      cy.get('.ant-card-head-title', timeout).contains('Report Tinggi Air Kolam', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report APPLIKON MC#56', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
       // check result
@@ -135,29 +135,29 @@ describe('Report', () => {
     it('Custom Date Report', () => {
       cy.get('.title', timeout).contains('REPORT');
       cy.get(':nth-child(1) > .ant-col-3 > .ant-row', timeout).contains('Device');
-      cy.get(':nth-child(2) > .ant-col-3 > .ant-row', timeout).contains('Indikator');
-      cy.get(':nth-child(3) > .ant-col-3 > .ant-row', timeout).contains('Periode');
+      cy.get(':nth-child(2) > .ant-col-3 > .ant-row', timeout).contains('Indicator');
+      cy.get(':nth-child(3) > .ant-col-3 > .ant-row', timeout).contains('Period');
       cy.get(':nth-child(4) > .ant-col-3 > .ant-row', timeout).contains('Interval');
       cy.get(':nth-child(5) > .ant-col-3 > .ant-row', timeout).contains('Statistic');
-      cy.get(':nth-child(6) > .ant-col-3 > .ant-row', timeout).contains('Waktu');
+      cy.get(':nth-child(6) > .ant-col-3 > .ant-row', timeout).contains('Time');
       // custom date
       cy.get('[data-testid="switch-period-btn"]', timeout).click();
       cy.wait(1000)
       cy.get('#report_form_period_by_date', timeout).click();
       cy.wait(1000)
-      cy.get('#report_form_period_by_date', timeout).type('2023-05-08');
+      cy.get('#report_form_period_by_date', timeout).type('2023-07-27');
       cy.wait(1000)
       cy.get(':nth-child(3) > input', timeout).click();
       cy.wait(1000)
-      cy.get(':nth-child(3) > input', timeout).type('2023-05-08{enter}');
+      cy.get(':nth-child(3) > input', timeout).type('2023-07-27{enter}');
       cy.wait(1000)
          
       cy.get('[data-testid=submit-btn-report]').click({force:true});
       cy.wait(5000);
-      cy.get('.ant-card-head-title', timeout).contains('Report Tinggi Air Kolam', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report APPLIKON MC#56', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
       cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
-      cy.contains('08-05-2023 08:00:00', timeout).should('be.visible');
+      cy.contains('27-07-2023 08:00:00', timeout).should('be.visible');
       /*
       //csv
       cy.get('[data-testid=download-report]', timeout).click();

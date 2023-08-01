@@ -5,7 +5,7 @@ var force = { force: true }
 
 describe('Alert', () => {
   before(() => {
-    cy.login('reviewer-wapres');
+    cy.login('reviewer');
   });
   
   beforeEach(() => {
@@ -76,12 +76,12 @@ describe('Alert', () => {
 
     it('Data', () => {
       cy.wait(3000);
-      cy.contains('Tem', timeout).should('be.visible');
-      cy.contains('Sensor Lingkungan 1', timeout).should('be.visible');
-      cy.contains('danger', timeout).should('be.visible');
-      cy.contains('Email - email', timeout).should('be.visible');
-      cy.contains('10 Menit', timeout).should('be.visible');
-      cy.contains('25/04/23 06:14:47', timeout).should('be.visible');
+      cy.contains('Alert Aerator to Email', timeout).should('be.visible');
+      cy.contains('AERATOR', timeout).should('be.visible');
+      cy.contains('Danger', timeout).should('be.visible');
+      cy.contains('Telegram Channel - telegram', timeout).should('be.visible');
+      cy.contains('10 Minutes', timeout).should('be.visible');
+      cy.contains('27/06/23 15:57:54', timeout).should('be.visible');
     });
     
     it.skip('Tambah Rules (Negative)', () => {
@@ -190,9 +190,9 @@ describe('Alert', () => {
 
     it('Data', () => {
       cy.wait(3000);
-      cy.contains('Email', timeout).should('exist');
-      cy.contains('email', timeout).should('exist');
-      cy.contains('25/04/2023 06:11:57', timeout).should('exist');
+      cy.contains('Telegram Channel', timeout).should('exist');
+      cy.contains('telegram', timeout).should('exist');
+      cy.contains('27/06/2023 16:25:45', timeout).should('exist');
     });
     
     describe.skip('Tambah Channel (Negative)', () => {

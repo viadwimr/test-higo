@@ -5,15 +5,16 @@ const timeout = { timeout: 6000 };
 const force = { force: true };
 const d = new Date();
 
-describe.skip('Trend', () => {
+describe('Trend', () => {
   before(() => {
-    cy.login('reviewer-wapres');
+    cy.login('reviewer');
   });
 
   beforeEach(() => {
     cy.visit('/');
     cy.get('.ant-menu-submenu-title', timeout).click();
     cy.contains('Trend', timeout).click();
+    cy.wait(5000);
   });
 
   it.skip('Tambah Grafik Trend (filter period)', () => {
@@ -219,36 +220,56 @@ describe.skip('Trend', () => {
       url: 'https://evomoapi.evomo.id/login',
       method: 'POST',
       body: {
-        password:	'paragon123',
-        username:	'eko.bsatriyo@pti-cosmetics.com',
+        password:	'password',
+        username:	'reviewer-ibr',
       },
     }).then((response) => {
           var bearerToken = response.body.data.access_token
           return cy.task('setValue', { key: 'bearerToken', value: bearerToken })
       })
     cy.task('getValue', { key: 'bearerToken' }).then((value) => {
-    cy.request({
-        url: 'https://evomoapi.evomo.id/analysis/ems/linechart?metric=usage&asset_ids=ParagonDevice1,ParagonDevice4&indicator=kelembapan&chart_type=linechart&statistic=sum&start_date=2023-06-05&end_date=2023-06-12&interval=6h&period=7&timezone=Asia/Jakarta',
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${value}`,
-          'x-authenticated-scope': 'admin',
-          'x-authenticated-userid': '60e2d3708408480011939a71',
-          'x-consumer-custom-id': '6062a288f5e4a30010484a3a',
-        }
-      }).then((response) => {         
-        expect(response.body.data.metric).to.deep.equal("usage")
-        expect(response.body.data.assets[0].asset_name).to.deep.equal("Paragon Device 1")
-        expect(response.body.data.assets[0].chart_type).to.deep.equal("linechart")
-        expect(response.body.data.assets[0].data.length).to.equal(3)
-        expect(response.body.data.date_times[0]).to.deep.equal("2022-06-05 06:00:00")
-        expect(response.body.data.assets[0].data[0].value).to.equal(0)
-        expect(response.body.data.date_times[1]).to.deep.equal("2022-06-05 07:00:00")
-        expect(response.body.data.assets[0].data[1].value).to.equal(0.32389766152679667)
-        expect(response.body.data.date_times[2]).to.deep.equal("2022-06-05 07:00:00")
-        expect(response.body.data.assets[0].data[2].value).to.equal(0.5191790342634245)
-        expect(response.body.data.metric).to.deep.equal("usage")
-        expect(response.body.data.unit).to.deep.equal("%")
+      var today = new Date()
+      today.setDate(today.getDate());
+      var lastWeek = new Date();
+      lastWeek.setDate(lastWeek.getDate() - 7);
+      function formatDate(date){
+        return [date.getFullYear(),('0'+(date.getMonth()+1)).slice(-2),('0'+date.getDate()).slice(-2)].join('-');
+      }
+      cy.request({
+          url: `https://evomoapi.evomo.id/analysis/ems/linechart?metric=usage&asset_ids=24E124136D056833,24E124136D056871,24E124136D056365&indicator=temperatur&chart_type=linechart&statistic=min&start_date=${formatDate(lastWeek)}&end_date=${formatDate(today)}&interval=1h&period=7&timezone=Asia/Jakarta`,
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'reviewer',
+            'x-authenticated-userid': '6499219756ae08171d10f6da',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => {         
+          expect(response.body.data.metric).to.deep.equal("usage")
+          expect(response.body.data.assets[0].asset_name).to.deep.equal("CRYSTALIZER NEW BUILDING")
+          expect(response.body.data.assets[1].asset_name).to.deep.equal("SUBSTATION-10")
+          expect(response.body.data.assets[2].asset_name).to.deep.equal("DCS WSA")
+          expect(response.body.data.assets[0].chart_type).to.deep.equal("linechart")
+          expect(response.body.data.assets.length).to.equal(3)
+          expect(response.body.data.date_times[0]).to.deep.equal(`${formatDate(lastWeek)} 07:00:00`)
+          expect(response.body.data.date_times[1]).to.deep.equal(`${formatDate(lastWeek)} 08:00:00`)
+          expect(response.body.data.unit).to.deep.equal("℃")
+
+          // temperatur
+          // device 1
+          const deviceCount = response.body.data.assets.length
+          var j=0
+          while (j < deviceCount) {
+            const dataCount = response.body.data.assets[j].data.length
+            expect(dataCount).to.be.greaterThan(167)
+            var i=0
+            while (i < dataCount) {
+              var dataValue = response.body.data.assets[j].data[i].value
+              expect(dataValue).to.be.greaterThan(0)
+              i++
+            }
+            j++
+          }
       })
     })
   });

@@ -4,7 +4,7 @@ var timeout = { timeout: 6000 }
 
 describe('Threshold', () => {
   before(() => {
-    cy.login('reviewer-wapres');
+    cy.login('reviewer');
   });
   
   describe('Threshold Utama', () => {
@@ -110,10 +110,10 @@ describe('Threshold', () => {
       cy.get(':nth-child(1) > label', timeout).eq(2).click({force:true});
       cy.get(':nth-child(2) > .ant-row > .ant-col-23 > form > :nth-child(1) > label', timeout)
         .click();
-      cy.get('#siaga_form_lower_limit', timeout).should('have.value','399');
-      cy.get('#siaga_form_upper_limit', timeout).should('have.value','1000');
-      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','400');
-      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','600');
+      cy.get('#siaga_form_lower_limit', timeout).should('have.value','0');
+      cy.get('#siaga_form_upper_limit', timeout).should('have.value','102');
+      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','17.5');
+      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','101');
     });
 
     it('Device 1 Indikator 2', () => {
@@ -121,10 +121,10 @@ describe('Threshold', () => {
       cy.get(':nth-child(1) > label', timeout).eq(2).click({force:true});
       cy.get(':nth-child(2) > .ant-row > .ant-col-23 > form > :nth-child(2) > label', timeout)
         .click();
-      cy.get('#siaga_form_lower_limit', timeout).should('have.value','-1');
-      cy.get('#siaga_form_upper_limit', timeout).should('have.value','0.1');
-      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','0');
-      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','0.05');
+      cy.get('#siaga_form_lower_limit', timeout).should('have.value','0');
+      cy.get('#siaga_form_upper_limit', timeout).should('have.value','100');
+      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','17.5');
+      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','82.5');
     });
 
     it('Device 2 Indikator 1', () => {
@@ -132,10 +132,10 @@ describe('Threshold', () => {
       cy.get(':nth-child(2) > label', timeout).eq(2).click({force:true});
       cy.get(':nth-child(2) > .ant-row > .ant-col-23 > form > :nth-child(1) > label', timeout)
         .click();
-      cy.get('#siaga_form_lower_limit', timeout).should('have.value','25');
-      cy.get('#siaga_form_upper_limit', timeout).should('have.value','121.5');
-      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','50');
-      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','107.325');
+      cy.get('#siaga_form_lower_limit', timeout).should('have.value','0');
+      cy.get('#siaga_form_upper_limit', timeout).should('have.value','102');
+      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','17.5');
+      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','101');
     });
 
     it('Device 2 Indikator 2', () => {
@@ -143,10 +143,10 @@ describe('Threshold', () => {
       cy.get(':nth-child(2) > label', timeout).eq(2).click({force:true});
       cy.get(':nth-child(2) > .ant-row > .ant-col-23 > form > :nth-child(2) > label', timeout)
         .click();
-      cy.get('#siaga_form_lower_limit', timeout).should('have.value','50');
-      cy.get('#siaga_form_upper_limit', timeout).should('have.value','651');
-      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','51');
-      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','650');
+      cy.get('#siaga_form_lower_limit', timeout).should('have.value','0');
+      cy.get('#siaga_form_upper_limit', timeout).should('have.value','100');
+      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','17.5');
+      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','81.5');
     });
   });
   
@@ -154,7 +154,7 @@ describe('Threshold', () => {
     beforeEach(() => {
       cy.visit('/setting-threshold');
       cy.get('.ant-select-selection-item', timeout).click();
-      cy.contains('Semua Sektor', timeout).click();
+      cy.contains('All Sector', timeout).click();
       cy.get(':nth-child(4) > label', timeout).click({force:true});
       cy.get(':nth-child(2) > .ant-row > .ant-col-23 > form > :nth-child(1) > label', timeout)
         .click();
@@ -214,22 +214,23 @@ describe('Threshold', () => {
       cy.visit('/setting-threshold');
       cy.get('.ant-select-selection-item', timeout).click();
       cy.wait(1000);
-      cy.contains('Semua Sektor', timeout).click();
+      cy.contains('All Sectors', timeout).click();
     });
   
     it('Sorting List Parameter', () => {
       cy.wait(1000);
-      cy.get('form > :nth-child(1) > label', timeout).contains('Sensor Lingkungan 1');
-      cy.get('form > :nth-child(2) > label', timeout).contains('Tinggi Air Chamber');
-      cy.get('form > :nth-child(3) > label', timeout).contains('Tinggi Air Kolam');
+      cy.get('form > :nth-child(1) > label', timeout).contains('AERATOR');
+      cy.get('form > :nth-child(2) > label', timeout).contains('AHP-CHP');
+      cy.get('form > :nth-child(3) > label', timeout).contains('APPLIKON MC#7');
     });
 
     it('Sorting List Indicator', () => {
       cy.get(':nth-child(2) > .ant-select-tree-node-content-wrapper', timeout).click();
       cy.wait(3000);
       cy.get('form > :nth-child(2) > label', timeout).click();
-      cy.contains('Battery', timeout).should('be.visible');
-      cy.contains('Distance', timeout).should('be.visible');
+      cy.contains('1. Battery (%)', timeout).should('be.visible');
+      cy.contains('2. Humidity (%)', timeout).should('be.visible');
+      cy.contains('3. Temperature (℃)', timeout).should('be.visible');
     });
   });
   
@@ -238,19 +239,19 @@ describe('Threshold', () => {
       cy.visit('/setting-threshold');
       cy.get('.ant-select-selection-item', timeout).click();
       cy.wait(3000);
-      cy.contains('Semua Sektor', timeout).click();
+      cy.contains('All Sector', timeout).click();
       cy.get('.ant-input-affix-wrapper', timeout).eq(1).type('1');
       cy.get('.ant-input-suffix', timeout).eq(1).click();
-      cy.get('.ant-input-affix-wrapper', timeout).eq(1).type('aqua');
+      cy.get('.ant-input-affix-wrapper', timeout).eq(1).type('ancilliary');
     });
   
     it('Search List Sector', () => {
-      cy.get('.ant-select-tree-list-holder-inner > :nth-child(1)', timeout).contains('Semua Sektor');
-      cy.get('.ant-select-tree-treenode-leaf-last > .ant-select-tree-node-content-wrapper', timeout).contains('Wapres Aquaponics');
+      cy.get('.ant-select-tree-list-holder-inner > :nth-child(1)', timeout).contains('All Sector');
+      cy.get('.ant-select-tree-treenode-leaf-last > .ant-select-tree-node-content-wrapper', timeout).contains('ANCILLIARY');
       cy.wait(1000);
       cy.get('.ant-input-affix-wrapper', timeout).eq(1).clear().type('random');
       cy.wait(1000);
-      cy.get('.ant-select-dropdown', timeout).should('not.contain','Wapres Aquaponics');
+      cy.get('.ant-select-dropdown', timeout).should('not.contain','ANCILLIARY');
       cy.wait(1000);
       cy.get('.ant-input-affix-wrapper', timeout).eq(1).clear();
       cy.wait(1000);
@@ -259,22 +260,19 @@ describe('Threshold', () => {
     it('Filter Sector', () => {
       cy.get('.ant-select-tree-treenode-leaf-last > .ant-select-tree-node-content-wrapper', timeout).click();
       cy.wait(3000);
-      cy.get('form > :nth-child(1) > label', timeout).contains('Sensor Lingkungan 1');
-      cy.get(':nth-child(2) > label', timeout).contains('Tinggi Air Chamber');
-      cy.get(':nth-child(3) > label', timeout).contains('Tinggi Air Kolam');
+      cy.get('form > :nth-child(1) > label', timeout).contains('DCS WSA');
+      cy.get(':nth-child(2) > label', timeout).contains('OPERATOR ROOM WSA');;
     });
 
     it('Search List Device', () => {
       cy.get('.ant-select-tree-treenode-leaf-last > .ant-select-tree-node-content-wrapper', timeout).click();
       cy.wait(3000);
-      cy.get('.ant-input-affix-wrapper', timeout).eq(0).type('air');
-      cy.get('form > :nth-child(1) > label', timeout).contains('Tinggi Air Chamber');
-      cy.get('form > :nth-child(2) > label', timeout).contains('Tinggi Air Kolam');
-      cy.contains('Sensor Lingkungan 1', timeout).should('not.exist');
+      cy.get('.ant-input-affix-wrapper', timeout).eq(0).type('room');
+      cy.get('form > :nth-child(1) > label', timeout).contains('OPERATOR ROOM WSA');
+      cy.contains('DCS WSA', timeout).should('not.exist');
       cy.get('[style="display: flex; justify-content: space-between;"] > .ant-input-affix-wrapper > .ant-input-suffix > .ant-input-clear-icon > .anticon > svg', timeout).eq(0).click({force:true});
-      cy.get('form > :nth-child(1) > label', timeout).contains('Sensor Lingkungan 1');
-      cy.get(':nth-child(2) > label', timeout).contains('Tinggi Air Chamber');
-      cy.get(':nth-child(3) > label', timeout).contains('Tinggi Air Kolam');
+      cy.get('form > :nth-child(1) > label', timeout).contains('DCS WSA');
+      cy.get(':nth-child(2) > label', timeout).contains('OPERATOR ROOM WSA');
     });
   });
 });
