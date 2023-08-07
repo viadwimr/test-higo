@@ -92,6 +92,93 @@ describe('Report', () => {
     cy.contains('Download Berhasil!', timeout).should('be.visible');
   });
 
+  it('Data Routine Check', () => {
+    // check routine data   
+    cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+      var today = new Date()
+      today.setDate(today.getDate());
+      var lastWeek = new Date();
+      lastWeek.setDate(lastWeek.getDate() - 7);
+      function formatDate(date){
+        return [date.getFullYear(),('0'+(date.getMonth()+1)).slice(-2),('0'+date.getDate()).slice(-2)].join('-');
+      }
+      cy.request({
+        url: `https://evomoapi.evomo.id/report?interval_data=15&indicator=temperatur&date_start=2023-08-04&date_end=${formatDate(today)}&time_zone=Asia/Jakarta&in_csv=true&waktu=daily&statistic=SUM`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${value}`,
+          'x-authenticated-scope': 'reviewer',
+          'x-authenticated-userid': '6499219756ae08171d10f6da',
+          'x-consumer-custom-id': '6481529216833b00104783e4',
+        }
+      }).then((response) => { 
+        // Sum
+        let value0Minutes = [":00:00,Temperature,0.00"]
+        let value15Minutes = [":15:00,Temperature,0.00"]
+        let value30Minutes = [":30:00,Temperature,0.00"]
+        let value45Minutes = [":45:00,Temperature,0.00"]
+        let responseString = response.body.toString();
+
+        // temperatur
+        value0Minutes.forEach(value0Minute => {
+          if(responseString.includes(value0Minute)) {
+            value15Minutes.forEach(value15Minute => {
+              expect(responseString.includes(value15Minute)).to.be.false
+            })
+            value30Minutes.forEach(value30Minute => {
+              expect(responseString.includes(value30Minute)).to.be.false
+            })
+            value45Minutes.forEach(value45Minute => {
+              expect(responseString.includes(value45Minute)).to.be.false
+            })
+          } else {
+            value15Minutes.forEach(value15Minute => {
+              if(responseString.includes(value15Minute)) {
+                value0Minutes.forEach(value0Minute => {
+                  expect(responseString.includes(value0Minute)).to.be.false
+                })
+                value30Minutes.forEach(value30Minute => {
+                  expect(responseString.includes(value30Minute)).to.be.false
+                })
+                value45Minutes.forEach(value45Minute => {
+                  expect(responseString.includes(value45Minute)).to.be.false
+                })
+              } else {
+                value30Minutes.forEach(value30Minute => {
+                  if(responseString.includes(value30Minute)) {
+                    value0Minutes.forEach(value0Minute => {
+                      expect(responseString.includes(value0Minute)).to.be.false
+                    })
+                    value15Minutes.forEach(value15Minute => {
+                      expect(responseString.includes(value15Minute)).to.be.false
+                    })
+                    value45Minutes.forEach(value45Minute => {
+                      expect(responseString.includes(value45Minute)).to.be.false
+                    })
+                  } else {
+                    value45Minutes.forEach(value45Minute => {
+                      if(responseString.includes(value45Minute)) {
+                        value0Minutes.forEach(value0Minute => {
+                          expect(responseString.includes(value0Minute)).to.be.false
+                        })
+                        value30Minutes.forEach(value30Minute => {
+                          expect(responseString.includes(value30Minute)).to.be.false
+                        })
+                        value15Minutes.forEach(value15Minute => {
+                          expect(responseString.includes(value15Minute)).to.be.false
+                        })
+                      }
+                    })
+                  }
+                })
+              }
+            })
+          }
+        })
+      })
+    })
+  })
+
   describe('Generate Report', () => {
     it('Hourly Report', () => {
       cy.get('.title', timeout).contains('REPORT');
