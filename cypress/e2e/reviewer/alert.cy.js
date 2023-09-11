@@ -1,4 +1,4 @@
-/// <reference types="Cypress" />
+///<reference types="Cypress" />
 
 var timeout = { timeout: 6000 }
 var force = { force: true }
@@ -76,12 +76,12 @@ describe('Alert', () => {
 
     it('Data', () => {
       cy.wait(3000);
-      cy.contains('Alert Aerator to Email', timeout).should('be.visible');
-      cy.contains('AERATOR', timeout).should('be.visible');
+      cy.contains('Warning test', timeout).should('be.visible');
+      cy.contains('AHP-CHP', timeout).should('be.visible');
       cy.contains('Danger', timeout).should('be.visible');
-      cy.contains('Telegram Channel - telegram', timeout).should('be.visible');
+      cy.contains("Asrul's Channel - email", timeout).should('be.visible');
       cy.contains('10 Minutes', timeout).should('be.visible');
-      cy.contains('27/06/23 15:57:54', timeout).should('be.visible');
+      cy.contains('14/08/23 15:44:46', timeout).should('be.visible');
     });
     
     it.skip('Tambah Rules (Negative)', () => {
