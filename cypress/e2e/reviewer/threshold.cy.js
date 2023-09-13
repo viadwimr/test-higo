@@ -121,10 +121,10 @@ describe('Threshold', () => {
       cy.get(':nth-child(1) > label', timeout).eq(2).click({force:true});
       cy.get(':nth-child(2) > .ant-row > .ant-col-23 > form > :nth-child(2) > label', timeout)
         .click();
-      cy.get('#siaga_form_lower_limit', timeout).should('have.value','0');
-      cy.get('#siaga_form_upper_limit', timeout).should('have.value','100');
-      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','17.5');
-      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','82.5');
+      cy.get('#siaga_form_lower_limit', timeout).should('have.value','30');
+      cy.get('#siaga_form_upper_limit', timeout).should('have.value','85');
+      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','45');
+      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','65');
     });
 
     it('Device 2 Indikator 1', () => {
@@ -132,9 +132,9 @@ describe('Threshold', () => {
       cy.get(':nth-child(2) > label', timeout).eq(2).click({force:true});
       cy.get(':nth-child(2) > .ant-row > .ant-col-23 > form > :nth-child(1) > label', timeout)
         .click();
-      cy.get('#siaga_form_lower_limit', timeout).should('have.value','0');
+      cy.get('#siaga_form_lower_limit', timeout).should('have.value','10');
       cy.get('#siaga_form_upper_limit', timeout).should('have.value','102');
-      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','17.5');
+      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','20');
       cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','101');
     });
 
@@ -143,10 +143,10 @@ describe('Threshold', () => {
       cy.get(':nth-child(2) > label', timeout).eq(2).click({force:true});
       cy.get(':nth-child(2) > .ant-row > .ant-col-23 > form > :nth-child(2) > label', timeout)
         .click();
-      cy.get('#siaga_form_lower_limit', timeout).should('have.value','0');
-      cy.get('#siaga_form_upper_limit', timeout).should('have.value','100');
-      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','17.5');
-      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','81.5');
+      cy.get('#siaga_form_lower_limit', timeout).should('have.value','30');
+      cy.get('#siaga_form_upper_limit', timeout).should('have.value','85');
+      cy.get('#siaga_form_warning_lower_limit', timeout).should('have.value','45');
+      cy.get('#siaga_form_warning_upper_limit', timeout).should('have.value','65');
     });
   });
   
@@ -230,7 +230,7 @@ describe('Threshold', () => {
       cy.get('form > :nth-child(2) > label', timeout).click();
       cy.contains('1. Battery (%)', timeout).should('be.visible');
       cy.contains('2. Humidity (%)', timeout).should('be.visible');
-      cy.contains('3. Temperature (℃)', timeout).should('be.visible');
+      cy.contains('3. Temperature (°C)', timeout).should('be.visible');
     });
   });
   
@@ -260,8 +260,8 @@ describe('Threshold', () => {
     it('Filter Sector', () => {
       cy.get('.ant-select-tree-treenode-leaf-last > .ant-select-tree-node-content-wrapper', timeout).click();
       cy.wait(3000);
-      cy.get('form > :nth-child(1) > label', timeout).contains('DCS WSA');
-      cy.get(':nth-child(2) > label', timeout).contains('OPERATOR ROOM WSA');;
+      cy.get('form > :nth-child(2) > label', timeout).contains('DCS WSA');
+      cy.get(':nth-child(3) > label', timeout).contains('OPERATOR ROOM WSA');;
     });
 
     it('Search List Device', () => {
@@ -271,8 +271,8 @@ describe('Threshold', () => {
       cy.get('form > :nth-child(1) > label', timeout).contains('OPERATOR ROOM WSA');
       cy.contains('DCS WSA', timeout).should('not.exist');
       cy.get('[style="display: flex; justify-content: space-between;"] > .ant-input-affix-wrapper > .ant-input-suffix > .ant-input-clear-icon > .anticon > svg', timeout).eq(0).click({force:true});
-      cy.get('form > :nth-child(1) > label', timeout).contains('DCS WSA');
-      cy.get(':nth-child(2) > label', timeout).contains('OPERATOR ROOM WSA');
+      cy.get('form > :nth-child(2) > label', timeout).contains('DCS WSA');
+      cy.get(':nth-child(3) > label', timeout).contains('OPERATOR ROOM WSA');
     });
   });
 });

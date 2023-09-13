@@ -20,43 +20,43 @@ pipeline {
             def hour = now.getHours()
             def day = now.getDay()
             println hour
-            if(JOB_NAME == 'EMS_IBR' && day == 0 && hour == 2) {
+            if(JOB_NAME == 'ems/EMS_IBR' && day == 0 && hour == 2) {
               filename = "Device (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/device.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 0 && hour == 14) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 0 && hour == 14) {
               filename = "Dashboard (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/dashboard.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 1 && hour == 2) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 1 && hour == 2) {
               filename = "Alert (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/alert.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 1 && hour == 14) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 1 && hour == 14) {
               filename = "Forgot Password (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/forgot-password.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 2 && hour == 2) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 2 && hour == 2) {
               filename = "Forgot Username (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/forgot-username.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 2 && hour == 14) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 2 && hour == 14) {
               filename = "Login (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/login.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 3 && hour == 2) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 3 && hour == 2) {
               filename = "Report (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/report.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 3 && hour == 14) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 3 && hour == 14) {
               filename = "Sign Out (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/sign-out.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 4 && hour == 2) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 4 && hour == 2) {
               filename = "Threshold (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/threshold.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 4 && hour == 14) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 4 && hour == 14) {
               filename = "User Profile (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/user-profile.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 5 && hour == 2) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 5 && hour == 2) {
               filename = "User (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/user.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 5 && hour == 14) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 5 && hour == 14) {
               filename = "Indicator (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/indicator.cy.js' --env allure=true"
-            } else if(JOB_NAME == 'EMS_IBR' && day == 6 && hour == 2) {
+            } else if(JOB_NAME == 'ems/EMS_IBR' && day == 6 && hour == 2) {
               filename = "Trend (Reviewer)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/reviewer/trend.cy.js' --env allure=true"
             }
