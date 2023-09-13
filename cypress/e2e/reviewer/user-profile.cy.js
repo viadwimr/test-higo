@@ -23,7 +23,7 @@ describe('User Profile dan Logout', () => {
     cy.get(':nth-child(2) > .menu-content__btn-edit', timeout).click();
     cy.get('#profile_form_firstName', timeout).clear().type('Test');
     cy.get('.ant-btn', timeout).click();
-    cy.contains('Berhasil disimpan', timeout).should('be.visible');
+    cy.contains('Save success', timeout).should('be.visible');
     cy.reload();
     cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
@@ -33,7 +33,7 @@ describe('User Profile dan Logout', () => {
     cy.get(':nth-child(8) > .menu-content__btn-edit', timeout).click();
     cy.get('#email', timeout).clear().type('test.qa_telkom@denso.com');
     cy.get('.ant-btn', timeout).click();
-    cy.contains('Berhasil disimpan', timeout).should('be.visible');
+    cy.contains('Save success', timeout).should('be.visible');
     cy.reload();
     cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
@@ -41,7 +41,7 @@ describe('User Profile dan Logout', () => {
     cy.get(':nth-child(10) > .menu-content__btn-edit', timeout).click();
     cy.get('#phone', timeout).clear().type('01234567890');
     cy.get('.ant-btn', timeout).click();
-    cy.contains('Berhasil disimpan', timeout).should('be.visible');
+    cy.contains('Save success', timeout).should('be.visible');
   });
 
   it('Edit Informasi Akun', () => {
@@ -52,7 +52,7 @@ describe('User Profile dan Logout', () => {
     cy.get(':nth-child(2) > .menu-content__btn-edit', timeout).click();
     cy.get('#profile_form_firstName', timeout).clear().type('Reviewer Evomo IBR');
     cy.get('.ant-btn', timeout).click();
-    cy.contains('Berhasil disimpan', timeout).should('be.visible');
+    cy.contains('Save success', timeout).should('be.visible');
     cy.reload();
     cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();
@@ -60,14 +60,14 @@ describe('User Profile dan Logout', () => {
     // cy.get('#email', timeout).clear().type('muhamad.bahri.a3@ap.denso.com');
     cy.get('#email', timeout).clear().type('mviadwi@gmail.com');
     cy.get('.ant-btn', timeout).click();
-    cy.contains('Berhasil disimpan', timeout).should('be.visible');
+    cy.contains('Save success', timeout).should('be.visible');
     cy.reload();
     cy.get(':nth-child(2) > .ant-dropdown-trigger', timeout).click();
     cy.get('.ant-dropdown-menu-title-content', timeout).eq(0).click();;
     cy.get(':nth-child(10) > .menu-content__btn-edit', timeout).click();
     cy.get('#phone', timeout).clear().type('085221971010');
     cy.get('.ant-btn', timeout).click();
-    cy.contains('Berhasil disimpan', timeout).should('be.visible');
+    cy.contains('Save success', timeout).should('be.visible');
 
     // edit foto profil
     // edit telegram
