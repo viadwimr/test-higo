@@ -18,14 +18,14 @@ describe('User', () => {
       cy.get('[aria-label="Created Date"] > .ant-table-column-sorters > .ant-table-column-title', timeout).contains('Created Date');
       cy.get('.ant-table-thead > tr > :nth-child(6)', timeout).should('be.visible');
       // Data
-      cy.contains('Agus Rifai', timeout).should('be.visible');
-      cy.contains('agus.rifai@adityabirla.com', timeout).should('be.visible');
-      cy.contains('admin', timeout).should('be.visible');
-      cy.contains('18 Jul 2023 - 16:16:41', timeout).should('be.visible');
-      cy.contains('Andriansyach', timeout).should('be.visible');
-      cy.contains('andri.syach@adityabirla.com', timeout).should('be.visible');
+      cy.contains('Abdul Rachman', timeout).should('be.visible');
+      cy.contains('abdul.rachman@adityabirla.com', timeout).should('be.visible');
       cy.contains('operator', timeout).should('be.visible');
+      cy.contains('01 Sep 2023 - 14:36:27', timeout).should('be.visible');
+      cy.contains('Ace Suryana', timeout).should('be.visible');
+      cy.contains('ace.suryana@adityabirla.com', timeout).should('be.visible');
       cy.contains('engineering', timeout).should('be.visible');
+      cy.contains('01 Sep 2023 - 14:06:37', timeout).should('be.visible');
     });
 
     it.skip('Menampilkan Form Tambah User bagian Profile', () => {
