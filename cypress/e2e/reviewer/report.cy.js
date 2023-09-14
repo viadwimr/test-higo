@@ -93,6 +93,17 @@ describe('Report', () => {
   });
 
   it('Data Routine Check', () => {
+    cy.request({
+      url: 'https://evomoapi.evomo.id/login',
+      method: 'POST',
+      body: {
+        password:	'password',
+        username:	'reviewer-ibr',
+      },
+    }).then((response) => {
+      var bearerToken = response.body.data.access_token
+      return cy.task('setValue', { key: 'bearerToken', value: bearerToken })
+    })
     // check routine data   
     cy.task('getValue', { key: 'bearerToken' }).then((value) => {
       var today = new Date()
@@ -103,7 +114,7 @@ describe('Report', () => {
         return [date.getFullYear(),('0'+(date.getMonth()+1)).slice(-2),('0'+date.getDate()).slice(-2)].join('-');
       }
       cy.request({
-        url: `https://evomoapi.evomo.id/report?interval_data=15&indicator=temperatur&date_start=2023-08-04&date_end=${formatDate(today)}&time_zone=Asia/Jakarta&in_csv=true&waktu=daily&statistic=SUM`,
+        url: `https://evomoapi.evomo.id/report?interval_data=15&indicator=temperatur&date_start=${formatDate(lastWeek)}&date_end=${formatDate(today)}&time_zone=Asia/Jakarta&in_csv=true&waktu=daily&statistic=SUM`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${value}`,
