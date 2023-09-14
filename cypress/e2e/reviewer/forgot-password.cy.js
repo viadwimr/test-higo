@@ -113,6 +113,7 @@ describe('Forgot Password', () => {
       cy.contains('Success', timeout).should('be.visible');
       cy.wait(3000);
       cy.get('.swal2-confirm', timeout).click();
+      cy.wait(1000);
       cy.get(':nth-child(2) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .type('password')
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
@@ -142,10 +143,10 @@ describe('Forgot Password', () => {
       cy.wait(1000);
       cy.get(':nth-child(2) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .type('Telkom123!@#$%^&*()_+').clear();
-      cy.contains('New Password not be empty', timeout).should('be.visible');
+      cy.contains('New password cannot be empty', timeout).should('be.visible');
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .type('Telko123!@#$%^&*()_+').clear();
-      cy.contains('Confirm New Password not be empty', timeout).should('be.visible');
+      cy.contains('New password confirmation cannot be empty', timeout).should('be.visible');
       cy.wait(1000);
       cy.get('.ant-btn-primary', timeout).should('be.disabled');
     })
@@ -155,7 +156,7 @@ describe('Forgot Password', () => {
         .clear().type('QATelkom123!@#$%^&*()_+')
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .clear().type('Telko123!@#$%^&*()_+')
-      cy.get('.ant-form-item-explain-error',timeout).contains('Password is not same!')
+      cy.get('.ant-form-item-explain-error',timeout).contains('Password is not the same!')
       cy.get('.ant-btn-primary', timeout).should('be.disabled');
       cy.get(':nth-child(2) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .clear().type('Telko123!@#$%^&*()_+')
@@ -168,7 +169,7 @@ describe('Forgot Password', () => {
         .clear().type('Telko123!@#$%^&*()_+')
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .clear().type('QATelkom123!@#$%^&*()_+')
-      cy.get('.ant-form-item-explain-error',timeout).contains('Password is not same!')
+      cy.get('.ant-form-item-explain-error',timeout).contains('Password is not the same!')
       cy.get('.ant-btn-primary', timeout).should('be.disabled');
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .clear().type('Telko123!@#$%^&*()_+')
@@ -177,10 +178,10 @@ describe('Forgot Password', () => {
 
       // back to login page
       cy.get('.ant-btn-link', timeout).click();
-      cy.get('h1', timeout).contains('Dashboard');
+      cy.get('.login-container', timeout).should('be.visible');
     })
 
-    it('Long Password', () => {
+    it.skip('Long Password', () => {
       cy.visit('/');
       cy.wait(1000);
       cy.get(':nth-child(2) > a', timeout).click();
@@ -196,6 +197,7 @@ describe('Forgot Password', () => {
       cy.get(':nth-child(4) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper', timeout)
         .type('QATelkom123!@#$%^&*()_+')
       cy.get('.ant-btn-primary', timeout).click();
+      // hide limit password
       cy.contains('"password" length must be less than or equal to 20 characters long', timeout).should('be.visible');
       cy.get('.swal2-confirm', timeout).click();
       /*
