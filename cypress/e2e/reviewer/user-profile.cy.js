@@ -79,7 +79,7 @@ describe('User Profile dan Logout', () => {
     cy.get('#change_password_form_old_password', timeout).clear().type('password');
     cy.get('#change_password_form_new_password', timeout).type('password-test');
     cy.get('#change_password_form_confirm_password', timeout).type('password-test.');
-    cy.get('.ant-show-help-item-appear', timeout).contains('The password is incorrect!')
+    cy.get('.ant-form-item-explain-error', timeout).contains('The password is incorrect!')
     cy.get('#change_password_form_confirm_password', timeout).clear().type('password-test');
     cy.get('.ant-btn', timeout).click();
     cy.contains('Success', timeout).should('be.visible');
