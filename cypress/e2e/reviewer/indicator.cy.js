@@ -54,7 +54,7 @@ describe('Indicator', () => {
     it('Temperature', () => {
       cy.get('form > :nth-child(3) > label', timeout).click({ force: true });
       cy.get('#indikator_form_sensor_name', timeout).should('have.value', 'Temperature');
-      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', '℃');
+      cy.get('#indikator_form_sensor_unit', timeout).should('have.value', '°C');
       cy.get('#indikator_form_min_valid', timeout).should('have.value', '0');
       cy.get('#indikator_form_max_valid', timeout).should('have.value', '100');
     });
@@ -128,7 +128,7 @@ describe('Indicator', () => {
     it('Sorting List Indicator', () => {
       cy.get('form > :nth-child(1) > label').contains('1. Battery (%)', timeout).should('be.visible');
       cy.get('form > :nth-child(2) > label').contains('2. Humidity (%)', timeout).should('be.visible');
-      cy.get('form > :nth-child(3) > label').contains('3. Temperature (℃)', timeout).should('be.visible');
+      cy.get('form > :nth-child(3) > label').contains('3. Temperature (°C)', timeout).should('be.visible');
       
     });
   });
