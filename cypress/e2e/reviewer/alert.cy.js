@@ -79,7 +79,7 @@ describe('Alert', () => {
       cy.contains('Warning test', timeout).should('be.visible');
       cy.contains('AHP-CHP', timeout).should('be.visible');
       cy.contains('Danger', timeout).should('be.visible');
-      cy.contains("Asrul's Channel - email", timeout).should('be.visible');
+      cy.contains("E-Andriansyach - email", timeout).should('be.visible');
       cy.contains('10 Minutes', timeout).should('be.visible');
       cy.contains('14/08/23 15:44:46', timeout).should('be.visible');
     });
