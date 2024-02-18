@@ -103,10 +103,11 @@ describe('Threshold', () => {
     beforeEach(() => {
       cy.visit('/');
       cy.contains('Threshold', timeout).click();
+      cy.wait(3000);
     });
 
     it('Device 1 Indikator 1', () => {
-      cy.wait(3000);
+      cy.wait(5000);
       cy.get(':nth-child(1) > label', timeout).eq(2).click({force:true});
       cy.get(':nth-child(2) > .ant-row > .ant-col-23 > form > :nth-child(1) > label', timeout)
         .click();
@@ -240,7 +241,7 @@ describe('Threshold', () => {
       cy.get('.ant-select-selection-item', timeout).click();
       cy.wait(3000);
       cy.contains('All Sector', timeout).click();
-      cy.get('.ant-input-affix-wrapper', timeout).eq(1).type('1');
+      cy.get('.ant-input-affix-wrapper', timeout).eq(1).type('#');
       cy.get('.ant-input-suffix', timeout).eq(1).click();
       cy.get('.ant-input-affix-wrapper', timeout).eq(1).type('ancilliary');
     });
