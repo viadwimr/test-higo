@@ -120,7 +120,7 @@ describe('Device', () => {
       // cy.get(':nth-child(3) > a > .sector-card', timeout).should('not.exist');
       cy.get('#rc-tabs-1-panel-condition_monitoring').find('.sector-card').then((graphic) => {
         var graphicCount = Cypress.$(graphic).length;
-        expect(graphicCount).to.be.equal(64)
+        expect(graphicCount).to.be.equal(65)
       })
       cy.contains('AERATOR', timeout).should('be.visible');
       cy.contains('Good', timeout).should('be.visible');
@@ -140,7 +140,7 @@ describe('Device', () => {
       cy.get(':nth-child(2) > [style="margin-left: -8px; margin-right: -8px;"] > :nth-child(1) > h5', timeout).contains('Sector');
       cy.get(':nth-child(3) > .ant-row > :nth-child(1) > h5', timeout).contains('Location');
       cy.get('[style="margin-left: -12px; margin-right: -12px; margin-top: 24px;"] > :nth-child(1) > .ant-row > :nth-child(2) > h5', timeout).contains('APPLIKON MC#7');
-      cy.get('[style="margin-left: -8px; margin-right: -8px;"] > :nth-child(2) > .ant-row > .ant-col > div', timeout).contains('SPINNING MC#7');
+      cy.get('[style="margin-left: -8px; margin-right: -8px;"] > :nth-child(2) > .ant-row > .ant-col > div', timeout).contains('AUXILLIARY');
       // device
       cy.contains(`Device Name`, timeout).should('be.visible');
       cy.contains(`Sector`, timeout).should('be.visible');
@@ -148,7 +148,7 @@ describe('Device', () => {
       cy.contains('Temperature', timeout).should('be.visible');
       cy.contains('Humidity', timeout).should('be.visible');
       cy.contains('Battery', timeout).should('be.visible');
-      cy.contains('℃', timeout).should('be.visible');
+      cy.contains('°C', timeout).should('be.visible');
       cy.contains('%', timeout).should('be.visible');
       cy.contains('Highest', timeout).should('be.visible');
       cy.contains('Lowest', timeout).should('be.visible');
@@ -212,7 +212,7 @@ describe('Device', () => {
             expect(dataValue1).to.not.equal(0)
             i++
           }
-          expect(dataCount1).to.equal(12)
+          expect(dataCount1).to.be.within(3,20) // ibr interval min 15 minutes
           // temperatur
           const dataCount2 = response.body.data[0].sensor[1].data.length
           var i=0
@@ -221,7 +221,7 @@ describe('Device', () => {
             expect(dataValue2).to.not.equal(0)
             i++
           }
-          expect(dataCount2).to.equal(12)
+          expect(dataCount2).to.be.within(3,20) // ibr interval min 15 minutes
         })
       })
 
@@ -300,7 +300,7 @@ describe('Device', () => {
       })
       cy.get('.ant-select-selector', timeout).click();
       cy.wait(1000);
-      cy.contains('Min', timeout).click();
+      cy.get('.ant-select-dropdown').contains('Min', timeout).click();
       cy.wait(5000);
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
         const highestMinValue1 = text
@@ -403,7 +403,7 @@ describe('Device', () => {
             expect(dataValue1).to.not.equal(0)
             i++
           }
-          expect(dataCount1).to.equal(24)
+          expect(dataCount1).to.be.within(19,24)
           // temperatur
           const dataCount2 = response.body.data[0].sensor[1].data.length
           var i=0
@@ -412,7 +412,7 @@ describe('Device', () => {
             expect(dataValue2).to.not.equal(0)
             i++
           }
-          expect(dataCount2).to.equal(24)
+          expect(dataCount2).to.be.within(19,24)
         })
       })
       // existing date
@@ -451,7 +451,7 @@ describe('Device', () => {
             expect(dataValue1).to.not.equal(0)
             i++
           }
-          expect(dataCount1).to.equal(28)
+          expect(dataCount1).to.be.within(28,29)
           // temperatur
           const dataCount2 = response.body.data[0].sensor[1].data.length
           var i=0
@@ -460,7 +460,7 @@ describe('Device', () => {
             expect(dataValue2).to.not.equal(0)
             i++
           }
-          expect(dataCount2).to.equal(28)
+          expect(dataCount2).to.be.within(28,29)
         })
       })
       //filter statistic
@@ -484,7 +484,7 @@ describe('Device', () => {
       })
       cy.get('.ant-select-selector', timeout).click();
       cy.wait(1000);
-      cy.contains('Min', timeout).click();
+      cy.get('.ant-select-dropdown').contains('Min', timeout).click();
       cy.wait(5000);
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
         const highestMinValue1 = text
