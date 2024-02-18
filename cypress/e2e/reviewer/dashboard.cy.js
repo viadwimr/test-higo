@@ -111,7 +111,7 @@ describe('Dashboard', () => {
       })
       cy.get('.ant-select-selector', timeout).click();
       cy.wait(1000);
-      cy.contains('Min', timeout).click();
+      cy.get('.ant-select-dropdown').contains('Min', timeout).click();
       cy.wait(5000);
       cy.get('body').find(`.ant-col-md-3 > :nth-child(2)`).invoke('text').then((text) => {
         const highestMinValue1 = text
