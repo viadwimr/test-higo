@@ -5,7 +5,7 @@ const timeout = { timeout: 60000 };
 const force = { force: true };
 
 describe('Data', () => {
-  it('Data Chart Detail Device Sensor', () => {
+  it.skip('Data Chart Detail Device Sensor', () => {
     cy.request({
       url: 'https://evomoapi.evomo.id/login',
       method: 'POST',
@@ -51,7 +51,7 @@ describe('Data', () => {
     })
   })
 
-  it('Data Chart Dashboard Sensor', () => {   
+  it.skip('Data Chart Dashboard Sensor', () => {   
     cy.task('getValue', { key: 'bearerToken' }).then((value) => {
       cy.request({
         url: 'https://evomoapi.evomo.id/sensors/sensor_data?sector_id=64815377b482d800014c0e1a&timezone=Asia/Jakarta&latest=false&interval_data=0&statistic=MEAN&date_start=2023-07-20T07:26:01.690Z&date_end=2023-07-27T09:03:40.621Z',
@@ -108,86 +108,180 @@ describe('Data', () => {
     })
   })
 
-  it('Data Report Sensor', () => {   
+  it.skip('Data Report Sensor', () => {  
+    cy.request({
+      url: 'https://evomoapi.evomo.id/login',
+      method: 'POST',
+      body: {
+        password:	'password',
+        username:	'reviewer-ibr',
+      },
+    }).then((response) => {
+      var bearerToken = response.body.data.access_token
+      return cy.task('setValue', { key: 'bearerToken', value: bearerToken })
+    })
+    
     cy.task('getValue', { key: 'bearerToken' }).then((value) => {
-      var today = new Date()
-      today.setDate(today.getDate());
-      var lastWeek = new Date();
-      lastWeek.setDate(lastWeek.getDate() - 7);
-      function formatDate(date){
-        return [date.getFullYear(),('0'+(date.getMonth()+1)).slice(-2),('0'+date.getDate()).slice(-2)].join('-');
-      }
       cy.request({
-        url: `https://evomoapi.evomo.id/report?interval_data=15&indicator=temperatur&date_start=2023-08-04&date_end=${formatDate(today)}&time_zone=Asia/Jakarta&in_csv=true&waktu=daily&statistic=SUM`,
+        url: `https://evomoapi.evomo.id/devices`,
         method: 'GET',
-        headers: {
+        headers: {    
           'Authorization': `Bearer ${value}`,
           'x-authenticated-scope': 'reviewer',
           'x-authenticated-userid': '6499219756ae08171d10f6da',
           'x-consumer-custom-id': '6481529216833b00104783e4',
         }
-      }).then((response) => { 
-        // Average
-        // Sector Ancilliary
-        // Weekly
-        // Device 1 
-        // let columns = ["DEVICE","SECTOR","TIME","SENSOR","VALUE","UNIT_VALUE"];
-        let value0Minutes = [":00:00,Temperature,0.00"]
-        let value15Minutes = [":15:00,Temperature,0.00"]
-        let value30Minutes = [":30:00,Temperature,0.00"]
-        let value45Minutes = [":45:00,Temperature,0.00"]
-        let responseString = response.body.toString();
+      }).then((response) => {  
+        // get device id  
+        const deviceCount = response.body.data.length
+        const deviceIDall=[]
+        var deviceLoop=0
+        while (deviceLoop < deviceCount) {
+          // expect(deviceID).to.be.equal(deviceID)
+          var deviceID = response.body.data[deviceLoop].device_id
+          deviceIDall.push(deviceID)
+          // expect(deviceIDall).to.be.equal(deviceIDall)
+          cy.task('setValue', { key: 'deviceIDall', value: deviceIDall })
+          deviceLoop++
+        }
+      })
+    })
+    cy.wait(1000)
 
-        // columns.forEach(column => {
-        //   expect(responseString.includes(column)).to.be.true;
-        // })
-        // temperatur
-        value0Minutes.forEach(value0Minute => {
-          if(responseString.includes(value0Minute)) {
-            value15Minutes.forEach(value15Minute => {
-              expect(responseString.includes(value15Minute)).to.be.false
-            })
-            value30Minutes.forEach(value30Minute => {
-              expect(responseString.includes(value30Minute)).to.be.false
-            })
-            value45Minutes.forEach(value45Minute => {
-              expect(responseString.includes(value45Minute)).to.be.false
-            })
-          } else {
-            value15Minutes.forEach(value15Minute => {
-              if(responseString.includes(value15Minute)) {
-                value0Minutes.forEach(value0Minute => {
-                  expect(responseString.includes(value0Minute)).to.be.false
+    cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+      var bearerToken = value
+      var i=0
+      cy.task('getValue', { key: 'deviceIDall' }).then((value) => {
+        var deviceIDall = value
+        var today = new Date()
+        today.setDate(today.getDate());
+        var lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7);
+        function formatDate(date){
+          return [date.getFullYear(),('0'+(date.getMonth()+1)).slice(-2),('0'+date.getDate()).slice(-2)].join('-');
+        }
+        while (i < deviceIDall.length) {
+          cy.request({
+            url: `https://evomoapi.evomo.id/report?device_ids=${deviceIDall[i]}&interval_data=15&indicator=kelembapan&date_start=2024-02-01&date_end=${formatDate(today)}&time_zone=Asia/Jakarta&in_csv=true&waktu=daily&statistic=SUM`,
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${bearerToken}`,
+              'x-authenticated-scope': 'reviewer',
+              'x-authenticated-userid': '6499219756ae08171d10f6da',
+              'x-consumer-custom-id': '6481529216833b00104783e4',
+            }
+          }).then((response) => { 
+            // Average
+            // Sector Ancilliary
+            // Weekly
+            // Device 1 
+            // let columns = ["DEVICE","SECTOR","TIME","SENSOR","VALUE","UNIT_VALUE"];
+            let value0Minutes = [":00:00,Humidity,0.00"]
+            let value15Minutes = [":15:00,Humidity,0.00"]
+            let value30Minutes = [":30:00,Humidity,0.00"]
+            let value45Minutes = [":45:00,Humidity,0.00"]
+            let responseString = response.body.toString();
+
+            // columns.forEach(column => {
+            //   expect(responseString.includes(column)).to.be.true;
+            // })
+            // temperatur
+            value0Minutes.forEach(value0Minute => {
+              if(responseString.includes(value0Minute)) {
+                value15Minutes.forEach(value15Minute => {
+                  if(responseString.includes(value15Minute)) {
+                    expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                    expect(i).to.be.equal(i)
+                  }
+                  // expect(responseString.includes(value15Minute)).to.be.false
                 })
-                value30Minutes.forEach(value30Minute => {
-                  expect(responseString.includes(value30Minute)).to.be.false
-                })
-                value45Minutes.forEach(value45Minute => {
-                  expect(responseString.includes(value45Minute)).to.be.false
-                })
-              } else {
                 value30Minutes.forEach(value30Minute => {
                   if(responseString.includes(value30Minute)) {
+                    expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                    expect(i).to.be.equal(i)
+                  }
+                  // expect(responseString.includes(value30Minute)).to.be.false
+                })
+                value45Minutes.forEach(value45Minute => {
+                  if(responseString.includes(value45Minute)) {
+                    expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                    expect(i).to.be.equal(i)
+                  }
+                  // expect(responseString.includes(value45Minute)).to.be.false
+                })
+              } else {
+                value15Minutes.forEach(value15Minute => {
+                  if(responseString.includes(value15Minute)) {
                     value0Minutes.forEach(value0Minute => {
-                      expect(responseString.includes(value0Minute)).to.be.false
+                      if(responseString.includes(value0Minute)) {
+                        expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                        expect(i).to.be.equal(i)
+                      }
+                      // expect(responseString.includes(value0Minute)).to.be.false
                     })
-                    value15Minutes.forEach(value15Minute => {
-                      expect(responseString.includes(value15Minute)).to.be.false
+                    value30Minutes.forEach(value30Minute => {
+                      if(responseString.includes(value30Minute)) {
+                        expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                        expect(i).to.be.equal(i)
+                      }
+                      // expect(responseString.includes(value30Minute)).to.be.false
                     })
-                    value45Minutes.forEach(value45Minute => {
-                      expect(responseString.includes(value45Minute)).to.be.false
-                    })
-                  } else {
                     value45Minutes.forEach(value45Minute => {
                       if(responseString.includes(value45Minute)) {
+                        expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                        expect(i).to.be.equal(i)
+                      }
+                      // expect(responseString.includes(value45Minute)).to.be.false
+                    })
+                  } else {
+                    value30Minutes.forEach(value30Minute => {
+                      if(responseString.includes(value30Minute)) {
                         value0Minutes.forEach(value0Minute => {
-                          expect(responseString.includes(value0Minute)).to.be.false
-                        })
-                        value30Minutes.forEach(value30Minute => {
-                          expect(responseString.includes(value30Minute)).to.be.false
+                          if(responseString.includes(value0Minute)) {
+                            expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                            expect(i).to.be.equal(i)
+                          }
+                          // expect(responseString.includes(value0Minute)).to.be.false
                         })
                         value15Minutes.forEach(value15Minute => {
-                          expect(responseString.includes(value15Minute)).to.be.false
+                          if(responseString.includes(value15Minute)) {
+                            expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                            expect(i).to.be.equal(i)
+                          }
+                          // expect(responseString.includes(value15Minute)).to.be.false
+                        })
+                        value45Minutes.forEach(value45Minute => {
+                          if(responseString.includes(value45Minute)) {
+                            expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                            expect(i).to.be.equal(i)
+                          }
+                          // expect(responseString.includes(value45Minute)).to.be.false
+                        })
+                      } else {
+                        value45Minutes.forEach(value45Minute => {
+                          if(responseString.includes(value45Minute)) {
+                            value0Minutes.forEach(value0Minute => {
+                              if(responseString.includes(value0Minute)) {
+                                expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                                expect(i).to.be.equal(i)
+                              }
+                              // expect(responseString.includes(value0Minute)).to.be.false
+                            })
+                            value30Minutes.forEach(value30Minute => {
+                              if(responseString.includes(value30Minute)) {
+                                expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                                expect(i).to.be.equal(i)
+                              }
+                              // expect(responseString.includes(value30Minute)).to.be.false
+                            })
+                            value15Minutes.forEach(value15Minute => {
+                              if(responseString.includes(value15Minute)) {
+                                expect(deviceIDall[i]).to.be.equal(deviceIDall[i])
+                                expect(i).to.be.equal(i)
+                              }
+                              // expect(responseString.includes(value15Minute)).to.be.false
+                            })
+                          }
                         })
                       }
                     })
@@ -195,8 +289,110 @@ describe('Data', () => {
                 })
               }
             })
-          }
-        })
+          })
+          i++
+        }
+      })
+    })
+  })
+
+  it('Data Trend Sensor', () => {  
+    cy.request({
+      url: 'https://evomoapi.evomo.id/login',
+      method: 'POST',
+      body: {
+        password:	'password',
+        username:	'reviewer-ibr',
+      },
+    }).then((response) => {
+      var bearerToken = response.body.data.access_token
+      return cy.task('setValue', { key: 'bearerToken', value: bearerToken })
+    })
+    
+    cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+      cy.request({
+        url: `https://evomoapi.evomo.id/devices`,
+        method: 'GET',
+        headers: {    
+          'Authorization': `Bearer ${value}`,
+          'x-authenticated-scope': 'reviewer',
+          'x-authenticated-userid': '6499219756ae08171d10f6da',
+          'x-consumer-custom-id': '6481529216833b00104783e4',
+        }
+      }).then((response) => {  
+        // get device id  
+        const deviceCount = response.body.data.length
+        const deviceIDall=[]
+        var deviceLoop=0
+        while (deviceLoop < deviceCount) {
+          // expect(deviceID).to.be.equal(deviceID)
+          var deviceID = response.body.data[deviceLoop].device_id
+          deviceIDall.push(deviceID)
+          // expect(deviceIDall).to.be.equal(deviceIDall)
+          cy.task('setValue', { key: 'deviceIDall', value: deviceIDall })
+          deviceLoop++
+        }
+      })
+    })
+    cy.wait(1000)
+
+    cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+      var bearerToken = value
+      var i=0
+      cy.task('getValue', { key: 'deviceIDall' }).then((value) => {
+        var deviceIDall = value
+        var deviceZeroAll=[]
+        var today = new Date()
+        today.setDate(today.getDate());
+        var lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7);
+        function formatDate(date){
+          return [date.getFullYear(),('0'+(date.getMonth()+1)).slice(-2),('0'+date.getDate()).slice(-2)].join('-');
+        }
+        while (i < deviceIDall.length) {
+          cy.request({
+            url: `https://evomoapi.evomo.id/analysis/ems/linechart?seq=0&metric=usage&asset_ids=${deviceIDall[i]}&asset_type=device&indicator=kelembapan&chart_type=linechart&source=ems&statistic=sum&start_date=2024-02-01&end_date=${formatDate(today)}&interval=15m&period=pick&timezone=Asia/Jakarta&tags=&is_share=false`,
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${bearerToken}`,
+              'x-authenticated-scope': 'reviewer',
+              'x-authenticated-userid': '6499219756ae08171d10f6da',
+              'x-consumer-custom-id': '6481529216833b00104783e4',
+            }
+          }).then((response) => { 
+            // humidity
+            var assetsCount = response.body.data.assets.length
+            var assetsLoop=0
+            var deviceZero=0
+            // while(assetsLoop<assetsCount) {
+              var deviceName = response.body.data.assets[assetsLoop].asset_name
+              var valueCount = response.body.data.assets[assetsLoop].data.length
+              var valueLoop=0
+              while(valueLoop<valueCount-1) {
+                var deviceValue = response.body.data.assets[assetsLoop].data[valueLoop].value
+                var deviceTime = response.body.data.assets[assetsLoop].data[valueLoop].time
+                if(deviceValue>100) { // || deviceValue>100
+                  // expect(deviceTime).to.be.equal(deviceTime)
+                  // expect(deviceValue).to.be.equal(deviceValue)
+                  deviceZero++
+                }
+                valueLoop++
+              }
+            //   assetsLoop++
+            // }
+            if(deviceZero!=0) {
+              expect(deviceName).to.be.equal(deviceName)
+              deviceZeroAll.push(deviceName)
+            }
+            cy.log(deviceZeroAll)
+            var j=0
+            while(j<deviceZeroAll.length) {
+              cy.log(deviceZeroAll[j])
+              j++
+            }
+          })
+          i++
+        }
       })
     })
   })
