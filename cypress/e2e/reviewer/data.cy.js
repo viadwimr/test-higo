@@ -371,7 +371,7 @@ describe('Data', () => {
               while(valueLoop<valueCount-1) {
                 var deviceValue = response.body.data.assets[assetsLoop].data[valueLoop].value
                 var deviceTime = response.body.data.assets[assetsLoop].data[valueLoop].time
-                if(deviceValue>100) { // || deviceValue>100
+                if(deviceValue<=0) { // || deviceValue>100
                   // expect(deviceTime).to.be.equal(deviceTime)
                   // expect(deviceValue).to.be.equal(deviceValue)
                   deviceZero++
