@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-var timeout = { timeout: 60000 }
+var timeout = { timeout: 6000 }
 var force = { force: true }
 
 describe('Login', () => {
@@ -20,7 +20,7 @@ describe('Login', () => {
     cy.get('#username', timeout).type('reviewer-ibr');
     cy.get('#password', timeout).type('12334345');
     cy.get('.ant-btn', timeout).click();
-    cy.contains('User Not Found, username or password is incorrect', timeout).should('be.visible');
+    cy.contains('Username or password is incorrect', timeout).should('be.visible');
     cy.get('.swal2-confirm', timeout).click();
 
     // long password
@@ -34,7 +34,7 @@ describe('Login', () => {
     cy.get('#username', timeout).clear().type('reviewer-denso');
     cy.get('#password', timeout).clear().type('password');
     cy.get('.ant-btn', timeout).click();
-    cy.contains("400 Cannot read property 'clientId' of null", timeout).should('be.visible');
+    cy.contains("Username or password is incorrect", timeout).should('be.visible');
     cy.get('.swal2-confirm', timeout).click();
 
     // wrong username & password
