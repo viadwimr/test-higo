@@ -75,13 +75,66 @@ describe('Alert', () => {
     });
 
     it('Data', () => {
-      cy.wait(3000);
-      cy.contains('Warning test', timeout).should('be.visible');
-      cy.contains('AHP-CHP', timeout).should('be.visible');
-      cy.contains('Danger', timeout).should('be.visible');
-      cy.contains("E-Andriansyach - email", timeout).should('be.visible');
-      cy.contains('10 Minutes', timeout).should('be.visible');
-      cy.contains('14/08/23 15:44:46', timeout).should('be.visible');
+      cy.request({
+        url: 'https://evomoapi.evomo.id/login',
+        method: 'POST',
+        body: {
+          password:    'telkomiot123',
+          username:    'antares.ibr@gmail.com',
+        },
+      }).then((response) => {
+        var bearerToken = response.body.data.access_token
+        return cy.task('setValue', { key: 'bearerToken', value: bearerToken })
+      })
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        cy.request({
+          url: `https://evomoapi.evomo.id/rules`,
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'admin',
+            'x-authenticated-userid': '6481529216833b00104783e5',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => {
+          // get rules data
+          cy.wait(3000);
+          const deviceCount = response.body.data.length
+          var alertName = response.body.data[deviceCount-1].alert_name
+          var deviceID = response.body.data[deviceCount-1].device_id
+          cy.task('setValue', { key: 'deviceID', value: deviceID })
+          var indicatorStatus = response.body.data[deviceCount-1].condition[0].indicator_status
+          var intervalTime = response.body.data[deviceCount-1].repeat_interval_in_minute
+          var channelID = response.body.data[deviceCount-1].run[0].channel_id
+          cy.task('setValue', { key: 'channelID', value: channelID })
+          var createdDate = response.body.data[deviceCount-1].created_date
+          cy.contains(`${alertName}`, timeout).should('exist');
+          cy.contains(`${indicatorStatus}`, timeout).should('exist');
+          cy.contains(`${intervalTime} Minute`, timeout).should('exist');
+          cy.contains(`${createdDate.slice(14,createdDate.length-5)}`, timeout).should('exist');
+        })
+      })
+
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        var bearerToken = value
+        cy.task('getValue', { key: 'deviceID' }).then((value) => {
+          var deviceID = value
+          cy.request({
+            url: `https://evomoapi.evomo.id/devices?client_id=6481529216833b00104783e4&device_id=${deviceID}`,
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${bearerToken}`,
+              'x-authenticated-scope': 'admin',
+              'x-authenticated-userid': '6481529216833b00104783e5',
+              'x-consumer-custom-id': '6481529216833b00104783e4',
+            }
+          }).then((response) => {
+            // get device data
+            const deviceName = response.body.data[0].device_name
+            cy.contains(`${deviceName}`, timeout).should('exist');
+          })
+        })
+      })
     });
     
     it.skip('Tambah Rules (Negative)', () => {
@@ -185,11 +238,12 @@ describe('Alert', () => {
 
   describe('Channel', () => {
     beforeEach(() => {
+      cy.reload();
+      cy.wait(5000);
       cy.contains('CHANNEL', timeout).click();
     });
 
     it('Data', () => {
-      cy.wait(3000);
       cy.contains('Telegram Channel', timeout).should('exist');
       cy.contains('telegram', timeout).should('exist');
       cy.contains('27/06/2023 16:25:45', timeout).should('exist');
