@@ -1,11 +1,12 @@
 /// <reference types="Cypress" />
 
-var timeout = { timeout: 60000 }
+var timeout = { timeout: 6000 }
 
 describe('Report', () => {
   before(() => {
     cy.login('reviewer');
     cy.get('[title="Report"] > .ant-menu-title-content > a', timeout).click();
+    cy.wait(60000)
   });
      
   it('Akan muncul halaman untuk men-generate report dari dashboard', () => {
@@ -25,7 +26,7 @@ describe('Report', () => {
   });
 
   it('Menu drop-down nama device yang ada', () => {
-    cy.get('#report_form_device', timeout).click(timeout);
+    cy.get('#report_form_device', timeout).click();
     cy.get('#report_form_device', timeout).type('app')
     cy.wait(1000);
     cy.get('[data-testid="select-APPLIKON MC#56"]', timeout).click();
@@ -42,15 +43,15 @@ describe('Report', () => {
     cy.get('div[class="ant-select-item ant-select-item-option"]', timeout).eq(3).click();
   });
 
-  it('Menu drop-down interval mulai dari Lihat Semua, 5 Menit hingga 60 Menit', () => {
+  it('Menu drop-down interval mulai dari Lihat Semua, 15 Menit hingga 60 Menit', () => {
     cy.get('[data-testid=form-interval] > .ant-select-selector', timeout).click();
     cy.contains('View All', timeout).should('be.visible');
-    cy.contains('5 Minutes', timeout).should('be.visible');
-    cy.contains('15 Minutes', timeout).should('be.visible');
-    cy.contains('30 Minutes', timeout).should('be.visible');
-    cy.contains('60 Minutes', timeout).should('be.visible');
-    cy.contains('15 Minutes', timeout).click({force:true});
+    cy.get('[data-testid="list-interval-1"]').contains('15 Minute', timeout).should('be.visible');
+    cy.get('[data-testid="list-interval-2"]').contains('30 Minute', timeout).should('be.visible');
+    cy.get('[data-testid="list-interval-3"]').contains('60 Minute', timeout).should('be.visible');
+    cy.contains('15 Minute', timeout).click({force:true});
   });
+
 
   it('Daily satuan terkecil harian dan Hourly untuk satuan terkecil per-jam', () => {
     cy.get('[data-testid=time-daily-report] > [data-testid=label]', timeout).click();
@@ -60,7 +61,9 @@ describe('Report', () => {
   // Tambahan
   it('Menu drop-down statistic', () => {
     cy.get('[data-testid="input-statistic"] > .ant-select-selector', timeout).click();
+    cy.get('[data-testid="input-statistic"] > .ant-select-selector', timeout).type('sum');
     cy.contains('Sum', timeout).should('be.visible');
+    cy.get('[data-testid="input-statistic"] > .ant-select-selector', timeout).clear();
     cy.contains('Average', timeout).should('be.visible');
     cy.wait(1000);
     cy.get('[title="Min"]', timeout).should('be.visible');
@@ -75,9 +78,9 @@ describe('Report', () => {
 
   it('Report tampil berupa tabel di bawah form', () => {
     cy.get('[data-testid=submit-btn-report]').click({force:true});
-    cy.get('.ant-card-head-title', timeout).contains('Report APPLIKON MC#56', timeout).should('be.visible');
+    cy.get('.ant-card-head-title', timeout).contains('Report', timeout).should('be.visible');
     cy.get('.ant-card-body', timeout).should('be.visible');
-    cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
+    cy.get('#rc-tabs-1-panel-device > :nth-child(3)', timeout).should('be.visible');
   });
 
   it.skip('Untuk file PDF berupa laporan dengan format file .pdf dan untuk CSV dengan format .csv', () => {
@@ -212,9 +215,9 @@ describe('Report', () => {
       
       cy.get('[data-testid=submit-btn-report]').click({force:true});
       cy.wait(5000);
-      cy.get('.ant-card-head-title', timeout).contains('Report APPLIKON MC#56', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
-      cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
+      cy.get('#rc-tabs-1-panel-device > :nth-child(3)', timeout).should('be.visible');
       // check result
       // cy.get('> :nth-child(3)', timeout).eq(1).contains('08:00:00');
       /*
@@ -252,9 +255,9 @@ describe('Report', () => {
          
       cy.get('[data-testid=submit-btn-report]').click({force:true});
       cy.wait(5000);
-      cy.get('.ant-card-head-title', timeout).contains('Report APPLIKON MC#56', timeout).should('be.visible');
+      cy.get('.ant-card-head-title', timeout).contains('Report', timeout).should('be.visible');
       cy.get('.ant-card-body', timeout).should('be.visible');
-      cy.get('.ant-layout-content > :nth-child(3)', timeout).should('be.visible');
+      cy.get('#rc-tabs-1-panel-device > :nth-child(3)', timeout).should('be.visible');
       cy.contains('27-07-2023 08:00:00', timeout).should('be.visible');
       /*
       //csv
@@ -267,6 +270,114 @@ describe('Report', () => {
       cy.get('[data-testid=download-pdf-report] > .ant-dropdown-menu-title-content', timeout).click();
       cy.contains('Download Berhasil!', timeout).should('be.visible');
       */
+    });
+
+    it('Sector Report', () => {
+      cy.get('.title', timeout).contains('REPORT');
+      cy.get(':nth-child(1) > .ant-col-3 > .ant-row', timeout).contains('Device');
+      cy.get(':nth-child(2) > .ant-col-3 > .ant-row', timeout).contains('Indicator');
+      cy.get(':nth-child(3) > .ant-col-3 > .ant-row', timeout).contains('Period');
+      cy.get(':nth-child(4) > .ant-col-3 > .ant-row', timeout).contains('Interval');
+      cy.get(':nth-child(5) > .ant-col-3 > .ant-row', timeout).contains('Statistic');
+      cy.get(':nth-child(6) > .ant-col-3 > .ant-row', timeout).contains('Time');
+      // sector
+      cy.get('.ant-checkbox-input', timeout).click();
+      cy.wait(1000);
+      cy.get('[data-testid="select-sector"] > .ant-select-selector', timeout).click();
+
+      cy.request({
+        url: 'https://evomoapi.evomo.id/login',
+        method: 'POST',
+        body: {
+          password:	'password',
+          username:	'reviewer-ibr',
+        },
+      }).then((response) => {
+        var bearerToken = response.body.data.access_token
+        return cy.task('setValue', { key: 'bearerToken', value: bearerToken })
+      })
+      
+      cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+        cy.request({
+          url: `https://evomoapi.evomo.id/sector?tree_view=true`,
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${value}`,
+            'x-authenticated-scope': 'reviewer',
+            'x-authenticated-userid': '6499219756ae08171d10f6da',
+            'x-consumer-custom-id': '6481529216833b00104783e4',
+          }
+        }).then((response) => {  
+          // get sector data
+          const sectorCount = response.body.data.length
+          var sectorLoop=0
+          while(sectorLoop<sectorCount) {
+            var sectorName = response.body.data[sectorLoop].sector_name
+            cy.contains(`${sectorName}`, timeout).should('be.visible');
+            sectorLoop++
+          }
+          sectorName = response.body.data[0].sector_name
+          var sectorID = response.body.data[0].id
+          cy.task('setValue', { key: 'sectorID', value: sectorID })
+          cy.contains(`${sectorName}`, timeout).click();
+          // hourly
+          cy.get('[data-testid="time-hour-report"] > [data-testid="label"]', timeout).click();
+          cy.wait(1000);
+          cy.get('#report_form_start_time', timeout).click();
+          cy.wait(1000);
+          cy.get('.rc-time-picker-panel-input-wrap', timeout).type('08:00:00');
+          cy.get('#report_form_end_time', timeout).click();
+          cy.wait(1000);
+          cy.get('.rc-time-picker-panel-input-wrap', timeout).type('08:15:00');
+          cy.wait(1000);
+          cy.get('.css-1hwfws3', timeout).click();
+          cy.wait(1000);
+          cy.get('#react-select-2-option-2 > input', timeout).click();
+          cy.wait(1000);
+          cy.get('#report_form_start_time', timeout).click();
+          cy.get('[data-testid="switch-period-btn"]', timeout).click();
+          cy.wait(1000);
+          cy.get('[data-testid="form-period"] > .ant-select-selector', timeout).click();
+          cy.wait(1000);
+          cy.get('[data-testid="list-periode-0"]', timeout).click();
+          cy.wait(1000);
+          cy.get('[data-testid=submit-btn-report]').click({force:true});
+          cy.wait(5000);
+          cy.get('.ant-card-head-title', timeout).contains('Report', timeout).should('be.visible');
+
+          cy.task('getValue', { key: 'bearerToken' }).then((value) => {
+            var bearerToken = value
+            cy.task('getValue', { key: 'sectorID' }).then((value) => {
+              var sectorID = value
+              cy.request({
+                url: `https://evomoapi.evomo.id/devices?sector_id=${sectorID}`,
+                method: 'GET',
+                headers: {
+                  'Authorization': `Bearer ${bearerToken}`,
+                  'x-authenticated-scope': 'reviewer',
+                  'x-authenticated-userid': '6499219756ae08171d10f6da',
+                  'x-consumer-custom-id': '6481529216833b00104783e4',
+                }
+              }).then((response) => {  
+                var deviceCount = response.body.data.length
+                var deviceLoop=0
+                while(deviceLoop<deviceCount) {
+                  var deviceStatus = response.body.data[deviceLoop].connection_status
+                  if(deviceStatus=='online') {
+                    var deviceName = response.body.data[deviceLoop].device_name
+                    cy.get('.ant-card-body', timeout).contains(`${sectorName}`)
+                    cy.get('.ant-card-body', timeout).contains(`${deviceName}`)
+                    cy.get('.ant-card-body', timeout).contains(`08:00:00`)
+                    cy.get('.ant-card-body', timeout).contains(`%`)
+                    cy.get('.ant-card-body', timeout).contains(`Humidity`)
+                  }
+                  deviceLoop++
+                }
+              })
+            })
+          })            
+        })
+      })
     });
 
     it.skip('Report Terjadwal', () => {

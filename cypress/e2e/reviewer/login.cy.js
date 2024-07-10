@@ -13,6 +13,12 @@ describe('Login', () => {
     cy.get('#username', timeout).should('be.visible');
     cy.get('#password', timeout).should('be.visible');
     cy.get('.ant-btn', timeout).should('be.visible');
+    cy.get('img')
+    .should('be.visible')
+    .and(($img) => {
+      expect($img[0].complete).to.be.true;
+      expect($img[0].naturalWidth).to.be.greaterThan(0);
+    });
   });
 
   it('Jika username dan password yang di-entry tidak valid maka web menampilkan notifikasi', () => {
@@ -53,5 +59,11 @@ describe('Login', () => {
     cy.contains('Dashboard', timeout).should('be.visible');
     cy.contains('Device', timeout).should('be.visible');
     cy.contains('Report', timeout).should('be.visible');
+    cy.get('.logo > img')
+    .should('be.visible')
+    .and(($img) => {
+      expect($img[0].complete).to.be.true;
+      expect($img[0].naturalWidth).to.be.greaterThan(0);
+    });
   });
 });
