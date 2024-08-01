@@ -1,4 +1,4 @@
-const { defineConfig } = require('cypress')
+const { defineConfig } = require('Cypress')
 const AllureWriter = require('@shelex/cypress-allure-plugin/writer');
 
 module.exports = defineConfig({
@@ -9,7 +9,7 @@ module.exports = defineConfig({
       AllureWriter(on, config);
       return require('./cypress/plugins/index.js')(on, config);
     },
-    baseUrl: 'https://ibr.evomo.id',
+    baseUrl: 'https://apps.develop.web.id/iot-manuf/iot-jasa-tirta/app/login',
     video: true,
     screenshotOnRunFailure: true,
     trashAssetsBeforeRuns: true,
