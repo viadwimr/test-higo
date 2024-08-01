@@ -56,8 +56,11 @@ describe('Usage Pelanggan', () => {
     const thisMonth = thisDate.getMonth();
     let monthLoop = 0;
     const listAnomalyValue = [];
+    cy.task('setValue', { key: 'listAnomalyValue', value: listAnomalyValue })
     const listAnomalyDeviceName = [];
+    cy.task('setValue', { key: 'listAnomalyDeviceName', value: listAnomalyDeviceName })
     const listAnomalyDate = [];
+    cy.task('setValue', { key: 'listAnomalyDate', value: listAnomalyDate })
     
     while(monthLoop <= thisMonth+1) {
       cy.wait(3000);
