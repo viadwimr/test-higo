@@ -5,9 +5,27 @@ pipeline {
     label 'docker-qa'
   }
   stages {
+    stage('Install Xvfb') {
+      steps {
+        script {
+          sh 'sudo apt-get update'
+          sh 'sudo apt-get install -y xvfb'
+        }
+      }
+    }
+
+    stage('Run Xvfb') {
+      steps {
+        script {
+          sh 'Xvfb :99 -screen 0 1024x768x24 &'
+        }
+      }
+    }
+    
     stage('Building') {
       steps {
         sh 'npm ci'
+        sh 'npm run cy:verify'
       }
     }
     stage('Testing') {
