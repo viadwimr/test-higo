@@ -1,13 +1,16 @@
 def discordStatus = ""
 def filename = ""
 pipeline {
-  agent { label 'agent-automation' }
-  tools {
-    nodejs 'nodejs'
+  agent {
+    label 'agent-automation'
+    docker {
+      image 'node:latest'
+    }
   }
   stages {
     stage('Building') {
       steps {
+        sh 'node -v'
         sh 'npm ci'
         sh 'npm run cy:verify'
       }
