@@ -12,6 +12,14 @@ pipeline {
       }
     }
 
+    stage('Check Disk Usage') {
+      steps {
+        sh 'df -h'
+        sh 'du -sh /var/cache/apt/archives'
+        sh 'du -sh /var/log'
+      }
+    }
+
     stage('Clean APT Cache') {
       steps {
         sh 'sudo apt-get clean || true'
@@ -19,7 +27,7 @@ pipeline {
         sh 'sudo apt-get autoremove -y || true'
       }
     }
-    
+
     stage('Install Xvfb') {
       steps {
         script {
