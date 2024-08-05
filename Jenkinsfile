@@ -8,6 +8,7 @@ pipeline {
     stage('Install Xvfb') {
       steps {
         script {
+          sh 'sudo apt-get clean'
           sh 'sudo apt-get update'
           sh 'sudo apt-get install -y xvfb'
         }
@@ -21,7 +22,7 @@ pipeline {
         }
       }
     }
-    
+
     stage('Building') {
       steps {
         sh 'npm ci'
