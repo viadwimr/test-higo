@@ -9,6 +9,7 @@ pipeline {
       steps {
         script {
           sh 'sudo apt-get clean'
+          sh 'sudo apt-get autoremove -y'
           sh 'sudo apt-get update'
           sh 'sudo apt-get install -y xvfb'
         }
