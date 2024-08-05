@@ -2,15 +2,11 @@ def discordStatus = ""
 def filename = ""
 pipeline {
   agent {
-    label 'agent-automation'
-    docker {
-      image 'node:latest'
-    }
+    label 'docker-qa'
   }
   stages {
     stage('Building') {
       steps {
-        sh 'node -v'
         sh 'npm ci'
         sh 'npm run cy:verify'
       }
@@ -25,7 +21,7 @@ pipeline {
             println hour
             // if(JOB_NAME == 'anc-jastir' && day == 0 && hour == 2) {
             if(JOB_NAME == 'anc-jastir') {
-              filename = "Usage (RSuperadmin)"
+              filename = "Usage (Superadmin)"
               sh "npx cypress run --browser chrome --spec 'cypress/e2e/superadmin/check-anomaly.cy.js' --env allure=true"
             }
           } catch(Exception e) {
