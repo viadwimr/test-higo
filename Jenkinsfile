@@ -5,11 +5,24 @@ pipeline {
     label 'docker-qa'
   }
   stages {
+    stage('Setup Disk') {
+      steps {
+        sh 'mkdir -p /mnt/extra-disk/apt-cache'
+        sh 'sudo ln -s /mnt/extra-disk/apt-cache /var/cache/apt/archives'
+      }
+    }
+
+    stage('Clean APT Cache') {
+      steps {
+        sh 'sudo apt-get clean || true'
+        sh 'sudo apt-get autoclean || true'
+        sh 'sudo apt-get autoremove -y || true'
+      }
+    }
+    
     stage('Install Xvfb') {
       steps {
         script {
-          sh 'sudo apt-get clean'
-          sh 'sudo apt-get autoremove -y'
           sh 'sudo apt-get update'
           sh 'sudo apt-get install -y xvfb'
         }
