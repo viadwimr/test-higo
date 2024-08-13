@@ -10,6 +10,7 @@ pipeline {
       steps {
         script {
           sh 'brew update'
+          sh 'brew upgrade'
           sh 'brew install -y xvfb'
         }
       }
