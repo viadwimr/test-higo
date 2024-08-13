@@ -4,13 +4,13 @@ pipeline {
   agent {
     label 'agent-mac-intel'
   }
-  
+
   stages {
     stage('Install Xvfb') {
       steps {
         script {
-          sh 'sudo apt-get update'
-          sh 'sudo apt-get install -y xvfb'
+          sh 'apt-get update'
+          sh 'apt-get install -y xvfb'
         }
       }
     }
