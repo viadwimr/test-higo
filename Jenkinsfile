@@ -9,8 +9,8 @@ pipeline {
     stage('Install Xvfb') {
       steps {
         script {
-          sh 'apt-get update'
-          sh 'apt-get install -y xvfb'
+          sh 'brew update'
+          sh 'brew install -y xvfb'
         }
       }
     }
