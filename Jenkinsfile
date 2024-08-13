@@ -2,32 +2,10 @@ def discordStatus = ""
 def filename = ""
 pipeline {
   agent {
-    label 'docker-qa'
+    label 'agent-mac-intel'
   }
+  
   stages {
-    stage('Setup Disk') {
-      steps {
-        sh 'mkdir -p /mnt/extra-disk/apt-cache'
-        sh 'sudo ln -s /mnt/extra-disk/apt-cache /var/cache/apt/archives'
-      }
-    }
-
-    stage('Check Disk Usage') {
-      steps {
-        sh 'df -h'
-        sh 'du -sh /var/cache/apt/archives'
-        sh 'du -sh /var/log'
-      }
-    }
-
-    stage('Clean APT Cache') {
-      steps {
-        sh 'sudo apt-get clean || true'
-        sh 'sudo apt-get autoclean || true'
-        sh 'sudo apt-get autoremove -y || true'
-      }
-    }
-
     stage('Install Xvfb') {
       steps {
         script {
