@@ -1,7 +1,7 @@
 def discordStatus = ""
 def filename = ""
 pipeline {
-  agent any {
+  agent {
     label 'agent-mac-intel'
   }
 
