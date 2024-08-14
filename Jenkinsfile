@@ -1,9 +1,12 @@
 def discordStatus = ""
 def filename = ""
 pipeline {
-  agent {
-    label 'agent-mac-intel'
-  }
+    agent {
+        docker {
+            image 'cypress/included:10.11.0'
+            args '-u root'
+        }
+    }
 
   stages {
     stage('Setup Node.js') {
