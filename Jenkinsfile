@@ -10,6 +10,12 @@ pipeline {
   }
 
   stages {
+    stage('Install Allure') {
+      steps {
+        sh 'brew install allure'
+      }
+    }
+
     stage('Building') {
       steps {
         sh 'npm ci'
@@ -43,9 +49,9 @@ pipeline {
               println("No filename set, marking build as ABORTED.")
             } else {
               if(currentBuild.result == 'FAILURE') {
-                  discordStatus = 'https://storage.googleapis.com/success_bug_icon/failed.png'
+                discordStatus = 'https://storage.googleapis.com/success_bug_icon/failed.png'
               } else if (currentBuild.currentResult == 'SUCCESS') {
-                  discordStatus = 'https://storage.googleapis.com/success_bug_icon/passed.png'
+                discordStatus = 'https://storage.googleapis.com/success_bug_icon/passed.png'
               }
               println("Discord status set to: ${discordStatus}")
             }
@@ -63,7 +69,9 @@ pipeline {
       echo "Build URL: ${env.BUILD_URL}/allure"
       echo "Current result: ${currentBuild.currentResult}"
       echo "Filename: ${filename}"
-      // allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+      // sh 'allure generate allure-results --clean -o allure-report'
+      // sh 'allure open allure-report'
+      allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
       discordSend customAvatarUrl: "https://cdn-icons-png.flaticon.com/512/573/573131.png?w=740&t=st=1662092610~exp=1662093210~hmac=371422cdcab8bcef11a630644d30876eabb73ac7c0dd627d7ed6360054ae3259", 
       customUsername: "Tests Reporter", 
       title: "${JOB_NAME} ${BUILD_DISPLAY_NAME}", 
@@ -85,7 +93,7 @@ pipeline {
       echo "Build URL: ${env.BUILD_URL}/allure"
       echo "Current result: ${currentBuild.currentResult}"
       echo "Filename: ${filename}"
-      // allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+      allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
       discordSend customAvatarUrl: "https://cdn-icons-png.flaticon.com/512/573/573131.png?w=740&t=st=1662092610~exp=1662093210~hmac=371422cdcab8bcef11a630644d30876eabb73ac7c0dd627d7ed6360054ae3259", 
       customUsername: "Tests Reporter", 
       title: "${JOB_NAME} ${BUILD_DISPLAY_NAME}", 
