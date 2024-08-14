@@ -38,14 +38,16 @@ pipeline {
       post {
         always {
           script {
-            if(filename=="") {
+            if(filename == "") {
               currentBuild.result = 'ABORTED'
+              println("No filename set, marking build as ABORTED.")
             } else {
               if(currentBuild.result == 'FAILURE') {
-                discordStatus = 'https://storage.googleapis.com/success_bug_icon/failed.png'
-              } else if (currentBuild.currentResult == 'SUCCESS'){
-                discordStatus = 'https://storage.googleapis.com/success_bug_icon/passed.png'
+                  discordStatus = 'https://storage.googleapis.com/success_bug_icon/failed.png'
+              } else if (currentBuild.currentResult == 'SUCCESS') {
+                  discordStatus = 'https://storage.googleapis.com/success_bug_icon/passed.png'
               }
+              println("Discord status set to: ${discordStatus}")
             }
           }
         }
@@ -54,6 +56,7 @@ pipeline {
   }
   post {
     success {
+      echo "Sending Discord notification..."
       allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
       discordSend customAvatarUrl: "https://cdn-icons-png.flaticon.com/512/573/573131.png?w=740&t=st=1662092610~exp=1662093210~hmac=371422cdcab8bcef11a630644d30876eabb73ac7c0dd627d7ed6360054ae3259", 
       customUsername: "Tests Reporter", 
@@ -65,9 +68,11 @@ pipeline {
       showChangeset: true, 
       thumbnail: discordStatus, 
       webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
+      echo "Discord notification sent."
       deleteDir()
     }
     failure {
+      echo "Sending Discord notification..."
       allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
       discordSend customAvatarUrl: "https://cdn-icons-png.flaticon.com/512/573/573131.png?w=740&t=st=1662092610~exp=1662093210~hmac=371422cdcab8bcef11a630644d30876eabb73ac7c0dd627d7ed6360054ae3259", 
       customUsername: "Tests Reporter", 
@@ -79,6 +84,7 @@ pipeline {
       showChangeset: true, 
       thumbnail: discordStatus, 
       webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
+      echo "Discord notification sent."
       deleteDir()
     }
   }
