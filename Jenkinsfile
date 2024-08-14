@@ -1,58 +1,15 @@
 def discordStatus = ""
 def filename = ""
 pipeline {
-    agent {
-        docker {
-            image 'cypress/included:10.11.0'
-            args '-u root'
-        }
+  agent {
+    label 'agent-mac-intel'
+    docker {
+      image 'cypress/included:10.11.0'
+      args '-u root'
     }
+  }
 
   stages {
-    stage('Setup Node.js') {
-      steps {
-        // Install Node.js LTS (menggunakan nvm)
-        sh '''
-        if [ -x "$(command -v nvm)" ]; then
-          nvm install --lts
-          nvm use --lts
-        else
-          echo "NVM not installed, skipping..."
-        fi
-        '''
-        // Atau pastikan versi node sudah benar
-        sh 'node -v'
-      }
-    }
-
-    stage('Install Dependencies') {
-      steps {
-        // Hapus node_modules dan install ulang
-        sh 'rm -rf node_modules package-lock.json'
-        sh 'npm install'
-      }
-    }
-
-    stage('Clear Cypress Cache') {
-      steps {
-        sh 'rm -rf ~/Library/Caches/Cypress'
-      }
-    }
-
-    stage('Debug Environment') {
-      steps {
-        sh 'node -v'
-        sh 'npx cypress --version'
-      }
-    }
-
-    stage('Building') {
-      steps {
-        sh 'npm ci'
-        sh 'npm run cy:verify'
-      }
-    }
-
     stage('Testing') {
       steps {
         script {
