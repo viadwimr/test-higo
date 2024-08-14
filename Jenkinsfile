@@ -3,13 +3,26 @@ def filename = ""
 pipeline {
   agent {
     label 'agent-mac-intel'
-    docker {
-      image 'cypress/included:10.11.0'
-      args '-u root'
-    }
   }
 
   stages {
+    stage('Setup') {
+      steps {
+        sh 'echo "Setup stage"'
+      }
+    }
+    stage('Run Cypress in Docker') {
+      agent {
+        docker {
+          image 'cypress/included:10.11.0'
+          args '-u root'
+        }
+      }
+      steps {
+        sh 'npm install'
+      }
+    }
+
     stage('Testing') {
       steps {
         script {
