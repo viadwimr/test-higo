@@ -30,6 +30,19 @@ pipeline {
       }
     }
 
+    stage('Clear Cypress Cache') {
+      steps {
+        sh 'rm -rf ~/Library/Caches/Cypress'
+      }
+    }
+
+    stage('Debug Environment') {
+      steps {
+        sh 'node -v'
+        sh 'npx cypress --version'
+      }
+    }
+
     stage('Building') {
       steps {
         sh 'npm ci'
