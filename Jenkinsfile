@@ -5,21 +5,15 @@ pipeline {
     label 'agent-mac-intel'
   }
 
+  tools {
+    nodejs 'nodejs'
+  }
+
   stages {
-    stage('Setup') {
+    stage('Building') {
       steps {
-        sh 'echo "Setup stage"'
-      }
-    }
-    stage('Run Cypress in Docker') {
-      agent {
-        docker {
-          image 'cypress/included:10.11.0'
-          args '-u root'
-        }
-      }
-      steps {
-        sh 'npm install'
+        sh 'npm ci'
+        sh 'npm run cy:verify'
       }
     }
 
