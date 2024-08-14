@@ -63,7 +63,7 @@ pipeline {
       echo "Build URL: ${env.BUILD_URL}/allure"
       echo "Current result: ${currentBuild.currentResult}"
       echo "Filename: ${filename}"
-      allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+      // allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
       discordSend customAvatarUrl: "https://cdn-icons-png.flaticon.com/512/573/573131.png?w=740&t=st=1662092610~exp=1662093210~hmac=371422cdcab8bcef11a630644d30876eabb73ac7c0dd627d7ed6360054ae3259", 
       customUsername: "Tests Reporter", 
       title: "${JOB_NAME} ${BUILD_DISPLAY_NAME}", 
@@ -85,7 +85,7 @@ pipeline {
       echo "Build URL: ${env.BUILD_URL}/allure"
       echo "Current result: ${currentBuild.currentResult}"
       echo "Filename: ${filename}"
-      allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+      // allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
       discordSend customAvatarUrl: "https://cdn-icons-png.flaticon.com/512/573/573131.png?w=740&t=st=1662092610~exp=1662093210~hmac=371422cdcab8bcef11a630644d30876eabb73ac7c0dd627d7ed6360054ae3259", 
       customUsername: "Tests Reporter", 
       title: "${JOB_NAME} ${BUILD_DISPLAY_NAME}", 
