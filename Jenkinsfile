@@ -28,9 +28,7 @@ pipeline {
             // if(JOB_NAME == 'anc-jastir' && day == 0 && hour == 2) {
             if(JOB_NAME == 'anc-jastir') {
               filename = "Usage (Superadmin)"
-              retry(3) {
-                sh "npx cypress run --browser chrome --spec 'cypress/e2e/superadmin/check-anomaly.cy.js' --env allure=true"
-              }
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/superadmin/check-anomaly.cy.js' --env allure=true"
             }
           } catch(Exception e) {
             currentBuild.result = 'FAILURE'
