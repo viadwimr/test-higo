@@ -6,30 +6,13 @@ pipeline {
   }
 
   stages {
-    stage('Install Xvfb') {
-      steps {
-        script {
-          sh 'brew update'
-          sh 'brew upgrade'
-          sh 'brew install -y xvfb'
-        }
-      }
-    }
-
-    stage('Run Xvfb') {
-      steps {
-        script {
-          sh 'Xvfb :99 -screen 0 1024x768x24 &'
-        }
-      }
-    }
-
     stage('Building') {
       steps {
         sh 'npm ci'
         sh 'npm run cy:verify'
       }
     }
+    
     stage('Testing') {
       steps {
         script {
