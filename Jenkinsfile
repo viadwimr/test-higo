@@ -6,13 +6,37 @@ pipeline {
   }
 
   stages {
+    stage('Setup Node.js') {
+      steps {
+        // Install Node.js LTS (menggunakan nvm)
+        sh '''
+        if [ -x "$(command -v nvm)" ]; then
+          nvm install --lts
+          nvm use --lts
+        else
+          echo "NVM not installed, skipping..."
+        fi
+        '''
+        // Atau pastikan versi node sudah benar
+        sh 'node -v'
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
+        // Hapus node_modules dan install ulang
+        sh 'rm -rf node_modules package-lock.json'
+        sh 'npm install'
+      }
+    }
+
     stage('Building') {
       steps {
         sh 'npm ci'
         sh 'npm run cy:verify'
       }
     }
-    
+
     stage('Testing') {
       steps {
         script {
