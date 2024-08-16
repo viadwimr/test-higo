@@ -10,26 +10,6 @@ pipeline {
   }
 
   stages {
-        stage('Setup JDK') {
-            steps {
-                // Menambahkan JDK 11 ke PATH
-                sh 'echo \'export PATH="/usr/local/opt/openjdk@11/bin:$PATH"\' >> ~/.zshrc'
-                
-                // Membuat symlink untuk OpenJDK 11
-                sh 'ln -sfn /usr/local/opt/openjdk@11/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-11.jdk'
-
-                // Mengatur CPPFLAGS untuk kompiler
-                sh 'export CPPFLAGS="-I/usr/local/opt/openjdk@11/include"'
-            }
-        }
-
-                stage('Verify JDK Installation') {
-            steps {
-                // Verifikasi instalasi JDK
-                sh 'java -version'
-            }
-        }
-
     stage('Building') {
       steps {
         sh 'npm ci'
