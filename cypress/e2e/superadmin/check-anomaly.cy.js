@@ -24,6 +24,8 @@ describe('Usage Pelanggan', () => {
     const thisMonth = thisDate.getMonth();
     var monthLoop=1
     while(monthLoop<=thisMonth+1) {
+      cy.log(monthLoop)
+      cy.log(thisMonth)
       cy.wait(3000);
       cy.get('.v-data-footer__select > .v-input > .v-input__control > .v-input__slot > .v-select__slot', timeout).click();
       cy.contains('All', timeout).click();
@@ -54,7 +56,7 @@ describe('Usage Pelanggan', () => {
     cy.get(':nth-child(10) > .v-list-item__content', timeout).click();
     const thisDate = new Date();
     const thisMonth = thisDate.getMonth();
-    let monthLoop = 0;
+    let monthLoop = 1;
     const listAnomalyValue = [];
     cy.task('setValue', { key: 'listAnomalyValue', value: listAnomalyValue })
     const listAnomalyDeviceName = [];
@@ -63,6 +65,8 @@ describe('Usage Pelanggan', () => {
     cy.task('setValue', { key: 'listAnomalyDate', value: listAnomalyDate })
     
     while(monthLoop <= thisMonth+1) {
+      cy.log(monthLoop)
+      cy.log(thisMonth)
       cy.wait(3000);
       cy.get('.v-data-footer__select > .v-input > .v-input__control > .v-input__slot > .v-select__slot', timeout).click();
       cy.wait(1000);
