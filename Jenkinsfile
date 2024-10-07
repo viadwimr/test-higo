@@ -10,14 +10,7 @@ pipeline {
   }
 
   stages {
-    stage('Building') {
-      steps {
-        sh 'npm ci'
-        sh 'npm run cy:verify'
-      }
-    }
-
-    stage('Install Xvfb') {
+        stage('Install Xvfb') {
       steps {
         script {
           try {
@@ -34,6 +27,13 @@ pipeline {
             error("Failed to install Xvfb")
           }
         }
+      }
+    }
+    
+    stage('Building') {
+      steps {
+        sh 'npm ci'
+        sh 'npm run cy:verify'
       }
     }
 
