@@ -2,7 +2,7 @@ def discordStatus = ""
 def filename = ""
 pipeline {
   agent {
-    label 'agent-jmeter'
+    label 'agent-automation'
   }
 
   tools {
@@ -29,7 +29,7 @@ pipeline {
         }
       }
     }
-    
+
     stage('Building') {
       steps {
         sh 'npm ci'
