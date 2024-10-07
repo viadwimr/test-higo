@@ -17,8 +17,8 @@ pipeline {
             sh '''
             if ! command -v Xvfb &> /dev/null; then
               echo "Xvfb not found, installing..."
-              sudo apt-get update
-              sudo apt-get install -y xvfb
+              apt-get update
+              apt-get install -y xvfb
             else
               echo "Xvfb is already installed"
             fi
