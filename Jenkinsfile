@@ -10,26 +10,6 @@ pipeline {
   }
 
   stages {
-        stage('Install Xvfb') {
-      steps {
-        script {
-          try {
-            sh '''
-            if ! command -v Xvfb &> /dev/null; then
-              echo "Xvfb not found, installing..."
-              sudo apt-get update
-              sudo apt-get install -y xvfb
-            else
-              echo "Xvfb is already installed"
-            fi
-            '''
-          } catch(Exception e) {
-            error("Failed to install Xvfb")
-          }
-        }
-      }
-    }
-
     stage('Building') {
       steps {
         sh 'npm ci'
