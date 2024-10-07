@@ -2,7 +2,7 @@ def discordStatus = ""
 def filename = ""
 pipeline {
   agent {
-    label 'agent-mac-intel'
+    label 'agent-jmeter'
   }
 
   tools {
