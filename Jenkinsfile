@@ -2,7 +2,7 @@ def discordStatus = ""
 def filename = ""
 pipeline {
   agent {
-    label 'agent-automation'
+    label 'agent-appium-pub'
   }
 
   tools {
