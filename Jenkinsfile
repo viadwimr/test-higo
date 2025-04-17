@@ -45,10 +45,9 @@ pipeline {
             def hour = now.getHours()
             def day = now.getDay()
             println hour
-            // if(JOB_NAME == 'anc-jastir' && day == 0 && hour == 2) {
-            if(JOB_NAME == 'anc-jastir') {
-              filename = "Usage (Superadmin)"
-              sh "npx cypress run --browser chrome --spec 'cypress/e2e/superadmin/check-anomaly.cy.js' --env allure=true"
+            if(JOB_NAME == 'test-higo' && day == 0 && hour == 2) {
+              filename = "Blog"
+              sh "npx cypress run --browser chrome --spec 'cypress/e2e/test-blog.cy.js' --env allure=true"
             }
           } catch(Exception e) {
             currentBuild.result = 'FAILURE'
@@ -117,7 +116,7 @@ pipeline {
       footer: "${filename}",  
       showChangeset: true, 
       thumbnail: discordStatus, 
-      webhookURL: "https://discord.com/api/webhooks/1019072999074312292/Y954H9_7sX3IaRXt8wUpr0geMZZnlFvyqz8etdNF7zjNW2Lo1yvtn8gSKi0COSPEFJOB"
+      webhookURL: "https://discord.com/api/webhooks/${token}"
       echo "Discord notification sent."
       deleteDir()
     }
